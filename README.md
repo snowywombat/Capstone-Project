@@ -1,1 +1,1 @@
-# Capstone-Project
+# Shana's Kitchen
