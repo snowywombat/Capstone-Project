@@ -1,7 +1,7 @@
 """new migration
 
 Revision ID: 56d1cc7860ba
-Revises: 
+Revises:
 Create Date: 2023-02-22 22:29:44.932626
 
 """
@@ -42,7 +42,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('measurement_num', sa.Float(), nullable=False),
     sa.Column('measurement_type', sa.String(length=20), nullable=False),
-    sa.Column('ingredient', sa.String(length=50), nullable=False),
+    sa.Column('ingredient', sa.String(length=100), nullable=False),
     sa.Column('recipe_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['recipe_id'], ['recipes.id'], ),
     sa.PrimaryKeyConstraint('id')
