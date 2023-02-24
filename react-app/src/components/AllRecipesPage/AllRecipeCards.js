@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import './AllRecipeCards.css'
 
 const AllRecipeCards = ({ recipe }) => {
   let { id, name, description, servings_num, img_url } = recipe;
@@ -9,7 +10,8 @@ const AllRecipeCards = ({ recipe }) => {
 
   return (
     <NavLink to={`/recipes/${id}`}>
-      <div className="card-holder" style={ {backgroundImage:`url(${img_url})`} }>
+      <div className="card-holder">
+        <img src={img_url} alt={description} className='recipe-images'></img>
         <div className="content-holder">
           <div className="allRecipesName">{name}</div>
           <div className="allRecipesDescription">{description}</div>

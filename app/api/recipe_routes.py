@@ -79,10 +79,15 @@ def get_recipe_detail(recipeId):
 @login_required
 def create_recipe():
     user_id = current_user.id
-    form = CreateRecipeForm()
+    data = request.get_json()
+    print('data', data)
+
+    form = CreateRecipeForm(data=data)
     form['csrf_token'].data = request.cookies['csrf_token']
+
     if form.validate_on_submit():
         data = form.data
+        print('inside condition', data)
 
         newRecipe = Recipe(
             name= data["name"],
@@ -95,7 +100,46 @@ def create_recipe():
         db.session.add(newRecipe)
         db.session.commit()
 
+        print(data['ingredient_form'], 'ughhh')
+
+        ingredients = []
+        for item in data["ingredient_form"]:
+            newIngredient = Ingredient(
+                measurement_num=item["measurement_num"],
+                measurement_type=item["measurement_type"],
+                ingredient=item["ingredient"],
+                recipe_id = newRecipe.id,
+            )
+            db.session.add(newIngredient)
+            ingredients.append(newIngredient)
+            print(ingredients, 'ingredients')
+
+        db.session.commit()
+
+
+        for item in data["kitchenware_form"]:
+            newKitchenware = Kitchenware(
+                name=item["name"]
+            )
+            db.session.add(newKitchenware)
+            db.session.commit()
+
+
+
+        for item in data["preparation_form"]:
+            newPreparation = Preparation(
+                description=item["description"]
+            )
+            db.session.add(newPreparation)
+            db.session.commit()
+
+
         allRecipes = Recipe.query.all()
+
+
+        ingredients = Ingredient.query.filter_by(recipe_id=newRecipe.id).all()
+        print(f'ingredients: {ingredients}')
+        ingredients_data = [{"measurement_num": item.measurement_num, "measurement_type": item.measurement_type, "ingredient": item.ingredient} for item in ingredients]
 
         return {
             "id": allRecipes[len(allRecipes)-1].id,
@@ -104,7 +148,8 @@ def create_recipe():
             "description": data["description"],
             "servings_num": data["servings_num"],
             "img_url": data["img_url"],
-            "created_at": allRecipes[len(allRecipes)-1].created_at
+            "created_at": allRecipes[len(allRecipes)-1].created_at,
+            "ingredients": ingredients_data
         }, 201
 
     #Error handling
