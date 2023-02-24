@@ -1,0 +1,9 @@
+.AllRecipes-Container {
+    width: 95%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 17px;
+    position: relative;
+    top: 15px;
+    margin: 0 auto;
+  }
