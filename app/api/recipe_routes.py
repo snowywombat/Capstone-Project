@@ -8,13 +8,13 @@ recipe_routes = Blueprint('recipe', __name__)
 
 @recipe_routes.route('/')
 def get_all_recipes():
-    all_recipes = Recipe.query.all()
+    allRecipes = Recipe.query.all()
 
     res = {
     "Recipes":[]
     }
 
-    for recipe in all_recipes:
+    for recipe in allRecipes:
         data = recipe.to_dict()
         data.pop("user")
         data.pop("reviews")
@@ -62,6 +62,7 @@ def get_recipe_detail(recipeId):
         "userId": data["user_id"],
         "name": data["name"],
         "description": data["description"],
+        "servingSize": data["servings_num"],
         "imgUrl": data["img_url"],
         "createdAt": data["created_at"],
         "user": {
@@ -77,34 +78,34 @@ def get_recipe_detail(recipeId):
 @recipe_routes.route('/', methods=["POST"])
 @login_required
 def create_recipe():
-  user_id = current_user.id
-  form = CreateRecipeForm()
-  form['csrf_token'].data = request.cookies['csrf_token']
-  if form.validate_on_submit():
-    data = form.data
+    user_id = current_user.id
+    form = CreateRecipeForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
 
-    newRecipe = Recipe(
-        name= data["name"],
-        description = data["description"],
-        servings_num = data["servings_num"],
-        img_url = data['img_url'],
-        user_id = user_id
-    )
+        newRecipe = Recipe(
+            name= data["name"],
+            description = data["description"],
+            servings_num = data["servings_num"],
+            img_url = data['img_url'],
+            user_id = user_id
+        )
 
-    db.session.add(newRecipe)
-    db.session.commit()
+        db.session.add(newRecipe)
+        db.session.commit()
 
-    allRecipes = Recipe.query.all()
+        allRecipes = Recipe.query.all()
 
-    return {
-        "id": allRecipes[len(allRecipes)-1].id,
-        "user_id": user_id,
-        "name": data["name"],
-        "description": data["description"],
-        "servings_num": data["servings_num"],
-        "img_url": data["img_url"],
-        "created_at": allRecipes[len(allRecipes)-1].created_at
-    }, 201
+        return {
+            "id": allRecipes[len(allRecipes)-1].id,
+            "user_id": user_id,
+            "name": data["name"],
+            "description": data["description"],
+            "servings_num": data["servings_num"],
+            "img_url": data["img_url"],
+            "created_at": allRecipes[len(allRecipes)-1].created_at
+        }, 201
 
     #Error handling
     return {'errors': validation_errors_to_error_messages(form.errors)}, 400
