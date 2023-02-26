@@ -42,7 +42,6 @@ export const thunkGetSingleRecipe = (recipeId) => async (dispatch) => {
     const response = await fetch(`/api/recipes/${recipeId}`);
     if(response.ok) {
         const data = await response.json();
-        console.log(data, 'datatatata')
         dispatch(getSingleRecipe(data));
         return data;
     } else if (response.status < 500) {
@@ -55,22 +54,28 @@ export const thunkGetSingleRecipe = (recipeId) => async (dispatch) => {
     }
 }
 
+
 export const thunkCreateRecipe = (recipe) => async (dispatch) => {
-    const { name, description, servings_num, img_url} = recipe;
-    const response = await fetch(`/api/recipes/`, {
+    const { name, description, servings_num, img_url, ingredients, kitchenwares, preparations} = recipe;
+    const response = await fetch(`/api/recipes`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: name,
-          description: description,
-          servingSize: servings_num,
-          imgUrl: img_url,
-        }),
+            name: name,
+            description: description,
+            servings_num: servings_num,
+            imgUrl: img_url,
+            ingredients: ingredients,
+            kitchenwares: kitchenwares,
+            preparations: preparations
+        })
     });
+    console.log(response, 'aaaaaaaaaaaaa')
     if (response.ok) {
         const data = await response.json();
+        console.log(data, 'eeeeeeeeeee')
         dispatch(createRecipe(data));
         return data;
       } else if (response.status < 500) {
@@ -93,6 +98,11 @@ export default function recipeReducer(state = initialState, action) {
         }
         case GET_SINGLE_RECIPE: {
             return { ...state.recipes, recipeDetails: action.payload }
+        }
+        case CREATE_NEW_RECIPE: {
+            const newState = Object.assign({}, state);
+            newState[action.payload.id] = action.payload;
+            return newState;
         }
         default:
             return state;

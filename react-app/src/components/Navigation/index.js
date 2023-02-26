@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
+import CreateRecipeModal from '../CreateRecipeModal';
 import './Navigation.css';
 import './ProfileButton.css'
 
@@ -41,6 +42,10 @@ function Navigation({ isLoaded }){
 			Recipes
 			</div>
 		</div>
+		<div className="CreateRecipe-Holder">
+            <CreateRecipeModal user={sessionUser} />
+
+        </div>
 	</>
 	);
 }

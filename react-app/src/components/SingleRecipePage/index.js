@@ -11,7 +11,6 @@ const SingleRecipePage = () => {
     const [loadedPage, setLoadedPage] = useState(false);
 
     const singleRecipe = useSelector((state) => state.recipes.recipeDetails);
-    console.log(singleRecipe, 'kajdflkajkf')
 
     useEffect(() => {
         dispatch(thunkGetSingleRecipe(recipeId)).then(() => setLoadedPage(true))

@@ -11,6 +11,7 @@
   flex-direction: column;
   /* background-color: blueviolet; */
   position: sticky;
+  z-index: 1;
   top: 0px;
   background-color:black;
   width: auto;
@@ -22,6 +23,7 @@
 .extra-header {
   display: flex;
   position: sticky;
+  z-index: 1;
   top: 55.5px;
   width: auto;
   height: 80px;
@@ -42,6 +44,8 @@
 .navigation {
   display: flex;
   margin-left: 50px;
+  font-size: 20px;
+  font-family: "Venturis ADF No2", 'sans-serif';
 }
 
 .inner-nav-bar {
@@ -68,8 +72,8 @@
 }
 
 .title {
-  font-family: 'Montserrat semibold', 'sans-serif';
-  font-size: 24px;
+  font-family: "Venturis ADF No2", 'sans-serif';
+  font-size: 35px;
   letter-spacing: -0.8px;
   color: white;
 }
