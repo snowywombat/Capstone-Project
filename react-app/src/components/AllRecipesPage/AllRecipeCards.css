@@ -1,9 +1,36 @@
 .AllRecipes-Container {
-    width: 95%;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 17px;
-    position: relative;
-    top: 15px;
-    margin: 0 auto;
-  }
+  width: 95%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 17px;
+  position: relative;
+  top: 15px;
+  margin: 0 auto;
+}
+
+.card-holder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.recipe-images {
+  display: flex;
+  height: 200px;
+  width: 385.4px;
+  object-fit: cover;
+}
+
+.content-holder {
+  display: flex;
+  flex-direction: column;
+  color: black;
+  font-family: "Venturis ADF No2", 'sans-serif';
+  width: 385.4px;
+
+}
+
+.recipe-card-nav-link {
+  text-decoration: none;
+}

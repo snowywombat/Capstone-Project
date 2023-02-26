@@ -1,8 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import (
-StringField, IntegerField,
-)
-from wtforms.validators import DataRequired, ValidationError, NumberRange
+from wtforms.fields import StringField, IntegerField
+from wtforms.validators import DataRequired, ValidationError
 
 def name_validator(form, field):
     if len(field.data) < 3 or len(field.data) > 50 :
