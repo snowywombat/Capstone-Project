@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, session, request
 from flask_login import login_required, current_user
-import pandas as pd
 from app.models import Recipe, db, Review, Kitchenware, Ingredient, Preparation
 from ..forms.recipe_form import CreateRecipeForm, EditRecipeForm
 from ..forms.review_form import CreateReviewForm, EditReviewForm
