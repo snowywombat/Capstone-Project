@@ -62,15 +62,14 @@ export const thunkGetSingleRecipe = (recipeId) => async (dispatch) => {
 
 export const thunkCreateRecipe = (recipe) => async (dispatch) => {
     const { name, description, servings_num, img_url, ingredients=[], kitchenwares=[], preparations=[] } = recipe;
-    const csrfToken = Cookies.get('csrf_token');
+    const csrfToken = Cookies.get('csrf_token=');
     console.log(csrfToken, 'csrfToken')
-
 
     const response = await fetch(`/api/recipes`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            'X-CSRFToken': csrfToken
+            'Cookie': csrfToken
         },
         body: JSON.stringify({
             name: name,

@@ -2,6 +2,7 @@
 const GET_ALL_REVIEWS = "reviews/get_all_reviews"
 const CREATE_NEW_REVIEW = "reviews/create_new_review"
 const EDIT_REVIEW = "reviews/edit_review"
+const DELETE_REVIEW = "reviews/delete_review"
 
 //Action creators
 const getAllReviews = (reviews) => ({
@@ -16,6 +17,11 @@ const createReview = (review) => ({
 
 const editReview = (review) => ({
     type: EDIT_REVIEW,
+    payload: review
+})
+
+const deleteReview = (review) => ({
+    type: DELETE_REVIEW,
     payload: review
 })
 
@@ -59,15 +65,16 @@ export const thunkCreateReview = (body, recipeId) => async (dispatch) => {
         return data;
       } else if (response.status < 500) {
         const data = await response.json();
-        throw new Error(JSON.stringify(data));
+        if (data.errors) {
+          return data.errors;
+        }
+      } else {
+        return ["An error occurred. Please try again."];
     }
-
 }
 
 export const thunkEditReview = (body, reviewId) => async (dispatch) => {
     const { review, stars, location, first_name, last_name } = body
-    console.log(body, 'body')
-    console.log(reviewId, 'review id')
     const response = await fetch(`/api/reviews/${reviewId}`, {
         method: "PUT",
         headers: {
@@ -91,6 +98,18 @@ export const thunkEditReview = (body, reviewId) => async (dispatch) => {
     }
 }
 
+export const thunkDeleteReview = (reviewId) => async (dispatch) => {
+    const response = await fetch(`/api/reviews/${reviewId}`, {
+        method: 'DELETE',
+    })
+
+    if(response.ok) {
+        const data = await response.json();
+        dispatch(deleteReview(reviewId))
+        return data;
+    }
+}
+
 
 //Reducers
 const initialState = {};
@@ -111,6 +130,11 @@ export default function reviewReducer(state = initialState, action) {
         case EDIT_REVIEW: {
             const newState = Object.assign({}, state);
             newState[action.payload.id] = {...newState[action.payload.id], ...action.payload}
+            return newState;
+        }
+        case DELETE_REVIEW: {
+            const newState = Object.assign({}, state)
+            delete newState[action.payload]
             return newState;
         }
         default:

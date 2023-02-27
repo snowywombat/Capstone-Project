@@ -88,21 +88,11 @@ def get_recipe_detail(recipeId):
 @login_required
 def create_recipe():
     user_id = current_user.id
-    csrf_token = request.headers.get('X-CSRFToken')
+
+    csrf_token = request.headers.get("Cookie").split("csrf_token=")[1]
     print(csrf_token, 'this is the token')
-    # response = jsonify({'csrf_token': csrf_token})
-    # print(response, 'this is respnse')
-    # response.set_cookie('csrf_token', csrf_token, secure=True, httponly=True, samesite='Strict')
+
     data = request.get_json()
-
-    # form = CreateRecipeForm()
-    # form['csrf_token'].data = request.cookies['csrf_token']
-
-
-    # try:
-    #     validate_csrf(request.headers.get('X-CSRFToken'))
-    # except ValidationError:
-    #     return jsonify(message='Invalid CSRF token'), 400
 
 
     if current_user.is_authenticated:
@@ -278,6 +268,8 @@ def create_review(recipeId):
             user_id = user_id,
             recipe_id = int(recipeId)
         )
+
+        print(newReview, 'this is newReview')
 
         db.session.add(newReview)
         db.session.commit()

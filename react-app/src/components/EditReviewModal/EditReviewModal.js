@@ -12,11 +12,11 @@ function EditReviewModalForm({ recipes, reviews }) {
 
     const dispatch = useDispatch();
 
-    const [review, setReview] = useState("");
-    const [stars, setStars] = useState("");
-    const [location, setLocation] = useState("");
-    const [first_name, setFirstName ] = useState("")
-    const [last_name, setLastName ] = useState("")
+    const [review, setReview] = useState(reviews.review);
+    const [stars, setStars] = useState(reviews.stars);
+    const [location, setLocation] = useState(reviews.location);
+    const [first_name, setFirstName ] = useState(reviews.first_name)
+    const [last_name, setLastName ] = useState(reviews.last_name)
     const [errors, setErrors] = useState([]);
     const { closeModal } = useModal();
 
@@ -61,19 +61,17 @@ function EditReviewModalForm({ recipes, reviews }) {
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
                 required
-                placeholder="Review"
                 className="Global-Modal-input"
               />
             </label>
             <label for="stars" className="Global-Modal-Label">
-              <textarea
-                type="text"
+                <input
+                type="number"
                 value={stars}
                 onChange={(e) => setStars(e.target.value)}
                 required
-                placeholder="Stars"
                 className="Global-Modal-input"
-              ></textarea>
+                />
             </label>
             <label for="location" className="Global-Modal-Label">
               <input
@@ -81,7 +79,6 @@ function EditReviewModalForm({ recipes, reviews }) {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 required
-                placeholder="Location"
                 className="Global-Modal-input"
               />
             </label>
@@ -91,7 +88,6 @@ function EditReviewModalForm({ recipes, reviews }) {
                 value={first_name}
                 onChange={(e) => setFirstName(e.target.value)}
                 required
-                placeholder="First Name"
                 className="Global-Modal-input"
               />
             </label>
@@ -101,7 +97,6 @@ function EditReviewModalForm({ recipes, reviews }) {
                 value={last_name}
                 onChange={(e) => setLastName(e.target.value)}
                 required
-                placeholder="Last Name"
                 className="Global-Modal-input"
               />
             </label>

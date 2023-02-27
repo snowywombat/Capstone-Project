@@ -24,8 +24,8 @@ const AllRecipesPage = () => {
     return (
         <>
             <div className="AllRecipes-Container">
-                {Object.values(allRecipes).map(recipe => (
-                <AllRecipeCards recipe={recipe} key={recipe.id} />
+                {Object.values(allRecipes).map((recipe, index) => (
+                <AllRecipeCards recipe={recipe} key={index} />
             ))}
             </div>
         </>

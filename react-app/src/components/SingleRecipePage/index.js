@@ -7,7 +7,7 @@ import OpenEditReviewModalButton from "../EditReviewModal"
 import EditReviewModalForm from "../EditReviewModal/EditReviewModal";
 import CreateRecipeModalForm from '../CreateRecipeModal/CreateRecipeModal'
 import { thunkGetSingleRecipe } from "../../store/recipes";
-import { thunkGetAllReviews } from "../../store/reviews"
+import { thunkDeleteReview, thunkGetAllReviews } from "../../store/reviews"
 import './SingleRecipePage.css'
 
 const SingleRecipePage = () => {
@@ -15,7 +15,8 @@ const SingleRecipePage = () => {
     const dispatch = useDispatch();
 
     const singleRecipe = useSelector(state => state.recipes.Recipes);
-    const allReviews = useSelector(state => state.reviews.Reviews)
+    const allReviews = useSelector(state => state.reviews.Reviews);
+    const user = useSelector(state => state.session.user);
 
     const [modalRendered, setModalRendered] = useState(false);
 
@@ -28,6 +29,7 @@ const SingleRecipePage = () => {
         dispatch(thunkGetAllReviews(recipeId))
     }, [dispatch, recipeId]);
 
+
     if(!singleRecipe) {
         return <div>Loading...</div>
     }
@@ -35,9 +37,16 @@ const SingleRecipePage = () => {
         return <div>Loading...</div>
     }
 
-
     const recipeArr = Object.values(singleRecipe)
     const reviewArr = Object.values(allReviews)
+
+    const handleDelete = () => {
+        reviewArr.forEach(review => {
+            dispatch(thunkDeleteReview(review.id))
+            .then(() => dispatch(thunkGetSingleRecipe(recipeId)))
+            .then(() => dispatch(thunkGetAllReviews(recipeId)))
+        })
+    }
 
 
     return (
@@ -45,51 +54,67 @@ const SingleRecipePage = () => {
             <section className='details-page'>
                 <div className = 'datails-main'>
                     <div className = 'details-header'>
-                        {recipeArr.map(recipe => (
+                        {recipeArr.map((recipe, index) => (
                             <>
-                                <div key={recipe.id} className = 'recipe-body'>
+                                <div key={index} className = 'recipe-top'>
+                                    <div className='recipe-info-container'>
+                                        <div className='recipe-info-container-name'>
+                                            {recipe.name}
+                                        </div>
+                                        <div className='recipe-info-container-author'>
+                                            By: {recipe.user && recipe.user.firstName} {recipe.user && recipe.user.lastName}
+                                        </div>
+                                        <div className='recipe-info-container-date'>
+                                            {recipe.createdAt}
+                                        </div>
+                                    </div>
                                     <div className='photo-container'>
                                         <img src={recipe.imgUrl} alt={"image of " + recipe.description} id='recipeImg'></img>
                                     </div>
 
-                                        {recipe.name}
-                                        By
-                                        {recipe.user && recipe.user.firstName}
-                                        {recipe.user && recipe.user.lastName}
-                                        {recipe.createdAt}
-                                        {recipe.name}
+                                </div>
 
                                     <div>
                                         {recipe.description}
                                     </div>
                                     <div>
-                                        {recipe.kitchenware && recipe.kitchenware.map(item => (
-                                            item.name
+                                        {recipe.kitchenware && recipe.kitchenware.map((item, index) => (
+                                            <div key={index} className = 'item-name'>
+                                                {item.name}
+                                            </div>
                                         ))}
                                     </div>
                                     <div>
                                         {recipe.servingSize} servings
-                                        {recipe.ingredients && recipe.ingredients.map(item => (
-                                            item.measurement_num
+                                        {recipe.ingredients && recipe.ingredients.map((item, index) => (
+                                            <div key={index} className = 'item-name'>
+                                                {item.measurement_num}
+                                            </div>
                                         ))}
-                                        {recipe.ingredients && recipe.ingredients.map(item => (
-                                            item.measurement_type
+                                        {recipe.ingredients && recipe.ingredients.map((item, index) => (
+                                            <div key={index} className = 'item-name'>
+                                                {item.measurement_type}
+                                            </div>
                                         ))}
-                                        {recipe.ingredients && recipe.ingredients.map(item => (
-                                            item.ingredient
+                                        {recipe.ingredients && recipe.ingredients.map((item, index)=> (
+                                            <div key={index} className = 'item-name'>
+                                                {item.ingredient}
+                                            </div>
                                         ))}
                                     </div>
                                     <div>
-                                        {recipe.preparation && recipe.preparation.map(step => (
-                                            step.description
+                                        {recipe.preparation && recipe.preparation.map((step, index) => (
+                                            <div key={index} className = 'item-name'>
+                                                {step.description}
+                                            </div>
                                         ))}
                                     </div>
-                                </div>
+
 
                                 <div className='reviews-section'>
-                                    {reviewArr.map(review => (
+                                    {reviewArr.map((review, index) => (
                                         <>
-                                            <div key={review.id} className = 'review-body'>
+                                            <div key={index} className = 'review-body'>
                                                 <div>
                                                     {review.review}
                                                     {review.location}
@@ -100,7 +125,7 @@ const SingleRecipePage = () => {
                                             </div>
 
                                             <div className='review-button'>
-                                                {!modalRendered && (
+                                                {!modalRendered && user && review.user_id === user.id &&
                                                     <div className = 'edit-review-button'>
                                                     <OpenEditReviewModalButton
                                                         buttonText="Edit Review"
@@ -110,8 +135,18 @@ const SingleRecipePage = () => {
                                                         />}
                                                     />
                                                     </div>
-                                                )}
+                                                }
+
+                                                {!modalRendered && user && review.user_id === user.id &&
+                                                    <div className='delete-review-button-div'>
+                                                        <button onClick={handleDelete} type="submit" className='delete-review-button'>
+                                                            Delete Review
+                                                        </button>
+                                                    </div>
+                                                }
                                             </div>
+
+
                                         </>
                                     ))}
                                     <div className='review-button'>

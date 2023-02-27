@@ -33,17 +33,20 @@ function CreateReviewModalForm({ recipe }) {
       last_name
     };
 
-    dispatch(thunkCreateReview(body, recipe.id))
-      .then(() => dispatch(thunkGetSingleRecipe(recipe.id)))
-      .then(() => dispatch(thunkGetAllReviews(recipe.id)))
-      .then(closeModal)
-      .catch(
-          async (res) => {
-              const data = await res.json();
-              if (data && data.errors) setErrors(data.errors);
-          }
-      );
-    };
+    try {
+      dispatch(thunkCreateReview(body, recipe.id))
+        .then(() => dispatch(thunkGetSingleRecipe(recipe.id)))
+        .then(() => dispatch(thunkGetAllReviews(recipe.id)))
+        .then(closeModal)
+    } catch (error) {
+      let errorObject = JSON.parse(error.message);
+      const result = errorObject.errors.map((error) => {
+        return error.split(": ")[1];
+      });
+      console.log(result, 'this is the result')
+      if (errorObject) setErrors(result);
+    }
+  };
 
 
   return (
@@ -68,14 +71,17 @@ function CreateReviewModalForm({ recipe }) {
           />
         </label>
         <label for="stars" className="Global-Modal-Label">
-          <textarea
-            type="text"
+          <input
+            type="number"
             value={stars}
             onChange={(e) => setStars(e.target.value)}
             required
             placeholder="Stars"
             className="Global-Modal-input"
-          ></textarea>
+            min='1'
+            max='5'
+          />
+
         </label>
         <label for="location" className="Global-Modal-Label">
           <input
