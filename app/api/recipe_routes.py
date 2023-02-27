@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify, session, request
 from flask_login import login_required, current_user
+from flask_wtf.csrf import generate_csrf, validate_csrf
+from wtforms import ValidationError
 from app.models import Recipe, db, Review, Kitchenware, Ingredient, Preparation
 from ..forms.recipe_form import CreateRecipeForm, EditRecipeForm
 from ..forms.review_form import CreateReviewForm, EditReviewForm
@@ -26,7 +28,6 @@ def get_all_recipes():
 
     return res
 
-
 @recipe_routes.route('/<int:recipeId>')
 def get_recipe_detail(recipeId):
     single_recipe = db.session.query(Recipe).get(int(recipeId))
@@ -35,6 +36,10 @@ def get_recipe_detail(recipeId):
         return {"message": "Recipe couldn't be found"}, 404
 
     data = single_recipe.to_dict()
+
+    res = {
+    "Recipes":[]
+    }
 
     #get kitchenware out of recipe
     kitchenwareData = []
@@ -57,8 +62,7 @@ def get_recipe_detail(recipeId):
         preparationDict.pop("recipe")
         preparationData.append(preparationDict)
 
-
-    return {
+    recipe = {
         "id": data["id"],
         "userId": data["user_id"],
         "name": data["name"],
@@ -76,77 +80,100 @@ def get_recipe_detail(recipeId):
         "preparation": preparationData
     }
 
+    res["Recipes"].append(recipe)
+    return res
+
+
 @recipe_routes.route('/', methods=["POST"])
 @login_required
 def create_recipe():
     user_id = current_user.id
-    print('this is the curent user', current_user)
+    csrf_token = request.headers.get('X-CSRFToken')
+    print(csrf_token, 'this is the token')
+    # response = jsonify({'csrf_token': csrf_token})
+    # print(response, 'this is respnse')
+    # response.set_cookie('csrf_token', csrf_token, secure=True, httponly=True, samesite='Strict')
     data = request.get_json()
-    print('data', data)
 
-    newRecipe = Recipe(
-        name= data["name"],
-        description = data["description"],
-        servings_num = data["servings_num"],
-        img_url = data['img_url'],
-        user_id = user_id
-    )
+    # form = CreateRecipeForm()
+    # form['csrf_token'].data = request.cookies['csrf_token']
 
-    db.session.add(newRecipe)
-    db.session.commit()
 
-    ingredients = []
-    for item in data["ingredients"]:
-        newIngredient = Ingredient(
-            measurement_num=item["measurement_num"],
-            measurement_type=item["measurement_type"],
-            ingredient=item["ingredient"],
-            recipe_id = newRecipe.id,
+    # try:
+    #     validate_csrf(request.headers.get('X-CSRFToken'))
+    # except ValidationError:
+    #     return jsonify(message='Invalid CSRF token'), 400
+
+
+    if current_user.is_authenticated:
+        newRecipe = Recipe(
+            name= data["name"],
+            description = data["description"],
+            servings_num = data["servings_num"],
+            img_url = data['img_url'],
+            user_id = user_id
         )
-        db.session.add(newIngredient)
-        ingredients.append(newIngredient)
+
+        db.session.add(newRecipe)
         db.session.commit()
 
+        ingredients = []
+        for item in data["ingredients"]:
+            newIngredient = Ingredient(
+                measurement_num=item["measurement_num"],
+                measurement_type=item["measurement_type"],
+                ingredient=item["ingredient"],
+                recipe_id = newRecipe.id,
+            )
+            db.session.add(newIngredient)
+            ingredients.append(newIngredient)
+            db.session.commit()
 
-    kitchenwares = []
-    for item in data["kitchenwares"]:
-        newKitchenware = Kitchenware(
-            name=item["name"],
-            recipe_id = newRecipe.id
-        )
-        db.session.add(newKitchenware)
-        kitchenwares.append(newKitchenware)
-        db.session.commit()
+
+        kitchenwares = []
+        for item in data["kitchenwares"]:
+            newKitchenware = Kitchenware(
+                name=item["name"],
+                recipe_id = newRecipe.id
+            )
+            db.session.add(newKitchenware)
+            kitchenwares.append(newKitchenware)
+            db.session.commit()
 
 
-    preparations = []
-    for item in data["preparations"]:
-        newPreparation = Preparation(
-            description=item["description"],
-            recipe_id = newRecipe.id
-        )
-        db.session.add(newPreparation)
-        preparations.append(newPreparation)
-        db.session.commit()
+        preparations = []
+        for item in data["preparations"]:
+            newPreparation = Preparation(
+                description=item["description"],
+                recipe_id = newRecipe.id
+            )
+            db.session.add(newPreparation)
+            preparations.append(newPreparation)
+            db.session.commit()
 
-    allRecipes = Recipe.query.all()
+        allRecipes = Recipe.query.all()
 
-    return {
-        "id": allRecipes[len(allRecipes)-1].id,
-        "user_id": user_id,
-        "name": data["name"],
-        "description": data["description"],
-        "servings_num": data["servings_num"],
-        "img_url": data["img_url"],
-        "created_at": allRecipes[len(allRecipes)-1].created_at,
-        "ingredient": data["ingredients"],
-        "kitchenwares": data["kitchenwares"],
-        "preparation": data["preparations"],
 
-    }, 201
+        return {
+            "id": allRecipes[len(allRecipes)-1].id,
+            "user_id": user_id,
+            "name": data["name"],
+            "description": data["description"],
+            "servings_num": data["servings_num"],
+            "img_url": data["img_url"],
+            "created_at": allRecipes[len(allRecipes)-1].created_at,
+            "ingredient": data["ingredients"],
+            "kitchenwares": data["kitchenwares"],
+            "preparation": data["preparations"],
 
-    #Error handling
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 400
+        }, 201
+
+        #Error handling
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 400
+
+    else:
+        return jsonify(message='You are not authorized to access this resource'), 401
+
 
 
 @recipe_routes.route('/<int:recipeId>', methods=["PUT"])
@@ -218,8 +245,8 @@ def get_all_reviews(recipeId):
 
     for review in all_reviews:
         data = review.to_dict()
+        data["user"] = review.user.to_dict()
         data.pop("recipe")
-        data.pop("user")
         res["Reviews"].append(data)
 
     return res
@@ -242,6 +269,8 @@ def create_review(recipeId):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         data = form.data
+        print(data, 'this is data')
+        print(Review, 'this is the review')
         newReview = Review (
             review = data["review"],
             stars = data["stars"],
@@ -262,6 +291,11 @@ def create_review(recipeId):
             "review": data["review"],
             "stars": data["stars"],
             "location": data["location"],
+            "user": {
+                "id": allReviews[len(allReviews)-1].user.id,
+                "firstName": allReviews[len(allReviews)-1].user.first_name,
+                "lastName": allReviews[len(allReviews)-1].user.last_name
+            },
             "createdAt": allReviews[len(allReviews)-1].created_at
         }
 

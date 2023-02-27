@@ -37,6 +37,11 @@ def update_review(reviewId):
             "review": data["review"],
             "stars": data["stars"],
             "location": data["location"],
+            "user": {
+                "id": edit_review.user.id,
+                "firstName": edit_review.user.first_name,
+                "lastName": edit_review.user.last_name
+            },
             "created_at": edit_review.created_at
         }
 

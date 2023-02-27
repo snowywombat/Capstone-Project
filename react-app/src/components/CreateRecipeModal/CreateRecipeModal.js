@@ -8,7 +8,6 @@ import "../LoginFormModal/LoginForm.css";
 import "./CreateRecipeModal.css";
 
 function CreateRecipeModalForm() {
-  const sessionUser = useSelector((state) => state.session.user);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -17,9 +16,6 @@ function CreateRecipeModalForm() {
   const [description, setDescription] = useState("");
   const [servings_num, setServingsNum] = useState("");
   const [img_url, setImageUrl] = useState("");
-  const [ingredients, setIngredients] = useState([])
-  const [kitchenwares, setKitchenwares] = useState([])
-  const [preparations, setPreparations] = useState([])
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
 
@@ -31,29 +27,23 @@ function CreateRecipeModalForm() {
       name,
       description,
       servings_num,
-      img_url,
-      ingredients,
-      kitchenwares,
-      preparations
+      img_url
     };
 
     dispatch(thunkCreateRecipe(body))
-            .then((data) => {
-                  history.push(`/recipes/${data.id}`)
-                  closeModal()
-                }
-            )
-            .catch(
-                async (res) => {
-                    const data = await res.json();
-                    if (data && data.errors) setErrors(data.errors);
-                }
-            );
-
+      .then((data) => {
+          closeModal()
+          history.push(`/recipes/${data.id}`)
+          history.go(0)
+      })
+      .catch(
+          async (res) => {
+              const data = await res.json();
+              if (data && data.errors) setErrors(data.errors);
+          }
+      );
 
   };
-
-  //add a redirect or to place to read new group
 
   return (
     <div className="Global-Modal-Container3">
@@ -66,13 +56,13 @@ function CreateRecipeModalForm() {
             </li>
           ))}
         </ul>
-        {/* <label for="title" className="Global-Modal-Label">
+        <label for="name" className="Global-Modal-Label">
           <input
             type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
-            placeholder="Title"
+            placeholder="Name"
             className="Global-Modal-input"
           />
         </label>
@@ -86,46 +76,26 @@ function CreateRecipeModalForm() {
             className="Global-Modal-input"
           ></textarea>
         </label>
-        <label for="city" className="Global-Modal-Label">
+        <label for="serving_num" className="Global-Modal-Label">
           <input
             type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
+            value={servings_num}
+            onChange={(e) => setServingsNum(e.target.value)}
             required
-            placeholder="City"
+            placeholder="Serving Size"
             className="Global-Modal-input"
           />
         </label>
-        <label for="state" className="Global-Modal-Label">
+        <label for="img_url" className="Global-Modal-Label">
           <input
             type="text"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-            required
-            placeholder="State"
-            className="Global-Modal-input"
-          />
-        </label>
-        <label for="country" className="Global-Modal-Label">
-          <input
-            type="text"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            required
-            placeholder="Country"
-            className="Global-Modal-input"
-          />
-        </label>
-        <label for="imageUrl" className="Global-Modal-Label">
-          <input
-            type="url"
-            value={imageUrl}
+            value={img_url}
             onChange={(e) => setImageUrl(e.target.value)}
             required
-            placeholder="Your new image url"
+            placeholder="Image"
             className="Global-Modal-input"
           />
-        </label> */}
+        </label>
         <button type="submit" className="Global-SubmitButton">
           Add Recipe
         </button>
