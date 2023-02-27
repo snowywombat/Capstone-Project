@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import OpenCreateReviewModalButton from "../CreateReviewModal";
 import CreateReviewModalForm from "../CreateReviewModal/CreateReviewModal";
+import OpenEditReviewModalButton from "../EditReviewModal"
+import EditReviewModalForm from "../EditReviewModal/EditReviewModal";
 import CreateRecipeModalForm from '../CreateRecipeModal/CreateRecipeModal'
 import { thunkGetSingleRecipe } from "../../store/recipes";
 import { thunkGetAllReviews } from "../../store/reviews"
@@ -86,15 +88,31 @@ const SingleRecipePage = () => {
 
                                 <div className='reviews-section'>
                                     {reviewArr.map(review => (
-                                        <div key={review.id} className = 'review-body'>
-                                            <div>
-                                                {review.review}
-                                                {review.location}
-                                                {review.created_at}
-                                                {review.user && review.user.first_name}
-                                                {review.user && review.user.last_name}
+                                        <>
+                                            <div key={review.id} className = 'review-body'>
+                                                <div>
+                                                    {review.review}
+                                                    {review.location}
+                                                    {review.created_at}
+                                                    {review.user && review.user.first_name}
+                                                    {review.user && review.user.last_name}
+                                                </div>
                                             </div>
-                                        </div>
+
+                                            <div className='review-button'>
+                                                {!modalRendered && (
+                                                    <div className = 'edit-review-button'>
+                                                    <OpenEditReviewModalButton
+                                                        buttonText="Edit Review"
+                                                        modalComponent={<EditReviewModalForm
+                                                            recipes={recipe}
+                                                            reviews={review}
+                                                        />}
+                                                    />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </>
                                     ))}
                                     <div className='review-button'>
                                         {!modalRendered && (
@@ -106,6 +124,7 @@ const SingleRecipePage = () => {
                                                     />}
                                                 />
                                             </div>
+
                                         )}
                                     </div>
                                 </div>
