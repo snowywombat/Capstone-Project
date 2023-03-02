@@ -1,0 +1,14 @@
+.demo-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: black;
+    padding: 15px;
+    color: white;
+}
+
+.demo-button:hover {
+    cursor: pointer;
+}

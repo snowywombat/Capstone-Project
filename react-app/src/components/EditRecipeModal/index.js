@@ -1,8 +1,8 @@
 import React from 'react';
 import { useModal } from '../../context/Modal';
-import "./CreateRecipeModal.css"
+import './EditRecipeModal.css'
 
-function OpenCreateRecipeModalButton({
+function OpenEditRecipeModalButton({
   modalComponent, // component to render inside the modal
   buttonText, // text of the button that opens the modal
   onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
@@ -17,8 +17,8 @@ function OpenCreateRecipeModalButton({
   };
 
   return (
-    <button className='button-create-recipe-modal' onClick={onClick} >{buttonText}</button>
+    <button className='button-edit-recipe-modal' onClick={onClick} >{buttonText}</button>
   );
 }
 
-export default OpenCreateRecipeModalButton;
+export default OpenEditRecipeModalButton;

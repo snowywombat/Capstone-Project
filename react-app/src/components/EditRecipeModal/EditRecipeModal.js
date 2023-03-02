@@ -2,25 +2,43 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { thunkCreateRecipe } from "../../store/recipes";
+import { thunkEditRecipe } from "../../store/recipes";
+import { thunkDeleteRecipe } from "../../store/recipes";
+import { thunkGetSingleRecipe } from "../../store/recipes";
 import { useModal } from "../../context/Modal";
 import "../LoginFormModal/LoginForm.css";
-import "./CreateRecipeModal.css";
+import "./EditRecipeModal.css";
 
-function CreateRecipeModalForm() {
+function EditRecipeModalForm({ recipes }) {
 
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [servings_num, setServingsNum] = useState("");
-  const [ingredients, setIngredients] = useState([]);
-  const [kitchenwares, setKitchenwares] = useState([]);
-  const [preparations, setPreparations] = useState([]);
-  const [img_url, setImageUrl] = useState("");
+  const [name, setName] = useState(recipes.name);
+  const [description, setDescription] = useState(recipes.description);
+  const [servings_num, setServingsNum] = useState(recipes.servingSize);
+  const [ingredients, setIngredients] = useState(recipes.ingredients.map((item) => ({
+    ingredient: item.ingredient,
+    measurement_num: item.measurement_num,
+    measurement_type: item.measurement_type,
+  })),);
+  const [kitchenwares, setKitchenwares] = useState(recipes.kitchenware.map((item) => ({
+    name: item.name,
+  })),);
+  const [preparations, setPreparations] = useState(recipes.preparation.map((item) => ({
+    description: item.description,
+  })),);
+  const [img_url, setImageUrl] = useState(recipes.img_url);
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
+
+  const handleDelete = () => {
+    dispatch(thunkDeleteRecipe(recipes.id))
+    .then(() => {
+      history.push('/recipes')
+      closeModal()
+    })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,22 +63,21 @@ function CreateRecipeModalForm() {
     };
 
     try {
-      await dispatch(thunkCreateRecipe(body))
-      .then((data) => {
-          closeModal()
-          history.push(`/recipes/${data.id}`)
-          history.go(0)
-      })
+        await dispatch(thunkEditRecipe(body, recipes.id))
+          .then(() => dispatch(thunkGetSingleRecipe(recipes.id)))
+          .then(() => {
+            closeModal()
+          })
     } catch (e) {
-      const errorResponse = e.errors;
-      const errorMessages = errorResponse.map((error) => error);
-      setErrors(errorMessages);
+        const errorResponse = e.errors;
+        const errorMessages = errorResponse.map((error) => error.split(": ")[1]);
+        setErrors(errorMessages);
     }
   };
 
   return (
     <div className="Global-Modal-Container3">
-      <div className="Global-Modal-Header">Add a new recipe</div>
+      <div className="Global-Modal-Header">Edit a recipe</div>
       <form onSubmit={handleSubmit} className="Global-ModalForm-Container">
         <ul className="Global-Errors-UL">
           {errors.map((error, idx) => (
@@ -95,7 +112,6 @@ function CreateRecipeModalForm() {
                     newIngredients[idx].measurement_num= e.target.value;
                     setIngredients(newIngredients);
                   }}
-                  required
                 />
               </label>
               <label>
@@ -108,7 +124,6 @@ function CreateRecipeModalForm() {
                     newIngredients[idx].measurement_type = e.target.value;
                     setIngredients(newIngredients);
                   }}
-                  required
                 />
               </label>
               <label>
@@ -121,7 +136,6 @@ function CreateRecipeModalForm() {
                     newIngredients[idx].ingredient = e.target.value;
                     setIngredients(newIngredients);
                   }}
-                  required
                 />
               </label>
             </div>
@@ -149,7 +163,6 @@ function CreateRecipeModalForm() {
                     newKitchenwares[idx].name = e.target.value;
                     setKitchenwares(newKitchenwares);
                   }}
-                  required
                 />
               </label>
             </div>
@@ -178,7 +191,6 @@ function CreateRecipeModalForm() {
                   newPreparations[idx].description = e.target.value;
                   setPreparations(newPreparations);
                 }}
-                required
               />
             </label>
           </div>
@@ -206,7 +218,7 @@ function CreateRecipeModalForm() {
         </label>
         <label for="serving_num" className="Global-Modal-Label">
           <input
-            type="number"
+            type="text"
             value={servings_num}
             onChange={(e) => setServingsNum(e.target.value)}
             required
@@ -225,11 +237,14 @@ function CreateRecipeModalForm() {
           />
         </label>
         <button type="submit" className="Global-SubmitButton">
-          Add Recipe
+          Edit Recipe
+        </button>
+        <button onClick={handleDelete} type="submit" className='delete-button'>
+          Delete
         </button>
       </form>
     </div>
   );
 }
 
-export default CreateRecipeModalForm;
+export default EditRecipeModalForm;

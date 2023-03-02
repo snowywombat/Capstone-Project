@@ -1,0 +1,43 @@
+.signup-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: black;
+    padding: 15px;
+    color: white;
+}
+
+.signup-button:hover {
+    cursor: pointer;
+}
+
+.first-name-field {
+    margin-bottom: 7px;
+}
+
+.last-name-field {
+    margin-top: 7px;
+    margin-bottom: 7px;
+
+}
+.email-signup-field {
+    margin-top: 7px;
+    margin-bottom: 7px;
+
+}
+.username-signup-field {
+    margin-top: 7px;
+    margin-bottom: 7px;
+
+}
+.password-signup-field{
+    margin-top: 7px;
+    margin-bottom: 7px;
+
+}
+
+.confirm-password-field {
+    margin-top: 7px;
+}

@@ -7,24 +7,23 @@ import './AllRecipeCards.css'
 const AllRecipesPage = () => {
     const dispatch = useDispatch();
     const [loadedPage, setLoadedPage] = useState(false);
-
-    //get all recipe data via thunk
-    const allRecipes = useSelector(state => state?.recipes?.Recipes)
-    console.log(allRecipes, 'all recipes')
+    const allRecipes = useSelector(state => state.recipes)
 
     useEffect(() => {
         dispatch(thunkGetAllRecipes()).then(() => setLoadedPage(true))
     }, [dispatch])
+
 
     if (!loadedPage) return null;
 
     return (
         <>
             <div className="AllRecipes-Container">
-                {Object.values(allRecipes).map(recipe => (
-                <AllRecipeCards recipe={recipe} key={recipe.id} />
+                {Object.values(allRecipes).map((recipe, index) => (
+                <AllRecipeCards recipe={recipe} key={index} />
             ))}
             </div>
+
         </>
     )
 };

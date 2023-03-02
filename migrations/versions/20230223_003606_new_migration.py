@@ -1,7 +1,7 @@
 """new migration
 
 Revision ID: a0ef0cd4593d
-Revises: 
+Revises:
 Create Date: 2023-02-23 00:36:06.136129
 
 """
@@ -27,8 +27,6 @@ def upgrade():
     sa.Column('hashed_password', sa.String(length=255), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('first_name'),
-    sa.UniqueConstraint('last_name'),
     sa.UniqueConstraint('username')
     )
     op.create_table('recipes',

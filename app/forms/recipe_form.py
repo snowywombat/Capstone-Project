@@ -7,8 +7,8 @@ def name_validator(form, field):
         raise ValidationError('Name of recipe must be between 3 and 50 characters long')
 
 def description_validator(form, field):
-    if len(field.data) < 3 or len(field.data) > 200 :
-        raise ValidationError('Description must be between 3 and 200 characters long.')
+    if len(field.data) < 3 or len(field.data) > 750 :
+        raise ValidationError('Description must be between 3 and 750 characters long.')
 
 def servings_num_validator(form, field):
     if field.data < 1 or field.data > 100 :
