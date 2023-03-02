@@ -3,12 +3,12 @@ import { login } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import TextField from '@material-ui/core/TextField';
-import "./LoginForm.css";
+import "./DemoForm.css";
 
-function LoginFormModal() {
+function DemoFormModal() {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("demo@aa.io");
+  const [password, setPassword] = useState("password");
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
 
@@ -28,15 +28,14 @@ function LoginFormModal() {
 
   return (
     <>
-      <h1>Log In</h1>
+      <h1 className='login-title'>Try the Demo</h1>
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}
         </ul>
-        <div className='fields'>
-          <div className='email-login-field'>
+        <div className='email-login-field'>
             <TextField
               label="Email"
               value={email}
@@ -59,11 +58,10 @@ function LoginFormModal() {
               required
             />
           </div>
-        </div>
-        <button type="submit" className='login-button'>Log In</button>
+        <button type="submit" className='demo-button'>Log In</button>
       </form>
     </>
   );
 }
 
-export default LoginFormModal;
+export default DemoFormModal;

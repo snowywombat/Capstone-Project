@@ -1,4 +1,4 @@
-.recipe-top{
+.details-header {
     display: flex;
     flex-direction: row;
 }
@@ -43,4 +43,51 @@
     height: 700px;
     width: 50vw;
     object-fit: cover;
+}
+
+.recipe-description {
+    font-size: 18px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+.single-page-main {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-left: 150px;
+    margin-right: 150px;
+
+}
+
+.kitchenware {
+    margin-top: 30px;
+    font-size: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.kitchen-ele {
+    font-size: 18px;
+
+}
+
+.ingredients{
+    margin-top: 30px;
+    font-size: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.ingredients-ele {
+    font-size: 18px;
+}
+
+.servings {
+    display: inline-block;
+    background-color: rgb(235, 195, 16);
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.ingredient-field {
+    display: flex;
+    flex-direction: row;
 }

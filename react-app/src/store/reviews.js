@@ -57,12 +57,9 @@ export const thunkCreateReview = (body, recipeId) => async (dispatch) => {
             location: location,
         })
     });
-    console.log(response, 'response')
     if (response.ok) {
         const data = await response.json();
-        console.log(data, 'before')
         dispatch(createReview(data));
-        console.log(data, 'after')
         return data;
       } else if (response.status < 500) {
         const data = await response.json();

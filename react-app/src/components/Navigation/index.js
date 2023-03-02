@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import OpenCreateRecipeModalButton from '../CreateRecipeModal'
+import OpenModalButton from '../OpenModalButton';
 import CreateRecipeModalForm from '../CreateRecipeModal/CreateRecipeModal'
 import './Navigation.css';
 import './ProfileButton.css'
@@ -30,7 +30,7 @@ function Navigation({ isLoaded }){
 			<div className='recipe-button'>
                 {!modalRendered && sessionUser && (
                     <div className = 'create-recipe-button'>
-                        <OpenCreateRecipeModalButton
+                        <OpenModalButton
                             user={sessionUser}
                             buttonText="Add Recipe"
                             modalComponent={<CreateRecipeModalForm

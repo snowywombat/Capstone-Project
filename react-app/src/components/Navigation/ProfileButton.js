@@ -4,6 +4,8 @@ import { logout } from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import DemoFormModal from "../DemoModal";
+import './ProfileButton.css'
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -39,8 +41,8 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
+      <button onClick={openMenu} className='profile-button'>
+        MY ACCOUNT
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
@@ -53,17 +55,32 @@ function ProfileButton({ user }) {
           </>
         ) : (
           <>
-            <OpenModalButton
-              buttonText="Log In"
-              onItemClick={closeMenu}
-              modalComponent={<LoginFormModal />}
-            />
+          <div className='dropdown-buttons'>
+            <li className='open-modal-button'>
+              <OpenModalButton
+                buttonText="Log In"
+                onItemClick={closeMenu}
+                className='open-modal-button'
+                modalComponent={<LoginFormModal />}
+              />
+              </li>
 
-            <OpenModalButton
-              buttonText="Sign Up"
-              onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
-            />
+              <li className='open-modal-button'>
+              <OpenModalButton
+                buttonText="Sign Up"
+                onItemClick={closeMenu}
+                modalComponent={<SignupFormModal />}
+              />
+              </li>
+
+              <li className='open-modal-button'>
+              <OpenModalButton
+                buttonText="Demo"
+                onButtonClick={closeMenu}
+                modalComponent={<DemoFormModal />}
+              />
+            </li>
+          </div>
           </>
         )}
       </ul>

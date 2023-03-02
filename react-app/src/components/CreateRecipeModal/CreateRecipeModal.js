@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { thunkCreateRecipe } from "../../store/recipes";
 import { useModal } from "../../context/Modal";
@@ -74,9 +74,9 @@ function CreateRecipeModalForm() {
         <button type="button" onClick={() => setIngredients([
               ...ingredients,
               {
-                ingredient: "",
                 measurement_num: "",
                 measurement_type: "",
+                ingredient: "",
               },
             ])
           }
@@ -85,19 +85,6 @@ function CreateRecipeModalForm() {
         </button>
         {ingredients.map((item, idx) => (
             <div key={idx}>
-              <label>
-                Ingredient
-                <input
-                  type="text"
-                  value={item.ingredient}
-                  onChange={(e) => {
-                    const newIngredients = [...ingredients];
-                    newIngredients[idx].ingredient = e.target.value;
-                    setIngredients(newIngredients);
-                  }}
-                  required
-                />
-              </label>
               <label>
                 Amount of Measurement
                 <input
@@ -119,6 +106,19 @@ function CreateRecipeModalForm() {
                   onChange={(e) => {
                     const newIngredients = [...ingredients];
                     newIngredients[idx].measurement_type = e.target.value;
+                    setIngredients(newIngredients);
+                  }}
+                  required
+                />
+              </label>
+              <label>
+                Ingredient
+                <input
+                  type="text"
+                  value={item.ingredient}
+                  onChange={(e) => {
+                    const newIngredients = [...ingredients];
+                    newIngredients[idx].ingredient = e.target.value;
                     setIngredients(newIngredients);
                   }}
                   required

@@ -19,7 +19,6 @@ export const authenticate = () => async (dispatch) => {
 			"Content-Type": "application/json",
 		},
 	});
-	console.log(response, 'az anyad')
 	if (response.ok) {
 		const data = await response.json();
 		if (data.errors) {
@@ -85,7 +84,6 @@ export const signUp = (first_name, last_name, username, email, password) => asyn
 
 	if (response.ok) {
 		const data = await response.json();
-		console.log(data, 'data')
 		dispatch(setUser(data));
 		return null;
 	} else if (response.status < 500) {

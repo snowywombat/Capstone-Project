@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { thunkCreateReview } from "../../store/reviews";
 import { thunkGetAllReviews } from "../../store/reviews";
 import { thunkGetSingleRecipe } from "../../store/recipes";
@@ -38,8 +37,6 @@ function CreateReviewModalForm({ recipe }) {
       // }
     };
 
-    console.log('body', body)
-
 
     try {
       await dispatch(thunkCreateReview(body, recipe.id))
@@ -51,7 +48,6 @@ function CreateReviewModalForm({ recipe }) {
         })
     } catch (e) {
       const errorResponse = e.errors;
-      console.log(errorResponse, 'bye')
       const errorMessages = errorResponse.map((error) => error);
       setErrors(errorMessages);
     }

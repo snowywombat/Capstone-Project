@@ -56,7 +56,6 @@ export const thunkGetSingleRecipe = (recipeId) => async (dispatch) => {
     if(response.ok) {
         const data = await response.json();
         dispatch(getSingleRecipe(data));
-        console.log(data, 'hulye')
         return data;
     } else if (response.status < 500) {
         const data = await response.json();
@@ -120,8 +119,6 @@ export const thunkEditRecipe = (recipe, recipeId) => async (dispatch) => {
             preparations: preparations
         })
     });
-
-    console.log(response, 'response')
 
     if (response.ok) {
         const data = await response.json();

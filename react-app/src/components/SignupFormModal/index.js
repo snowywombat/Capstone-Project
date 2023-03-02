@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { signUp } from "../../store/session";
+import TextField from '@material-ui/core/TextField';
 import "./SignupForm.css";
 
 function SignupFormModal() {
@@ -44,61 +45,78 @@ function SignupFormModal() {
 						<li key={idx}>{error}</li>
 					))}
 				</ul>
-				<label>
-					First Name
-					<input
-						type="text"
+				<div className='fields'>
+					<div className='first-name-field'>
+						<TextField
+						label="First Name"
 						value={first_name}
+						variant="outlined"
+						size="small"
+						InputLabelProps={{ style: { fontSize: 12 } }}
 						onChange={(e) => setFirstName(e.target.value)}
 						required
-					/>
-				</label>
-				<label>
-					Last name
-					<input
-						type="text"
+						/>
+					</div>
+					<div className='last-name-field'>
+						<TextField
+						label="Last Name"
 						value={last_name}
+						variant="outlined"
+						size="small"
+						InputLabelProps={{ style: { fontSize: 12 } }}
 						onChange={(e) => setLastName(e.target.value)}
 						required
-					/>
-				</label>
-				<label>
-					Email
-					<input
-						type="text"
+						/>
+					</div>
+					<div className='email-signup-field'>
+						<TextField
+						label="Email"
 						value={email}
+						variant="outlined"
+						size="small"
+						InputLabelProps={{ style: { fontSize: 12 } }}
 						onChange={(e) => setEmail(e.target.value)}
 						required
-					/>
-				</label>
-				<label>
-					Username
-					<input
-						type="text"
+						/>
+					</div>
+					<div className='username-signup-field'>
+						<TextField
+						label="Username"
 						value={username}
+						variant="outlined"
+						size="small"
+						InputLabelProps={{ style: { fontSize: 12 } }}
 						onChange={(e) => setUsername(e.target.value)}
 						required
-					/>
-				</label>
-				<label>
-					Password
-					<input
+						/>
+					</div>
+					<div className='password-signup-field'>
+						<TextField
+						label="Password"
 						type="password"
 						value={password}
+						variant="outlined"
+						size="small"
+						InputLabelProps={{ style: { fontSize: 12 } }}
 						onChange={(e) => setPassword(e.target.value)}
 						required
-					/>
-				</label>
-				<label>
-					Confirm Password
-					<input
+						/>
+					</div>
+
+					<div className='confirm-password-field'>
+						<TextField
+						label="Confirm Password"
 						type="password"
 						value={confirmPassword}
+						variant="outlined"
+						size="small"
+						InputLabelProps={{ style: { fontSize: 12 } }}
 						onChange={(e) => setConfirmPassword(e.target.value)}
 						required
-					/>
-				</label>
-				<button type="submit">Sign Up</button>
+						/>
+          			</div>
+				</div>
+				<button className='signup-button' type="submit">Sign Up</button>
 			</form>
 		</>
 	);

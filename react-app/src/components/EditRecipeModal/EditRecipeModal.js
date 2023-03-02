@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { thunkEditRecipe } from "../../store/recipes";
 import { thunkDeleteRecipe } from "../../store/recipes";
@@ -10,10 +10,6 @@ import "../LoginFormModal/LoginForm.css";
 import "./EditRecipeModal.css";
 
 function EditRecipeModalForm({ recipes }) {
-
-  console.log(recipes, 'recipes')
-  console.log(recipes.name, 'name')
-  console.log(recipes.ingredients)
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -32,7 +28,7 @@ function EditRecipeModalForm({ recipes }) {
   const [preparations, setPreparations] = useState(recipes.preparation.map((item) => ({
     description: item.description,
   })),);
-  const [img_url, setImageUrl] = useState(recipes.imgUrl);
+  const [img_url, setImageUrl] = useState(recipes.img_url);
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
 
@@ -95,9 +91,9 @@ function EditRecipeModalForm({ recipes }) {
         <button type="button" onClick={() => setIngredients([
               ...ingredients,
               {
-                ingredient: "",
                 measurement_num: "",
                 measurement_type: "",
+                ingredient: "",
               },
             ])
           }
@@ -106,18 +102,6 @@ function EditRecipeModalForm({ recipes }) {
         </button>
         {ingredients.map((item, idx) => (
             <div key={idx}>
-              <label>
-                Ingredient
-                <input
-                  type="text"
-                  value={item.ingredient}
-                  onChange={(e) => {
-                    const newIngredients = [...ingredients];
-                    newIngredients[idx].ingredient = e.target.value;
-                    setIngredients(newIngredients);
-                  }}
-                />
-              </label>
               <label>
                 Amount of Measurement
                 <input
@@ -138,6 +122,18 @@ function EditRecipeModalForm({ recipes }) {
                   onChange={(e) => {
                     const newIngredients = [...ingredients];
                     newIngredients[idx].measurement_type = e.target.value;
+                    setIngredients(newIngredients);
+                  }}
+                />
+              </label>
+              <label>
+                Ingredient
+                <input
+                  type="text"
+                  value={item.ingredient}
+                  onChange={(e) => {
+                    const newIngredients = [...ingredients];
+                    newIngredients[idx].ingredient = e.target.value;
                     setIngredients(newIngredients);
                   }}
                 />

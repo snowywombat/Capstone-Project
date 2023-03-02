@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { thunkGetAllRecipes } from "../../store/recipes";
 import AllRecipeCards from "./AllRecipeCards";
@@ -9,9 +8,6 @@ const AllRecipesPage = () => {
     const dispatch = useDispatch();
     const [loadedPage, setLoadedPage] = useState(false);
     const allRecipes = useSelector(state => state.recipes)
-
-    console.log(allRecipes, 'allRecipes')
-
 
     useEffect(() => {
         dispatch(thunkGetAllRecipes()).then(() => setLoadedPage(true))

@@ -64,11 +64,11 @@ def get_recipe_detail(recipeId):
 
     recipe = {
         "id": data["id"],
-        "userId": data["user_id"],
+        "user_id": data["user_id"],
         "name": data["name"],
         "description": data["description"],
         "servingSize": data["servings_num"],
-        "imgUrl": data["img_url"],
+        "img_url": data["img_url"],
         "createdAt": data["created_at"],
         "user": {
             "id": data["user"].id,
