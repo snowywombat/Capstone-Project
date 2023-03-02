@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { thunkCreateReview } from "../../store/reviews";
@@ -16,10 +16,13 @@ function CreateReviewModalForm({ recipe }) {
   const [review, setReview] = useState("");
   const [stars, setStars] = useState("");
   const [location, setLocation] = useState("");
-  const [first_name, setFirstName ] = useState("")
-  const [last_name, setLastName ] = useState("")
+  // const [first_name, setFirstName ] = useState("")
+  // const [last_name, setLastName ] = useState("")
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
+
+  const [reviewCreated, setReviewCreated] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,29 +32,42 @@ function CreateReviewModalForm({ recipe }) {
       review,
       stars,
       location,
-      first_name,
-      last_name
+      // user: {
+      //   first_name: first_name,
+      //   last_name: last_name
+      // }
     };
 
+    console.log('body', body)
+
+
     try {
-      dispatch(thunkCreateReview(body, recipe.id))
+      await dispatch(thunkCreateReview(body, recipe.id))
         .then(() => dispatch(thunkGetSingleRecipe(recipe.id)))
         .then(() => dispatch(thunkGetAllReviews(recipe.id)))
-        .then(closeModal)
-    } catch (error) {
-      let errorObject = JSON.parse(error.message);
-      const result = errorObject.errors.map((error) => {
-        return error.split(": ")[1];
-      });
-      console.log(result, 'this is the result')
-      if (errorObject) setErrors(result);
+        .then(() => {
+          setReviewCreated(true);
+          closeModal();
+        })
+    } catch (e) {
+      const errorResponse = e.errors;
+      console.log(errorResponse, 'bye')
+      const errorMessages = errorResponse.map((error) => error);
+      setErrors(errorMessages);
     }
   };
+
+  useEffect(() => {
+    if (reviewCreated) {
+      // fetch updated data here
+      setReviewCreated(false); // reset the state variable
+    }
+  }, [reviewCreated]);
 
 
   return (
     <div className="Global-Modal-Container3">
-      <div className="Global-Modal-Header">Add a new recipe</div>
+      <div className="Global-Modal-Header">Add a new review</div>
       <form onSubmit={handleSubmit} className="Global-ModalForm-Container">
         <ul className="Global-Errors-UL">
           {errors.map((error, idx) => (
@@ -93,7 +109,7 @@ function CreateReviewModalForm({ recipe }) {
             className="Global-Modal-input"
           />
         </label>
-        <label for="first-name" className="Global-Modal-Label">
+        {/* <label for="first-name" className="Global-Modal-Label">
           <input
             type="text"
             value={first_name}
@@ -112,7 +128,7 @@ function CreateReviewModalForm({ recipe }) {
             placeholder="Last Name"
             className="Global-Modal-input"
           />
-        </label>
+        </label> */}
         <button type="submit" className="Global-SubmitButton">
           Add Review
         </button>

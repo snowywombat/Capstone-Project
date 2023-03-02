@@ -13,11 +13,15 @@ function LoginFormModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = await dispatch(login(email, password));
-    if (data) {
-      setErrors(data);
-    } else {
-        closeModal()
+    try {
+      await dispatch(login(email, password))
+        .then(() => {
+          closeModal()
+        })
+    } catch (e) {
+      const errorResponse = e.errors;
+      const errorMessages = errorResponse.map((error) => error.split(": ")[1]);
+      setErrors(errorMessages);
     }
   };
 

@@ -45,7 +45,7 @@ export const thunkGetAllReviews = (recipeId) => async (dispatch) => {
 
 
 export const thunkCreateReview = (body, recipeId) => async (dispatch) => {
-    const { review, stars, location, first_name, last_name } = body
+    const { review, stars, location } = body
     const response = await fetch(`/api/recipes/${recipeId}/reviews`, {
         method: "POST",
         headers: {
@@ -55,26 +55,27 @@ export const thunkCreateReview = (body, recipeId) => async (dispatch) => {
             review: review,
             stars: stars,
             location: location,
-            first_name: first_name,
-            last_name: last_name
         })
     });
+    console.log(response, 'response')
     if (response.ok) {
         const data = await response.json();
+        console.log(data, 'before')
         dispatch(createReview(data));
+        console.log(data, 'after')
         return data;
       } else if (response.status < 500) {
         const data = await response.json();
         if (data.errors) {
-          return data.errors;
+            throw data;
         }
       } else {
-        return ["An error occurred. Please try again."];
+            return ["An error occurred. Please try again."];
     }
 }
 
 export const thunkEditReview = (body, reviewId) => async (dispatch) => {
-    const { review, stars, location, first_name, last_name } = body
+    const { review, stars, location } = body
     const response = await fetch(`/api/reviews/${reviewId}`, {
         method: "PUT",
         headers: {
@@ -84,8 +85,6 @@ export const thunkEditReview = (body, reviewId) => async (dispatch) => {
             review: review,
             stars: stars,
             location: location,
-            first_name: first_name,
-            last_name: last_name
         })
     });
     if (response.ok) {
@@ -94,7 +93,11 @@ export const thunkEditReview = (body, reviewId) => async (dispatch) => {
         return data;
       } else if (response.status < 500) {
         const data = await response.json();
-        throw new Error(JSON.stringify(data));
+        if (data.errors) {
+            throw data;
+        }
+      } else {
+            return ["An error occurred. Please try again."];
     }
 }
 
@@ -120,7 +123,7 @@ export default function reviewReducer(state = initialState, action) {
             action.payload.Reviews.forEach(review => {
                 newState[review.id] = review;
             });
-            return { Reviews: newState };
+            return newState;
         }
         case CREATE_NEW_REVIEW: {
             const newState = Object.assign({}, state);

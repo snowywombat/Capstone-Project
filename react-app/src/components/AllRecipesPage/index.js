@@ -6,12 +6,11 @@ import AllRecipeCards from "./AllRecipeCards";
 import './AllRecipeCards.css'
 
 const AllRecipesPage = () => {
-    const { recipeId } = useParams();
     const dispatch = useDispatch();
     const [loadedPage, setLoadedPage] = useState(false);
+    const allRecipes = useSelector(state => state.recipes)
 
-    //get all recipe data via thunk
-    const allRecipes = useSelector(state => state.recipes.Recipes)
+    console.log(allRecipes, 'allRecipes')
 
 
     useEffect(() => {
@@ -28,6 +27,7 @@ const AllRecipesPage = () => {
                 <AllRecipeCards recipe={recipe} key={index} />
             ))}
             </div>
+
         </>
     )
 };

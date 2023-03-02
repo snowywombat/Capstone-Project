@@ -73,7 +73,9 @@ def get_recipe_detail(recipeId):
         "user": {
             "id": data["user"].id,
             "firstName": data["user"].first_name,
-            "lastName": data["user"].last_name
+            "lastName": data["user"].last_name,
+            "email": data["user"].email,
+            "username": data["user"].username
         },
         "kitchenware": kitchenwareData,
         "ingredients": ingredientData,
@@ -88,12 +90,88 @@ def get_recipe_detail(recipeId):
 @login_required
 def create_recipe():
     user_id = current_user.id
-
-    csrf_token = request.headers.get("Cookie").split("csrf_token=")[1]
-    print(csrf_token, 'this is the token')
-
     data = request.get_json()
 
+    name = data.get('name')
+    description = data.get('description')
+    servings_num = int(data.get('servings_num'))
+    ingredients = data.get('ingredients')
+    kitchenwares = data.get('kitchenwares')
+    preparations = data.get('preparations')
+    img_url = data.get('img_url')
+
+    errors = {}
+
+    if not name:
+        errors["name"] = "Name is required"
+    elif len(name) < 2 or len(name) > 50:
+        errors["name"] = "Name must be more than 1 and less than 50 characters"
+
+    if not description:
+        errors["description"] = "Description is required"
+    elif len(description) < 2 or len(description) > 200:
+        errors["description"] = "Description must be more than 1 and less than 200 characters"
+
+    if not servings_num:
+        errors["servings_num"] = "Serving size is required"
+    elif servings_num < 1 or servings_num > 100:
+        errors["servings_num"] = "Serving size must be between 1 and 100."
+
+    if not img_url:
+        errors["img_url"] = "Image is required"
+    elif len(img_url) < 2 or len(img_url) > 1000:
+        errors["img_url"] = "Image url must be more than 1 and less than 1, 000 characters"
+
+    if not ingredients:
+        errors["ingredients"] = "Ingredients are required"
+
+    if not kitchenwares:
+        errors["kitchenwares"] = "Things you'll need are required"
+
+    if not preparations:
+        errors["preparations"] = "Instructions are required"
+
+    for item in ingredients:
+
+        amount = float(item["measurement_num"])
+
+        if not item["ingredient"]:
+            errors["item['ingredient']"] = "Ingredient is required"
+        elif len(item["ingredient"]) < 2 or len(item["ingredient"]) > 100:
+            errors["item['ingredient']"] = "Ingredient must be more than 1 and less than 100 characters"
+
+        if not item["measurement_type"]:
+            errors["item['measurment_type]"] = "Measurement type is required"
+        elif len(item["measurement_type"]) < 2 or len(item["measurement_type"]) > 20:
+            errors["item['measurement_type]"] = "Measurement type must be more than 1 and less than 20 characters"
+
+        if not (amount):
+            errors["amount"] = "Measurement amount is required"
+        elif amount < 1.0 or amount > 10000.0:
+            errors["amount"] = "Measurement number must be less than 10, 000"
+
+    for item in kitchenwares:
+
+        if not item["name"]:
+            errors["item['name']"] = "Name of cookware is required"
+        elif len(item["name"]) < 2 or len(item["name"]) > 50:
+            errors["item['name']"] = "Name of things you'll need must be more than 1 and less than 20 characters"
+
+    for item in preparations:
+
+        if not item["description"]:
+            errors["item['description']"] = "Preparation step is required"
+        elif len(item["description"]) < 2 or len(item["description"]) > 200:
+            errors["item['description]"] = "Preparation step must be more than 1 and less than 200 characters long"
+
+
+    formatted_errors = [f"{key}: {value}" for key, value in errors.items()]
+
+    if errors:
+        return {"errors": formatted_errors}, 400
+
+
+    csrf_token = request.cookies['csrf_token']
 
     if current_user.is_authenticated:
         newRecipe = Recipe(
@@ -158,8 +236,6 @@ def create_recipe():
 
         }, 201
 
-        #Error handling
-        return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
     else:
         return jsonify(message='You are not authorized to access this resource'), 401
@@ -171,22 +247,114 @@ def create_recipe():
 def update_recipe(recipeId):
     #find recipe
     edit_recipe = db.session.query(Recipe).get(int(recipeId))
+    data = request.get_json()
+
+    name = data.get('name')
+    description = data.get('description')
+    servings_num = int(data.get('servings_num'))
+    ingredients = data.get('ingredients')
+    kitchenwares = data.get('kitchenwares')
+    preparations = data.get('preparations')
+    img_url = data.get('img_url')
+
+    errors = {}
+
+    if not name:
+        errors["name"] = "Name is required"
+    elif len(name) < 2 or len(name) > 50:
+        errors["name"] = "Name must be more than 1 and less than 50 characters"
+
+    if not description:
+        errors["description"] = "Description is required"
+    elif len(description) < 2 or len(description) > 200:
+        errors["description"] = "Description must be more than 1 and less than 200 characters"
+
+    if not servings_num:
+        errors["servings_num"] = "Serving size is required"
+    elif servings_num < 1 or servings_num > 100:
+        errors["servings_num"] = "Serving size must be between 1 and 100."
+
+    if not img_url:
+        errors["img_url"] = "Image is required"
+    elif len(img_url) < 2 or len(img_url) > 1000:
+        errors["img_url"] = "Image url must be more than 1 and less than 1, 000 characters"
+
+    if not ingredients:
+        errors["ingredients"] = "Ingredients are required"
+
+    if not kitchenwares:
+        errors["kitchenwares"] = "Things you'll need are required"
+
+    if not preparations:
+        errors["preparations"] = "Instructions are required"
+
+    for item in ingredients:
+
+        amount = float(item["measurement_num"])
+
+        if not item["ingredient"]:
+            errors["item['ingredient']"] = "Ingredient is required"
+        elif len(item["ingredient"]) < 2 or len(item["ingredient"]) > 100:
+            errors["item['ingredient']"] = "Ingredient must be more than 1 and less than 100 characters"
+
+        if not item["measurement_type"]:
+            errors["item['measurment_type]"] = "Measurement type is required"
+        elif len(item["measurement_type"]) < 2 or len(item["measurement_type"]) > 20:
+            errors["item['measurement_type]"] = "Measurement type must be more than 1 and less than 20 characters"
+
+        if not (amount):
+            errors["amount"] = "Measurement amount is required"
+        elif amount < 1.0 or amount > 10000.0:
+            errors["amount"] = "Measurement number must be less than 10, 000"
+
+    for item in kitchenwares:
+
+        if not item["name"]:
+            errors["item['name']"] = "Name of cookware is required"
+        elif len(item["name"]) < 2 or len(item["name"]) > 50:
+            errors["item['name']"] = "Name of things you'll need must be more than 1 and less than 20 characters"
+
+    for item in preparations:
+
+        if not item["description"]:
+            errors["item['description']"] = "Preparation step is required"
+        elif len(item["description"]) < 2 or len(item["description"]) > 200:
+            errors["item['description]"] = "Preparation step must be more than 1 and less than 200 characters long"
+
+
+    formatted_errors = [f"{key}: {value}" for key, value in errors.items()]
+
+    if errors:
+        return {"errors": formatted_errors}, 400
+
+
+    csrf_token = request.cookies['csrf_token']
 
     if not edit_recipe:
         return {"message": "Recipe couldn't be found"}, 404
 
     if edit_recipe.user_id != current_user.id:
-        return {'errors': ['Unauthorized']}, 401
+        return {
+            'errors': ['Unauthorized']
+        }, 401
 
-    form = EditRecipeForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        data = form.data
 
+    if current_user.is_authenticated:
         edit_recipe.name = data["name"]
         edit_recipe.description = data["description"]
         edit_recipe.servings_num = data["servings_num"]
         edit_recipe.img_url = data["img_url"]
+        for item in edit_recipe.ingredients:
+            for ele in data["ingredients"]:
+                item.ingredient = ele["ingredient"]
+                item.measurement_num = ele["measurement_num"]
+                item.measurement_type = ele["measurement_type"]
+        for item in edit_recipe.kitchenwares:
+            for ele in data["kitchenwares"]:
+                item.name = ele["name"]
+        for item in edit_recipe.preparations:
+            for ele in data["preparations"]:
+                item.description = ele["description"]
 
         db.session.commit()
 
@@ -197,10 +365,15 @@ def update_recipe(recipeId):
             "description": data["description"],
             "servings_num": data["servings_num"],
             "img_url": data["img_url"],
+            "ingredients": data["ingredients"],
+            "kitchenwares": data["kitchenwares"],
+            "preparations": data["preparations"],
             "created_at": edit_recipe.created_at
-        }
-    #Error handling
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 400
+        }, 201
+
+    else:
+        return jsonify(message='You are not authorized to access this resource'), 401
+
 
 @recipe_routes.route('/<int:recipeId>', methods=["DELETE"])
 @login_required
