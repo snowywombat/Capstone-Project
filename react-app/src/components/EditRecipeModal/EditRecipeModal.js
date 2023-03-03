@@ -22,6 +22,12 @@ function EditRecipeModalForm({ recipes }) {
     measurement_num: item.measurement_num,
     measurement_type: item.measurement_type,
   })),);
+
+  console.log(useState(recipes.ingredients.map((item) => ({
+    ingredient: item.ingredient,
+    measurement_num: item.measurement_num,
+    measurement_type: item.measurement_type,
+  })),))
   const [kitchenwares, setKitchenwares] = useState(recipes.kitchenware.map((item) => ({
     name: item.name,
   })),);
@@ -74,6 +80,7 @@ function EditRecipeModalForm({ recipes }) {
         setErrors(errorMessages);
     }
   };
+
 
   return (
     <div className="Global-Modal-Container3">

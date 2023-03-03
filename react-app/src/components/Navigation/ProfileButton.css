@@ -68,14 +68,3 @@
     top: 7px;
 
 }
-.open-modal-button {
-    display: none;
-    border: none;
-    color:pink;
-    background-color: purple;
-    border-radius: 20px;
-}
-
-.hidden {
-    display: none;
-}

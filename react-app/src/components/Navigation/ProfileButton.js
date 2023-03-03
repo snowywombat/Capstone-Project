@@ -56,7 +56,7 @@ function ProfileButton({ user }) {
         ) : (
           <>
           <div className='dropdown-buttons'>
-            <li className='open-modal-button'>
+            <li>
               <OpenModalButton
                 buttonText="Log In"
                 onItemClick={closeMenu}
@@ -65,7 +65,7 @@ function ProfileButton({ user }) {
               />
               </li>
 
-              <li className='open-modal-button'>
+              <li>
               <OpenModalButton
                 buttonText="Sign Up"
                 onItemClick={closeMenu}
@@ -73,7 +73,7 @@ function ProfileButton({ user }) {
               />
               </li>
 
-              <li className='open-modal-button'>
+              <li>
               <OpenModalButton
                 buttonText="Demo"
                 onButtonClick={closeMenu}

@@ -22,11 +22,11 @@ const SingleRecipePage = () => {
 
     useEffect(() => {
         dispatch(thunkGetSingleRecipe(recipeId))
-    }, [dispatch]);
+    }, [dispatch, recipeId]);
 
     useEffect(() => {
         dispatch(thunkGetAllReviews(recipeId))
-    }, [dispatch]);
+    }, [dispatch, recipeId]);
 
     if(!singleRecipe) {
         return <div>Loading...</div>
@@ -53,6 +53,7 @@ const SingleRecipePage = () => {
                 <div className = 'details-main'>
 
                     {recipeArr.map((recipe, index) => {
+                        console.log(recipe.kitchenware, 'recipe kitchenware')
                         const dateObj = new Date(recipe.createdAt);
                         const formattedDate = dateObj.toLocaleDateString("en-US", {
                             month: "long",
@@ -139,93 +140,102 @@ const SingleRecipePage = () => {
                                 </div>
                             </div>
 
-                            <div>
-                                {recipe.preparation && recipe.preparation.map((step, index) => (
-                                    <div key={index} className = 'item-name'>
-                                        {step.description}
-                                    </div>
-                                ))}
+
+                            <div className='preparations'>
+                                Preparations
+                                <hr className="hr-break" />
+                                <div className='preparations-ele'>
+                                    {recipe.preparation && recipe.preparation.map((step, index) => (
+                                        <div key={index} className = 'item-name'>
+                                            {step.description}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
 
 
                             <div className='reviews-section'>
-                                {reviewArr.map((review, index) => {
-                                    const dateObj = new Date(review.created_at);
-                                    const formattedDate = dateObj.toLocaleDateString("en-US", {
-                                        month: "long",
-                                        day: "numeric",
-                                        year: "numeric"
-                                    });
+                                Reviews
+                                <hr className="hr-break" />
+                                <div className='reviews-ele'>
+                                    {reviewArr.map((review, index) => {
+                                        const dateObj = new Date(review.created_at);
+                                        const formattedDate = dateObj.toLocaleDateString("en-US", {
+                                            month: "long",
+                                            day: "numeric",
+                                            year: "numeric"
+                                        });
 
-                                    return (
-                                    <>
-                                        <div className = 'review-body'>
-                                            {!modalRendered &&
-                                            <div>
-                                                {review.review}
-                                                {review.location}
-                                                {formattedDate}
-                                                {review.user && review.user.first_name}
-                                                {review.user && review.user.last_name}
-                                                </div>
-                                            }
-
-                                        </div>
-
-
-                                        <div className='review-button2'>
-                                            {!modalRendered && user && review.user_id === user.id &&
-                                                <div className = 'edit-review-button'>
-                                                <OpenModalButton
-                                                    buttonText="Edit Review"
-                                                    modalComponent={<EditReviewModalForm
-                                                        reviews={review}
-                                                        recipe = {recipe}
-                                                    />}
-                                                />
-                                                </div>
-                                            }
-
-
-                                            <div className='delete-button'>
-                                                {!modalRendered && user && review.user_id === user.id &&
-                                                    <div key = {review.id}>
-                                                        <div className='delete-review-button-div'>
-                                                            <button onClick={() => handleDelete(review.id)} type="submit" className='delete-review-button'>
-                                                                Delete Review
-                                                            </button>
-                                                        </div>
+                                        return (
+                                        <>
+                                            <div className = 'review-body'>
+                                                {!modalRendered &&
+                                                <div>
+                                                    {review.review}
+                                                    {review.location}
+                                                    {formattedDate}
+                                                    {review.user && review.user.first_name}
+                                                    {review.user && review.user.last_name}
                                                     </div>
                                                 }
+
                                             </div>
-                                        </div>
 
 
-                                    </>
-                                    )
-                                })}
+                                            <div className='review-button2'>
+                                                {!modalRendered && user && review.user_id === user.id &&
+                                                    <div className = 'edit-review-button'>
+                                                    <OpenModalButton
+                                                        buttonText="Edit Review"
+                                                        modalComponent={<EditReviewModalForm
+                                                            reviews={review}
+                                                            recipe = {recipe}
+                                                        />}
+                                                    />
+                                                    </div>
+                                                }
 
 
-                                <div className='review-button'>
-                                    {!modalRendered && !user ? (
-                                        <div className='create-review-button'>
-                                            <OpenModalButton
-                                                buttonText="Add Review"
-                                                modalComponent={<CreateReviewModalForm recipe={recipe} />}
-                                            />
-                                        </div>
-                                    ) : !modalRendered && user && recipe.user_id !== user.id ? (
-                                            <div className = 'create-review-button'>
+                                                <div className='delete-button'>
+                                                    {!modalRendered && user && review.user_id === user.id &&
+                                                        <div key = {review.id}>
+                                                            <div className='delete-review-button-div'>
+                                                                <button onClick={() => handleDelete(review.id)} type="submit" className='delete-review-button'>
+                                                                    Delete Review
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+
+
+                                        </>
+                                        )
+                                    })}
+
+
+                                    <div className='review-button'>
+                                        {!modalRendered && !user ? (
+                                            <div className='create-review-button'>
                                                 <OpenModalButton
                                                     buttonText="Add Review"
-                                                    modalComponent={<CreateReviewModalForm
-                                                        recipe={recipe}
-                                                    />}
+                                                    modalComponent={<CreateReviewModalForm recipe={recipe} />}
                                                 />
                                             </div>
-                                    ) : (
-                                        <p1></p1>
-                                    )}
+                                        ) : !modalRendered && user && recipe.user_id !== user.id ? (
+                                                <div className = 'create-review-button'>
+                                                    <OpenModalButton
+                                                        buttonText="Add Review"
+                                                        modalComponent={<CreateReviewModalForm
+                                                            recipe={recipe}
+                                                        />}
+                                                    />
+                                                </div>
+                                        ) : (
+                                            <p1></p1>
+                                        )}
+                                    </div>
                                 </div>
 
                             </div>

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { thunkCreateRecipe } from "../../store/recipes";
 import { useModal } from "../../context/Modal";
+import TextField from '@material-ui/core/TextField';
 import "../LoginFormModal/LoginForm.css";
 import "./CreateRecipeModal.css";
 
@@ -85,24 +86,28 @@ function CreateRecipeModalForm() {
         </button>
         {ingredients.map((item, idx) => (
             <div key={idx}>
-              <label>
-                Amount of Measurement
-                <input
-                  type="number"
+              <div className='measurement-field'>
+                <TextField
+                  label="Amount of Measurement"
                   value={item.measurement_num}
-                  onChange={(e) => {
-                    const newIngredients = [...ingredients];
+                  variant="outlined"
+                  size="small"
+                  InputLabelProps={{ style: { fontSize: 12 } }}
+                  onChange={(e) => { const newIngredients = [...ingredients];
                     newIngredients[idx].measurement_num= e.target.value;
                     setIngredients(newIngredients);
                   }}
+                  type='number'
                   required
                 />
-              </label>
-              <label>
-                Type of Measurement
-                <input
-                  type="text"
+              </div>
+              <div className='measurement-field'>
+                <TextField
+                  label="Type of Measurement"
                   value={item.measurement_type}
+                  variant="outlined"
+                  size="small"
+                  InputLabelProps={{ style: { fontSize: 12 } }}
                   onChange={(e) => {
                     const newIngredients = [...ingredients];
                     newIngredients[idx].measurement_type = e.target.value;
@@ -110,7 +115,7 @@ function CreateRecipeModalForm() {
                   }}
                   required
                 />
-              </label>
+              </div>
               <label>
                 Ingredient
                 <input
