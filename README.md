@@ -4,7 +4,7 @@ Shana's Kitchen is a website clone of Bon Appetit. It is a platform to post and 
 
 Live site: https://shanaskitchen.onrender.com
 
-Wiki Links:
+## Wiki Links:
 * [API Documentation](https://github.com/snowywombat/Capstone-Project/wiki/API-Routes)
 * [Database Schema](https://github.com/snowywombat/Capstone-Project/wiki/Database-Schema)
 * [Feature List](https://github.com/snowywombat/Capstone-Project/wiki/Feature-List)
