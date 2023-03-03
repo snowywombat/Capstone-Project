@@ -173,9 +173,11 @@ def create_recipe():
 
     csrf_token = request.cookies['csrf_token']
 
+    allRecipes = Recipe.query.all()
+
     if current_user.is_authenticated:
         newRecipe = Recipe(
-            name= data["name"],
+            name = data["name"],
             description = data["description"],
             servings_num = data["servings_num"],
             img_url = data['img_url'],
@@ -206,20 +208,28 @@ def create_recipe():
             )
             db.session.add(newKitchenware)
             kitchenwares.append(newKitchenware)
+
+        for item in allRecipes:
+            for item in kitchenwares:
+                id=item.id
+            db.session.add(id)
+            kitchenwares.append(id)
+
             db.session.commit()
 
 
         preparations = []
         for item in data["preparations"]:
+            print(item, 'hello')
             newPreparation = Preparation(
                 description=item["description"],
-                recipe_id = newRecipe.id
+                recipe_id = newRecipe.id,
             )
             db.session.add(newPreparation)
             preparations.append(newPreparation)
             db.session.commit()
 
-        allRecipes = Recipe.query.all()
+
 
 
         return {
@@ -349,13 +359,20 @@ def update_recipe(recipeId):
                 item.ingredient = ele["ingredient"]
                 item.measurement_num = ele["measurement_num"]
                 item.measurement_type = ele["measurement_type"]
+                # db.session.add(item)
+                # db.session.commit(item)
         for item in edit_recipe.kitchenwares:
             for ele in data["kitchenwares"]:
                 item.name = ele["name"]
+                # db.session.add(item)
+                # db.session.commit(item)
         for item in edit_recipe.preparations:
             for ele in data["preparations"]:
                 item.description = ele["description"]
+                # db.session.add(item)
+                # db.session.commit(item)
 
+        db.session.add(edit_recipe)
         db.session.commit()
 
         return {

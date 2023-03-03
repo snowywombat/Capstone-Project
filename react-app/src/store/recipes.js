@@ -1,5 +1,3 @@
-import Cookies from 'js-cookie';
-
 //Actions
 const GET_ALL_RECIPES = "recipes/get_all_recipes";
 const GET_SINGLE_RECIPE = "recipes/get_single_recipe"
@@ -70,7 +68,7 @@ export const thunkGetSingleRecipe = (recipeId) => async (dispatch) => {
 
 export const thunkCreateRecipe = (recipe) => async (dispatch) => {
     const { name, description, servings_num, img_url, ingredients, kitchenwares, preparations } = recipe;
-
+    console.log(kitchenwares, 'kitchenware in create thunk')
     const response = await fetch(`/api/recipes/`, {
         method: "POST",
         headers: {
@@ -104,6 +102,7 @@ export const thunkCreateRecipe = (recipe) => async (dispatch) => {
 
 export const thunkEditRecipe = (recipe, recipeId) => async (dispatch) => {
     const { name, description, servings_num, img_url, ingredients, kitchenwares, preparations } = recipe;
+    console.log(kitchenwares, 'kitchenware in edit thunk')
     const response = await fetch(`/api/recipes/${recipeId}`, {
         method: "PUT",
         headers: {
@@ -161,7 +160,8 @@ export default function recipeReducer(state = initialState, action) {
             return newState;
         }
         case GET_SINGLE_RECIPE: {
-            let newState = { ...state.recipes }
+            const newState = { ...state.recipes}
+            console.log(newState, 'newState')
             action.payload.Recipes.forEach(recipe => {
                 newState[recipe.id] = recipe;
             });
@@ -173,7 +173,7 @@ export default function recipeReducer(state = initialState, action) {
             return newState;
         }
         case EDIT_RECIPE: {
-            const newState = Object.assign({}, state);
+            const newState = Object.assign({}, state.recipes);
             newState[action.payload.id] = {...newState[action.payload.id], ...action.payload}
             return newState;
         }

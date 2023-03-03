@@ -83,3 +83,11 @@
   display: flex;
   padding-right: 10px;
 }
+
+.open-modal-button {
+  display:flex;
+  border: none;
+  color:black;
+  background-color: rgb(235, 195, 16);
+  border-radius: 10px;
+}

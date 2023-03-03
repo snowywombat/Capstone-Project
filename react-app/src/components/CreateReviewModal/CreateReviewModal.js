@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { thunkCreateReview } from "../../store/reviews";
 import { thunkGetAllReviews } from "../../store/reviews";
 import { thunkGetSingleRecipe } from "../../store/recipes";
+import TextField from '@material-ui/core/TextField';
 import { useModal } from "../../context/Modal";
 import "../LoginFormModal/LoginForm.css";
 import "./CreateReviewModal.css";
@@ -72,39 +73,42 @@ function CreateReviewModalForm({ recipe }) {
             </li>
           ))}
         </ul>
-        <label for="review" className="Global-Modal-Label">
-          <input
-            type="text"
+        <div className='review-field'>
+          <TextField
+            label="Your Review"
             value={review}
+            variant="outlined"
+            size="small"
+            InputLabelProps={{ style: { fontSize: 12 } }}
             onChange={(e) => setReview(e.target.value)}
             required
-            placeholder="Review"
-            className="Global-Modal-input"
           />
-        </label>
-        <label for="stars" className="Global-Modal-Label">
-          <input
-            type="number"
+        </div>
+        <div className='stars-field'>
+          <TextField
+            label="Rate this recipe 1-5 stars"
             value={stars}
+            variant="outlined"
+            size="small"
+            InputLabelProps={{ style: { fontSize: 12 } }}
             onChange={(e) => setStars(e.target.value)}
             required
-            placeholder="Stars"
-            className="Global-Modal-input"
+            type="number"
             min='1'
             max='5'
           />
-
-        </label>
-        <label for="location" className="Global-Modal-Label">
-          <input
-            type="text"
+        </div>
+        <div className='location-field'>
+          <TextField
+            label="Where are you from?"
             value={location}
+            variant="outlined"
+            size="small"
+            InputLabelProps={{ style: { fontSize: 12 } }}
             onChange={(e) => setLocation(e.target.value)}
             required
-            placeholder="Location"
-            className="Global-Modal-input"
           />
-        </label>
+        </div>
         {/* <label for="first-name" className="Global-Modal-Label">
           <input
             type="text"

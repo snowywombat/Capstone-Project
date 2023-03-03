@@ -1,5 +1,9 @@
 import React from 'react';
 import { useModal } from '../../context/Modal';
+import '.././Navigation/Navigation.css';
+import '.././Navigation/ProfileButton.css';
+
+
 
 function OpenModalButton({
   modalComponent, // component to render inside the modal
@@ -16,7 +20,7 @@ function OpenModalButton({
   };
 
   return (
-    <button onClick={onClick}>{buttonText}</button>
+    <button className='open-modal-button' onClick={onClick}>{buttonText}</button>
   );
 }
 
