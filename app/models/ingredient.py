@@ -7,7 +7,7 @@ class Ingredient(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    measurement_num = db.Column(db.Float, nullable=False)
+    measurement_num = db.Column(db.Numeric, nullable=False)
     measurement_type = db.Column(db.String(20), nullable=False)
     ingredient = db.Column(db.String(100), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('recipes.id')), nullable=False)

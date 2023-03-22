@@ -5,6 +5,7 @@ import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import AllRecipesPage from "./components/AllRecipesPage/index.js";
 import SingleRecipePage from "./components/SingleRecipePage";
+import SplashPage from "./components/SplashPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 
@@ -29,11 +30,11 @@ function App() {
           <Route exact path="/recipes/:recipeId">
             <SingleRecipePage />
           </Route>
-          <Route path="/">
-            <AllRecipesPage />
-          </Route>
           <Route path="/recipes">
             <AllRecipesPage />
+          </Route>
+          <Route path="/" exact>
+            <SplashPage />
           </Route>
         </Switch>
       )}

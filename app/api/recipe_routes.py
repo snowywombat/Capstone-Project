@@ -6,6 +6,9 @@ from app.models import Recipe, db, Review, Kitchenware, Ingredient, Preparation
 from ..forms.recipe_form import CreateRecipeForm, EditRecipeForm
 from ..forms.review_form import CreateReviewForm, EditReviewForm
 from .auth_routes import validation_errors_to_error_messages
+import uuid
+import json
+import decimal
 
 recipe_routes = Blueprint('recipe', __name__)
 
@@ -19,6 +22,28 @@ def get_all_recipes():
 
     for recipe in allRecipes:
         data = recipe.to_dict()
+
+        #get kitchenware out of recipe
+        kitchenwareData = []
+        for kitchenware in data["kitchenwares"]:
+            kitchenwareDict = kitchenware.to_dict()
+            kitchenwareDict.pop("recipe")
+            kitchenwareData.append(kitchenwareDict)
+
+        #get ingredients out of recipe
+        ingredientData = []
+        for ingredient in data["ingredients"]:
+            ingredientDict = ingredient.to_dict()
+            ingredientDict.pop("recipe")
+            ingredientData.append(ingredientDict)
+
+        #get preparation out of recipe
+        preparationData = []
+        for preparation in data["preparations"]:
+            preparationDict = preparation.to_dict()
+            preparationDict.pop("recipe")
+            preparationData.append(preparationDict)
+
         data.pop("user")
         data.pop("reviews")
         data.pop("kitchenwares")
@@ -91,6 +116,7 @@ def get_recipe_detail(recipeId):
 def create_recipe():
     user_id = current_user.id
     data = request.get_json()
+    print(data, 'pink unicorns')
 
     name = data.get('name')
     description = data.get('description')
@@ -133,7 +159,7 @@ def create_recipe():
 
     for item in ingredients:
 
-        amount = float(item["measurement_num"])
+        amount = item["measurement_num"]
 
         if not item["ingredient"]:
             errors["item['ingredient']"] = "Ingredient is required"
@@ -145,7 +171,7 @@ def create_recipe():
         elif len(item["measurement_type"]) < 2 or len(item["measurement_type"]) > 20:
             errors["item['measurement_type]"] = "Measurement type must be more than 1 and less than 20 characters"
 
-        if not (amount):
+        if amount is None:
             errors["amount"] = "Measurement amount is required"
         elif amount < 1.0 or amount > 10000.0:
             errors["amount"] = "Measurement number must be less than 10, 000"
@@ -174,18 +200,31 @@ def create_recipe():
     csrf_token = request.cookies['csrf_token']
 
     allRecipes = Recipe.query.all()
+    print(allRecipes, 'allRecipes boom')
+    allIngredients = Ingredient.query.all()
+    allKitchenwares = Kitchenware.query.all()
+    allPreparations = Preparation.query.all()
+    print(allIngredients[len(allIngredients) - 1].id)
+    print(allKitchenwares[len(allKitchenwares) - 1].id + 1)
+
+    print(data["ingredients"], 'coconut')
 
     if current_user.is_authenticated:
         newRecipe = Recipe(
             name = data["name"],
             description = data["description"],
             servings_num = data["servings_num"],
-            img_url = data['img_url'],
+            img_url = data["img_url"],
             user_id = user_id
         )
 
+        print(newRecipe, 'spotify')
+        print(newRecipe.to_dict(), 'julep')
+
         db.session.add(newRecipe)
         db.session.commit()
+
+        print(newRecipe.to_dict(), 'mint')
 
         ingredients = []
         for item in data["ingredients"]:
@@ -197,55 +236,98 @@ def create_recipe():
             )
             db.session.add(newIngredient)
             ingredients.append(newIngredient)
-            db.session.commit()
+
 
 
         kitchenwares = []
         for item in data["kitchenwares"]:
             newKitchenware = Kitchenware(
                 name=item["name"],
-                recipe_id = newRecipe.id
+                recipe_id = newRecipe.id,
             )
             db.session.add(newKitchenware)
             kitchenwares.append(newKitchenware)
 
-        for item in allRecipes:
-            for item in kitchenwares:
-                id=item.id
-            db.session.add(id)
-            kitchenwares.append(id)
-
-            db.session.commit()
 
 
         preparations = []
         for item in data["preparations"]:
-            print(item, 'hello')
             newPreparation = Preparation(
                 description=item["description"],
                 recipe_id = newRecipe.id,
             )
             db.session.add(newPreparation)
             preparations.append(newPreparation)
-            db.session.commit()
+
+        db.session.commit()
+
+        time = Recipe.query.order_by(Recipe.created_at.asc()).first().created_at
+        newRecipe.created_at = time
+
+        list(newRecipe.ingredients)
+        list(newRecipe.preparations)
+        list(newRecipe.kitchenwares)
+
+        recipe_dict = newRecipe.to_dict()
+        del recipe_dict['reviews']
+
+        recipe_dict["created_at"] = str(time)
+
+        recipe_dict["user"] = {
+            "id": newRecipe.user.id,
+            "firstName": newRecipe.user.first_name,
+            "lastName": newRecipe.user.last_name
+        }
+
+        print(recipe_dict["kitchenwares"], 'blank')
+
+        newKitchenArray = []
+
+        for item in newRecipe.kitchenwares:
+            print(item.to_dict(), 'slack')
+            item = {
+                "id": item.id,
+                "name": item.name,
+                "recipe_id": item.recipe_id
+            }
+            print(item, "cookie")
+            newKitchenArray.append(item)
 
 
+        print(newKitchenArray, "tortilla")
+        recipe_dict["kitchenwares"] = newKitchenArray
 
 
-        return {
-            "id": allRecipes[len(allRecipes)-1].id,
-            "user_id": user_id,
-            "name": data["name"],
-            "description": data["description"],
-            "servings_num": data["servings_num"],
-            "img_url": data["img_url"],
-            "created_at": allRecipes[len(allRecipes)-1].created_at,
-            "ingredient": data["ingredients"],
-            "kitchenwares": data["kitchenwares"],
-            "preparation": data["preparations"],
+        newPrepArray = []
 
-        }, 201
+        for item in newRecipe.preparations:
+            item = {
+                "id": item.id,
+                "description": item.description,
+                "recipe_id": item.recipe_id
+            }
+            newPrepArray.append(item)
 
+        recipe_dict["preparations"] = newPrepArray
+
+
+        newIngredientArray = []
+
+        for item in newRecipe.ingredients:
+            item = {
+                "id": item.id,
+                "measurement_num": float(item.measurement_num),
+                "measurement_type": item.measurement_type,
+                "ingredient": item.ingredient,
+                "recipe_id": item.recipe_id
+            }
+            newIngredientArray.append(item)
+
+
+        recipe_dict["ingredients"] = newIngredientArray
+
+
+        return json.dumps(recipe_dict)
 
     else:
         return jsonify(message='You are not authorized to access this resource'), 401
@@ -255,7 +337,6 @@ def create_recipe():
 @recipe_routes.route('/<int:recipeId>', methods=["PUT"])
 @login_required
 def update_recipe(recipeId):
-    #find recipe
     edit_recipe = db.session.query(Recipe).get(int(recipeId))
     data = request.get_json()
 
@@ -300,7 +381,7 @@ def update_recipe(recipeId):
 
     for item in ingredients:
 
-        amount = float(item["measurement_num"])
+        amount = decimal.Decimal(item["measurement_num"])
 
         if not item["ingredient"]:
             errors["item['ingredient']"] = "Ingredient is required"
@@ -312,7 +393,7 @@ def update_recipe(recipeId):
         elif len(item["measurement_type"]) < 2 or len(item["measurement_type"]) > 20:
             errors["item['measurement_type]"] = "Measurement type must be more than 1 and less than 20 characters"
 
-        if not (amount):
+        if amount is None:
             errors["amount"] = "Measurement amount is required"
         elif amount < 1.0 or amount > 10000.0:
             errors["amount"] = "Measurement number must be less than 10, 000"
@@ -348,45 +429,197 @@ def update_recipe(recipeId):
             'errors': ['Unauthorized']
         }, 401
 
+    allIngredients = Ingredient.query.all()
+    allKitchenwares = Kitchenware.query.all()
+    allPreparations = Preparation.query.all()
+
 
     if current_user.is_authenticated:
+
         edit_recipe.name = data["name"]
         edit_recipe.description = data["description"]
         edit_recipe.servings_num = data["servings_num"]
         edit_recipe.img_url = data["img_url"]
-        for item in edit_recipe.ingredients:
-            for ele in data["ingredients"]:
-                item.ingredient = ele["ingredient"]
-                item.measurement_num = ele["measurement_num"]
-                item.measurement_type = ele["measurement_type"]
-                # db.session.add(item)
-                # db.session.commit(item)
+
+        # ingredients = []
+        # for item in edit_recipe.ingredients:
+        #     for ele in data["ingredients"]:
+        #         item.ingredient = ele["ingredient"]
+        #         item.measurement_num = ele["measurement_num"]
+        #         item.measurement_type = ele["measurement_type"]
+        #     db.session.add(item)
+        #     ingredients.append(item)
+
+
+        # kitchenwares = []
+        # print(edit_recipe.kitchenwares, 'stars')
+        # for item in edit_recipe.kitchenwares:
+        #     for ele in data["kitchenwares"]:
+        #         item.name = ele["name"]
+        #     db.session.add(item)
+        #     kitchenwares.append(item)
+
+
+        ingredients = []
+        for item, ele in zip(edit_recipe.ingredients, data["ingredients"]):
+            item.ingredient = ele["ingredient"]
+            item.measurement_num = ele["measurement_num"]
+            item.measurement_type = ele["measurement_type"]
+            item.recipe_id = edit_recipe.id
+            db.session.add(item)
+            ingredients.append(item)
+        edit_recipe.ingredients = ingredients
+
+        kitchenwaresLst = []
         for item in edit_recipe.kitchenwares:
+            print(item, 'rose')
+            print(edit_recipe, 'moon')
+
             for ele in data["kitchenwares"]:
-                item.name = ele["name"]
-                # db.session.add(item)
-                # db.session.commit(item)
+                editKitchenwares = Kitchenware(
+                    name = ele["name"],
+                    recipe_id = edit_recipe.id,
+                )
+                print(editKitchenwares, 'orchid')
+                db.session.add(editKitchenwares)
+                print(editKitchenwares, 'loft')
+                kitchenwaresLst.append(editKitchenwares)
+                print(editKitchenwares, 'moft')
+
+        print(kitchenwaresLst, 'salmon')
+        edit_recipe.kitchenwares = kitchenwaresLst
+        db.session.commit()
+
+
+        # kitchenwares = []
+        # for ele in data["kitchenwares"]:
+        #     item = Kitchenware(
+        #         name = ele["name"],
+        #         recipe_id = edit_recipe.id
+        #     )
+        #     db.session.add(item)
+        #     kitchenwares.append(item)
+
+        # edit_recipe.kitchenwares = kitchenwares
+        # db.session.commit()
+
+        # print(edit_recipe.id, 'hellooo')
+
+        # kitchenwares = []
+        # for ele in data["kitchenwares"]:
+        #     # Check if a kitchenware with the same name already exists
+        #     print('haa')
+        #     existing_item = Kitchenware.query.filter_by(name=ele["name"], recipe_id=edit_recipe.id).filter(Kitchenware.id != None).first()
+        #     print(existing_item, 'kaa')
+        #     print(edit_recipe.id, 'bello')
+        #     if existing_item:
+        #         # If it exists, update its attributes
+        #         existing_item.name = ele["name"]
+        #         existing_item.recipe_id = edit_recipe.id
+        #         print(edit_recipe.id, 'mello')
+        #         db.session.add(existing_item)
+        #         if existing_item not in kitchenwares:
+        #             kitchenwares.append(existing_item)
+        #             print(edit_recipe.id, 'sello')
+        #     else:
+        #         # If it doesn't exist, create a new kitchenware object
+        #         new_item = Kitchenware(
+        #             name=ele["name"],
+        #             recipe_id=edit_recipe.id,
+        #         )
+
+        #         print(edit_recipe.id, 'jello')
+        #         db.session.add(new_item)
+        #         kitchenwares.append(new_item)
+
+        # # Update the recipe's list of kitchenwares and commit the changes
+        # edit_recipe.kitchenwares = kitchenwares
+        # db.session.commit()
+
+
+        preparations = []
+        for item, ele in zip(edit_recipe.preparations, data["preparations"]):
+            item.description = ele["description"]
+            item.recipe_id = edit_recipe.id
+            db.session.add(item)
+            preparations.append(item)
+
+        edit_recipe.preparations = preparations
+        db.session.commit()
+
+
+        time = Recipe.query.order_by(Recipe.created_at.asc()).first().created_at
+        edit_recipe.created_at = time
+
+        print(edit_recipe.to_dict(), 'bread')
+
+        recipe_dict = edit_recipe.to_dict()
+        del recipe_dict['reviews']
+        recipe_dict["created_at"] = str(time)
+
+        recipe_dict["user"] = {
+            "id": edit_recipe.user.id,
+            "firstName": edit_recipe.user.first_name,
+            "lastName": edit_recipe.user.last_name
+        }
+
+        newKitchenArray = []
+        for item in edit_recipe.kitchenwares:
+            item = {
+                "id": item.id,
+                "name": item.name,
+                "recipe_id": item.recipe_id,
+
+            }
+            newKitchenArray.append(item)
+        recipe_dict["kitchenwares"] = newKitchenArray
+
+
+        newPrepArray = []
         for item in edit_recipe.preparations:
-            for ele in data["preparations"]:
-                item.description = ele["description"]
-                # db.session.add(item)
-                # db.session.commit(item)
+            item = {
+                "id": item.id,
+                "description": item.description,
+                "recipe_id": item.recipe_id
+            }
+            newPrepArray.append(item)
+        recipe_dict["preparations"] = newPrepArray
+
+
+        newIngredientArray = []
+        for item in edit_recipe.ingredients:
+            item = {
+                "id": item.id,
+                "measurement_num": float(item.measurement_num),
+                "measurement_type": item.measurement_type,
+                "ingredient": item.ingredient,
+                "recipe_id": item.recipe_id
+            }
+            newIngredientArray.append(item)
+        recipe_dict["ingredients"] = newIngredientArray
+
 
         db.session.add(edit_recipe)
         db.session.commit()
 
-        return {
-            "id": edit_recipe.id,
-            "user_id": edit_recipe.user_id,
-            "name": data["name"],
-            "description": data["description"],
-            "servings_num": data["servings_num"],
-            "img_url": data["img_url"],
-            "ingredients": data["ingredients"],
-            "kitchenwares": data["kitchenwares"],
-            "preparations": data["preparations"],
-            "created_at": edit_recipe.created_at
-        }, 201
+        print(edit_recipe.kitchenwares, 'pineapple pudding')
+
+
+        return json.dumps(recipe_dict)
+
+
+        # return {
+        #     "id": edit_recipe.id,
+        #     "user_id": edit_recipe.user_id,
+        #     "name": data["name"],
+        #     "description": data["description"],
+        #     "servings_num": data["servings_num"],
+        #     "img_url": data["img_url"],
+        #     "ingredients": data["ingredients"],
+        #     "kitchenwares": data["kitchenwares"],
+        #     "preparations": data["preparations"],
+        #     "created_at": edit_recipe.created_at
+        # }, 201
 
     else:
         return jsonify(message='You are not authorized to access this resource'), 401
@@ -464,7 +697,12 @@ def create_review(recipeId):
         db.session.add(newReview)
         db.session.commit()
 
+        print(newReview, 'peony')
+        print(newReview.to_dict, 'daisy')
+        print(newReview.created_at, 'lilly')
+
         allReviews = Review.query.all()
+        print(allReviews, 'fern')
 
         return {
             "id": allReviews[len(allReviews)-1].id,

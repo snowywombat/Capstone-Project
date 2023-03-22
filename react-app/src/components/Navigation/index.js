@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
@@ -11,48 +10,48 @@ import './ProfileButton.css'
 function Navigation({ isLoaded }){
 	const sessionUser = useSelector(state => state.session.user);
 
-	const [modalRendered, setModalRendered] = useState(false);
-
 	return (
-	<>
-		<section className='header'>
-		<nav className='nav-bar'>
 
-			<div className='inner-nav-bar'>
-			<div className='home'>
-				<NavLink className='home-navlink' exact to="/recipes">
+		<div className='nav-container'>
+			<nav className='nav-bar'>
+				<NavLink className='home-navlink' exact to="/">
 				{/* <i className="fa-solid fa-crown" /> */}
 				<h1 className='title'>shana's kitchen</h1>
 				</NavLink>
-			</div>
-			</div>
+			</nav>
 
 			<div className='recipe-button'>
-                {!modalRendered && sessionUser && (
-                    <div className = 'create-recipe-button'>
-                        <OpenModalButton
-                            user={sessionUser}
-                            buttonText="Add Recipe"
-                            modalComponent={<CreateRecipeModalForm
-                            />}
-                        />
-                    </div>
-                )}
-            </div>
+				{sessionUser && (
+					<div className = 'create-recipe-button'>
+						<OpenModalButton
 
-			{isLoaded && (
-				<div className='profile'>
-				<ProfileButton user={sessionUser} />
-				</div>
-			)}
-		</nav>
-		</section>
-		<div className='extra-header'>
-			<div className='navigation'>
-			Recipes
+							user={sessionUser}
+							// recipe={recipe}
+							buttonText="Add Recipe"
+							modalComponent={<CreateRecipeModalForm
+							/>}
+						/>
+					</div>
+				)}
 			</div>
+
+			<div className='profile-div'>
+				{isLoaded && (
+					<div className='profile'>
+					<ProfileButton user={sessionUser} />
+					</div>
+				)}
+			</div>
+
+			<nav className='extra-header'>
+				<div className='navigation'>
+					<NavLink className='recipes-navlink' exact to="/recipes">
+						<h3 className='recipes-nav'>Recipes</h3>
+					</NavLink>
+				</div>
+			</nav>
 		</div>
-	</>
+
 	);
 }
 

@@ -1,0 +1,28 @@
+.add-button {
+    display: flex;
+    color:rgb(37, 37, 37);
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border: none;
+}
+
+.fa-circle-plus:hover {
+    color: rgb(67, 67, 67);
+}
+
+.Global-Modal-Header {
+    display: flex;
+    justify-content: center;
+    font-family: "Venturis ADF No2", 'sans-serif';
+    font-size: 40px;
+}
+
+.Global-ModalForm-Container {
+    display: flex;
+    align-items: center;
+}
+
+.recipe-text-fields {
+    font-family: "Venturis ADF No2", 'sans-serif';
+}

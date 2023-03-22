@@ -18,21 +18,26 @@ function EditRecipeModalForm({ recipes }) {
   const [description, setDescription] = useState(recipes.description);
   const [servings_num, setServingsNum] = useState(recipes.servingSize);
   const [ingredients, setIngredients] = useState(recipes.ingredients.map((item) => ({
+    id: item.id,
     ingredient: item.ingredient,
     measurement_num: item.measurement_num,
     measurement_type: item.measurement_type,
+    recipe_id: item.recipe_id
   })),);
-
-  console.log(useState(recipes.ingredients.map((item) => ({
-    ingredient: item.ingredient,
-    measurement_num: item.measurement_num,
-    measurement_type: item.measurement_type,
-  })),))
-  const [kitchenwares, setKitchenwares] = useState(recipes.kitchenware.map((item) => ({
+  // const [kitchenwares, setKitchenwares] = useState(recipes.kitchenware.map((item) => ({
+  //   id: item.id,
+  //   name: item.name,
+  //   recipe_id: item.recipe_id
+  // })),);
+  const [kitchenwares, setKitchenwares] = useState(recipes.kitchenware ? recipes.kitchenware.map((item) => ({
+    id: item.id,
     name: item.name,
-  })),);
+    recipe_id: item.recipe_id
+  })) : []);
   const [preparations, setPreparations] = useState(recipes.preparation.map((item) => ({
+    id: item.id,
     description: item.description,
+    recipe_id: item.recipe_id
   })),);
   const [img_url, setImageUrl] = useState(recipes.img_url);
   const [errors, setErrors] = useState([]);
@@ -56,15 +61,21 @@ function EditRecipeModalForm({ recipes }) {
       servings_num,
       img_url,
       ingredients: ingredients.map((item) => ({
+        id: item.id ,
         ingredient: item.ingredient,
         measurement_num: item.measurement_num,
         measurement_type: item.measurement_type,
+        recipe_id: recipes.id
       })),
       kitchenwares: kitchenwares.map((item) => ({
+        // id: item.id,
         name: item.name,
+        // recipe_id: recipes.id
       })),
       preparations: preparations.map((item) => ({
+        id: item.id,
         description: item.description,
+        recipe_id: recipes.id
       })),
     };
 
@@ -149,29 +160,30 @@ function EditRecipeModalForm({ recipes }) {
         ))}
 
         <button type="button" onClick={() => setKitchenwares([
-              ...kitchenwares,
-              {
+            ...kitchenwares,
+            {
+                id: Date.now(),
                 name: "",
-              },
-            ])
-          }
-        >
-          Add Things You'll Need
+                recipe_id: recipes.id
+            },
+        ])}>
+            Add Things You'll Need
         </button>
+
         {kitchenwares.map((item, idx) => (
-            <div key={idx} className="kitchenwares">
-              <label>
-                Things You'll Need
-                <input
-                  type="text"
-                  value={item.name}
-                  onChange={(e) => {
-                    const newKitchenwares = [...kitchenwares];
-                    newKitchenwares[idx].name = e.target.value;
-                    setKitchenwares(newKitchenwares);
-                  }}
-                />
-              </label>
+            <div key={item.id} className="kitchenwares">
+              Things You'll Need
+              <input
+                key={item.id}
+                type="text"
+                value={item.name}
+                onChange={(e) => {
+                  const newKitchenwares = [...kitchenwares];
+                  newKitchenwares[idx] = { ...newKitchenwares[idx], name: e.target.value };
+                  setKitchenwares(newKitchenwares);
+                }}
+              />
+
             </div>
         ))}
 

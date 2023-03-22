@@ -1,0 +1,143 @@
+.SplashPage-Body-Text{
+    box-sizing: border-box;
+    width: 50%;
+    float: right;
+
+}
+
+.SplashPage-Image-Slides {
+    position: absolute;
+    display: flex;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.pic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    -webkit-animation: fade 54s infinite;
+    animation: fade 54s infinite;
+}
+
+#pic1 {
+    background-image: url("https://images.pexels.com/photos/1099680/pexels-photo-1099680.jpeg?auto=compress&cs=tinysrgb&w=800");
+    animation-delay: 0s;
+}
+
+#pic2 {
+    background-image: url("https://images.pexels.com/photos/323682/pexels-photo-323682.jpeg?auto=compress&cs=tinysrgb&w=800");
+    animation-delay: 9s;
+}
+
+#pic3 {
+    background-image: url("https://images.pexels.com/photos/2664216/pexels-photo-2664216.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+    animation-delay: 18s;
+}
+
+#pic4 {
+    background-image: url("https://images.pexels.com/photos/1832016/pexels-photo-1832016.jpeg?auto=compress&cs=tinysrgb&w=800");
+    animation-delay: 27s;
+}
+
+#pic5 {
+    background-image: url("https://images.pexels.com/photos/2067396/pexels-photo-2067396.jpeg?auto=compress&cs=tinysrgb&w=800");
+    animation-delay: 36s;
+}
+
+#pic6 {
+    background-image: url("https://images.pexels.com/photos/2114062/pexels-photo-2114062.jpeg?auto=compress&cs=tinysrgb&w=800");
+    animation-delay: 45s;
+}
+
+#pic7 {
+    background-image: url("https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=800");
+    animation-delay: 54s;
+}
+
+#pic8 {
+    background-image: url("https://images.pexels.com/photos/718742/pexels-photo-718742.jpeg?auto=compress&cs=tinysrgb&w=800");
+    animation-delay: 63s;
+}
+
+#pic9 {
+    background-image: url("https://images.pexels.com/photos/434258/pexels-photo-434258.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+    animation-delay: 72s;
+}
+
+#pic10 {
+    background-image: url("https://images.pexels.com/photos/2122294/pexels-photo-2122294.jpeg?auto=compress&cs=tinysrgb&w=800");
+    animation-delay: 81s;
+}
+
+@-webkit-keyframes fade {
+    0% {
+        opacity: 1;
+    }
+    15% {
+        opacity:  1;
+    }
+    25% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    90% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes fade {
+    0% {
+        opacity: 1;
+    }
+    15% {
+        opacity:  1;
+    }
+    25% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    90% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.splashpage-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.open-modal-button-splashpage{
+    display: flex;
+    border: none;
+    align-items: center;
+    background-color: black;
+    color:white;
+    font-size: 15px;
+    cursor: pointer;
+    width: 90%;
+    height: 55px;
+
+}
+
+button {
+    display: flex;
+    border: none;
+    justify-content: center;
+    background-color: white;
+}

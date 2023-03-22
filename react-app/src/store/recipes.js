@@ -68,7 +68,6 @@ export const thunkGetSingleRecipe = (recipeId) => async (dispatch) => {
 
 export const thunkCreateRecipe = (recipe) => async (dispatch) => {
     const { name, description, servings_num, img_url, ingredients, kitchenwares, preparations } = recipe;
-    console.log(kitchenwares, 'kitchenware in create thunk')
     const response = await fetch(`/api/recipes/`, {
         method: "POST",
         headers: {
@@ -85,14 +84,16 @@ export const thunkCreateRecipe = (recipe) => async (dispatch) => {
         })
     });
 
-
     if (response.ok) {
         const data = await response.json();
+        console.log(data, 'lily')
         dispatch(createRecipe(data));
+        console.log(data, 'rose')
+        console.log(data['errors'], 'elephant')
         return data;
     }   else if (response.status < 500) {
         const data = await response.json();
-        if (data.errors) {
+        if (data["errors"]) {
             throw data;
         }
       } else {
@@ -120,8 +121,10 @@ export const thunkEditRecipe = (recipe, recipeId) => async (dispatch) => {
     });
 
     if (response.ok) {
+        console.log('hi')
         const data = await response.json();
         dispatch(editRecipe(data));
+        console.log(data, 'sparkle pants')
         return data;
     }   else if (response.status < 500) {
         const data = await response.json();
@@ -153,19 +156,19 @@ export default function recipeReducer(state = initialState, action) {
     // let newState;
     switch (action.type) {
         case GET_ALL_RECIPES: {
-            const newState = {...state};
+            const newState = {};
             action.payload.Recipes.forEach(recipe => {
                 newState[recipe.id] = recipe;
             });
             return newState;
         }
         case GET_SINGLE_RECIPE: {
-            const newState = { ...state.recipes}
-            console.log(newState, 'newState')
-            action.payload.Recipes.forEach(recipe => {
-                newState[recipe.id] = recipe;
-            });
-            return newState;
+            // const newState = Object.assign({}, state);
+            // action.payload.Recipes.forEach(recipe => {
+            //     newState[recipe.id] = recipe;
+            // });
+            // return newState;
+            return { ...state.recipes, recipeDetails: action.payload };
         }
         case CREATE_NEW_RECIPE: {
             const newState = Object.assign({}, state);
