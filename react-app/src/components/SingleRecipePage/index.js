@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
@@ -13,12 +13,11 @@ const SingleRecipePage = () => {
     const { recipeId } = useParams();
     const dispatch = useDispatch();
 
-    const singleRecipe = useSelector(state => state.recipes);
+    const singleRecipe = useSelector(state => state.recipes.recipeDetails);
     const allReviews = useSelector(state => state.reviews);
     const user = useSelector(state => state.session.user);
 
-    const [modalRendered, setModalRendered] = useState(false);
-
+    console.log(singleRecipe, 'singleRecipe in component')
 
     useEffect(() => {
         dispatch(thunkGetSingleRecipe(recipeId))
@@ -53,7 +52,6 @@ const SingleRecipePage = () => {
                 <div className = 'details-main'>
 
                     {recipeArr.map((recipe, index) => {
-                        console.log(recipe.kitchenware, 'recipe kitchenware')
                         const dateObj = new Date(recipe.createdAt);
                         const formattedDate = dateObj.toLocaleDateString("en-US", {
                             month: "long",
@@ -65,7 +63,7 @@ const SingleRecipePage = () => {
 
                         <>
                         <div className='recipe-button'>
-                        {!modalRendered && user && recipe.user_id === user.id && (
+                        {user && recipe.user_id === user.id && (
                             <div className = 'edit-recipe-button'>
                                 <OpenModalButton
                                     buttonText="Edit Recipe"
@@ -116,17 +114,18 @@ const SingleRecipePage = () => {
                                 Ingredients
                                 <hr className="hr-break" />
                                 <div className='ingredients-ele'>
+
                                     <div className='servings'>
                                         {recipe.servingSize} servings
                                     </div>
 
                                     <div className = 'ingredient-field'>
                                         {recipe.ingredients && recipe.ingredients.map((item, index) => (
-                                            <div key={index} className = 'ingredient-n'>
-                                                {item.measurement_num}
+                                            <div key={index} className = 'ingredients-ele'>
+                                                {parseFloat(item.measurement_num).toFixed(0)} {item.measurement_type} {item.ingredient}
                                             </div>
                                         ))}
-                                        {recipe.ingredients && recipe.ingredients.map((item, index) => (
+                                        {/* {recipe.ingredients && recipe.ingredients.map((item, index) => (
                                             <div key={index} className = 'ingredient-t'>
                                                 {item.measurement_type}
                                             </div>
@@ -135,7 +134,7 @@ const SingleRecipePage = () => {
                                             <div key={index} className = 'ingredient-i'>
                                                 {item.ingredient}
                                             </div>
-                                        ))}
+                                        ))} */}
                                     </div>
                                 </div>
                             </div>
@@ -169,7 +168,7 @@ const SingleRecipePage = () => {
                                         return (
                                         <>
                                             <div className = 'review-body'>
-                                                {!modalRendered &&
+
                                                 <div>
                                                     {review.review}
                                                     {review.location}
@@ -177,13 +176,13 @@ const SingleRecipePage = () => {
                                                     {review.user && review.user.first_name}
                                                     {review.user && review.user.last_name}
                                                     </div>
-                                                }
+
 
                                             </div>
 
 
                                             <div className='review-button2'>
-                                                {!modalRendered && user && review.user_id === user.id &&
+                                                {user && review.user_id === user.id &&
                                                     <div className = 'edit-review-button'>
                                                     <OpenModalButton
                                                         buttonText="Edit Review"
@@ -197,7 +196,7 @@ const SingleRecipePage = () => {
 
 
                                                 <div className='delete-button'>
-                                                    {!modalRendered && user && review.user_id === user.id &&
+                                                    {user && review.user_id === user.id &&
                                                         <div key = {review.id}>
                                                             <div className='delete-review-button-div'>
                                                                 <button onClick={() => handleDelete(review.id)} type="submit" className='delete-review-button'>
@@ -216,14 +215,14 @@ const SingleRecipePage = () => {
 
 
                                     <div className='review-button'>
-                                        {!modalRendered && !user ? (
+                                        {!user ? (
                                             <div className='create-review-button'>
                                                 <OpenModalButton
                                                     buttonText="Add Review"
                                                     modalComponent={<CreateReviewModalForm recipe={recipe} />}
                                                 />
                                             </div>
-                                        ) : !modalRendered && user && recipe.user_id !== user.id ? (
+                                        ) : user && recipe.user_id !== user.id ? (
                                                 <div className = 'create-review-button'>
                                                     <OpenModalButton
                                                         buttonText="Add Review"
@@ -233,7 +232,7 @@ const SingleRecipePage = () => {
                                                     />
                                                 </div>
                                         ) : (
-                                            <p1></p1>
+                                            "hello"
                                         )}
                                     </div>
                                 </div>

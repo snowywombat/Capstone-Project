@@ -16,8 +16,6 @@ function CreateReviewModalForm({ recipe }) {
   const [review, setReview] = useState("");
   const [stars, setStars] = useState("");
   const [location, setLocation] = useState("");
-  // const [first_name, setFirstName ] = useState("")
-  // const [last_name, setLastName ] = useState("")
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
 
@@ -32,10 +30,6 @@ function CreateReviewModalForm({ recipe }) {
       review,
       stars,
       location,
-      // user: {
-      //   first_name: first_name,
-      //   last_name: last_name
-      // }
     };
 
 
@@ -109,26 +103,6 @@ function CreateReviewModalForm({ recipe }) {
             required
           />
         </div>
-        {/* <label for="first-name" className="Global-Modal-Label">
-          <input
-            type="text"
-            value={first_name}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-            placeholder="First Name"
-            className="Global-Modal-input"
-          />
-        </label>
-        <label for="last-name" className="Global-Modal-Label">
-          <input
-            type="text"
-            value={last_name}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-            placeholder="Last Name"
-            className="Global-Modal-input"
-          />
-        </label> */}
         <button type="submit" className="Global-SubmitButton">
           Add Review
         </button>

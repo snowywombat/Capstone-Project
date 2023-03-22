@@ -32,6 +32,7 @@ export const thunkGetAllReviews = (recipeId) => async (dispatch) => {
     if(response.ok) {
         const data = await response.json();
         dispatch(getAllReviews(data));
+        console.log(data, 'eyeballs')
         return data;
     } else if (response.status < 500) {
         const data = await response.json();
@@ -60,6 +61,7 @@ export const thunkCreateReview = (body, recipeId) => async (dispatch) => {
     if (response.ok) {
         const data = await response.json();
         dispatch(createReview(data));
+        console.log(data.errors, 'happy')
         return data;
       } else if (response.status < 500) {
         const data = await response.json();
@@ -114,12 +116,14 @@ export const thunkDeleteReview = (reviewId) => async (dispatch) => {
 //Reducers
 const initialState = {};
 export default function reviewReducer(state = initialState, action) {
+    console.log('reviewReducer - previous state:', state);
     switch (action.type) {
         case GET_ALL_REVIEWS: {
-            const newState = {...state};
+            const newState = {};
             action.payload.Reviews.forEach(review => {
                 newState[review.id] = review;
             });
+            console.log('reviewReducer - new state:', newState);
             return newState;
         }
         case CREATE_NEW_REVIEW: {

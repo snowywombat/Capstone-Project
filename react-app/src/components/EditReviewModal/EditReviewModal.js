@@ -16,8 +16,6 @@ function EditReviewModalForm({ reviews, recipe }) {
     const [review, setReview] = useState(reviews.review);
     const [stars, setStars] = useState(reviews.stars);
     const [location, setLocation] = useState(reviews.location);
-    // const [first_name, setFirstName ] = useState(reviews.user.first_name)
-    // const [last_name, setLastName ] = useState(reviews.user.last_name)
     const [errors, setErrors] = useState([]);
     const { closeModal } = useModal();
 
@@ -31,10 +29,6 @@ function EditReviewModalForm({ reviews, recipe }) {
         review,
         stars,
         location,
-        // user: {
-        //   first_name: first_name,
-        //   last_name: last_name
-        // }
     };
 
     try {
@@ -106,25 +100,6 @@ function EditReviewModalForm({ reviews, recipe }) {
                 required
               />
             </div>
-
-            {/* <label for="first-name" className="Global-Modal-Label">
-              <input
-                type="text"
-                value={first_name}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-                className="Global-Modal-input"
-              />
-            </label>
-            <label for="last-name" className="Global-Modal-Label">
-              <input
-                type="text"
-                value={last_name}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-                className="Global-Modal-input"
-              />
-            </label> */}
             <button type="submit" className="Global-SubmitButton">
               Edit Review
             </button>

@@ -1,12 +1,15 @@
 import React from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { thunkCreateRecipe } from "../../store/recipes";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import { thunkCreateRecipe, thunkGetSingleRecipe } from "../../store/recipes";
+import { thunkGetAllReviews } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import "../LoginFormModal/LoginForm.css";
 import "./CreateRecipeModal.css";
+import { v4 as uuidv4 } from 'uuid';
+import SingleRecipePage from "../SingleRecipePage";
 
 function CreateRecipeModalForm() {
 
@@ -16,9 +19,9 @@ function CreateRecipeModalForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [servings_num, setServingsNum] = useState("");
-  const [ingredients, setIngredients] = useState([]);
+  const [ingredients, setIngredients] = useState([])
   const [kitchenwares, setKitchenwares] = useState([]);
-  const [preparations, setPreparations] = useState([]);
+  const [preparations, setPreparations] = useState([])
   const [img_url, setImageUrl] = useState("");
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
@@ -33,28 +36,39 @@ function CreateRecipeModalForm() {
       servings_num,
       img_url,
       ingredients: ingredients.map((item) => ({
+        id: item.id,
         ingredient: item.ingredient,
-        measurement_num: item.measurement_num,
+        measurement_num: parseInt(item.measurement_num),
         measurement_type: item.measurement_type,
+        recipe_id: item.recipe_id
       })),
       kitchenwares: kitchenwares.map((item) => ({
+        // id: item.id,
         name: item.name,
+        // recipe_id: item.recipe_id
+
       })),
       preparations: preparations.map((item) => ({
+        id: item.id,
         description: item.description,
+        recipe_id: item.recipe_id
       })),
     };
+
+    console.log(body, 'edit body')
 
     try {
       await dispatch(thunkCreateRecipe(body))
       .then((data) => {
+          dispatch(thunkGetSingleRecipe(data.id))
+          dispatch(thunkGetAllReviews(data.id))
           closeModal()
           history.push(`/recipes/${data.id}`)
-          history.go(0)
       })
     } catch (e) {
       const errorResponse = e.errors;
-      const errorMessages = errorResponse.map((error) => error);
+      console.log(errorResponse, 'fish')
+      const errorMessages = errorResponse.map((error) => error.split(": ")[1]);
       setErrors(errorMessages);
     }
   };
@@ -71,8 +85,10 @@ function CreateRecipeModalForm() {
           ))}
         </ul>
 
-
-        <button type="button" onClick={() => setIngredients([
+        <div className='ingredient-name'>
+          Add Ingredient
+        </div>
+        <button type="button" className='add-button' onClick={() => setIngredients([
               ...ingredients,
               {
                 measurement_num: "",
@@ -82,40 +98,43 @@ function CreateRecipeModalForm() {
             ])
           }
         >
-          Add Ingredient
+          <i class="fa-solid fa-circle-plus" style={{fontSize: 25}}></i>
         </button>
+
         {ingredients.map((item, idx) => (
             <div key={idx}>
-              <div className='measurement-field'>
-                <TextField
-                  label="Amount of Measurement"
-                  value={item.measurement_num}
-                  variant="outlined"
-                  size="small"
-                  InputLabelProps={{ style: { fontSize: 12 } }}
-                  onChange={(e) => { const newIngredients = [...ingredients];
-                    newIngredients[idx].measurement_num= e.target.value;
-                    setIngredients(newIngredients);
-                  }}
-                  type='number'
-                  required
-                />
+
+              <div className='recipe-text-fields'>
+                <label>
+                  Measurement Amount
+                  <input
+                    value={item.measurement_num}
+                    onChange={(e) => { const newIngredients = [...ingredients];
+                      newIngredients[idx].measurement_num= e.target.value;
+                      setIngredients(newIngredients);
+                    }}
+                    type="number"
+                    required
+                  />
+                </label>
               </div>
-              <div className='measurement-field'>
-                <TextField
-                  label="Type of Measurement"
-                  value={item.measurement_type}
-                  variant="outlined"
-                  size="small"
-                  InputLabelProps={{ style: { fontSize: 12 } }}
-                  onChange={(e) => {
-                    const newIngredients = [...ingredients];
-                    newIngredients[idx].measurement_type = e.target.value;
-                    setIngredients(newIngredients);
-                  }}
-                  required
-                />
+
+              <div className='recipe-text-fields'>
+                <label>
+                  Meaurement Type
+                  <input
+                    value={item.measurement_type}
+                    onChange={(e) => {
+                      const newIngredients = [...ingredients];
+                      newIngredients[idx].measurement_type = e.target.value;
+                      setIngredients(newIngredients);
+                    }}
+                    required
+                  />
+                </label>
               </div>
+
+              <div className='recipe-text-fields'>
               <label>
                 Ingredient
                 <input
@@ -129,10 +148,15 @@ function CreateRecipeModalForm() {
                   required
                 />
               </label>
+              </div>
+
             </div>
         ))}
 
-        <button type="button" onClick={() => setKitchenwares([
+        <div className='kitchenware-name'>
+          Add Things You'll Need
+        </div>
+        <button type="button" className='add-button' onClick={() => setKitchenwares([
               ...kitchenwares,
               {
                 name: "",
@@ -140,12 +164,12 @@ function CreateRecipeModalForm() {
             ])
           }
         >
-          Add Things You'll Need
+          <i class="fa-solid fa-circle-plus" style={{fontSize: 25}}></i>
         </button>
         {kitchenwares.map((item, idx) => (
-            <div key={idx} className="kitchenwares">
+            <div key={idx} className="recipe-text-fields">
               <label>
-                Things You'll Need
+                Kitchen Item
                 <input
                   type="text"
                   value={item.name}
@@ -160,8 +184,10 @@ function CreateRecipeModalForm() {
             </div>
         ))}
 
-
-        <button type="button" onClick={() => setPreparations([
+        <div className='preparation-name'>
+          Add Instuctions
+        </div>
+        <button type="button" className='add-button' onClick={() => setPreparations([
               ...preparations,
               {
                 description: "",
@@ -169,12 +195,12 @@ function CreateRecipeModalForm() {
             ])
           }
         >
-          Add Instuctions
+          <i class="fa-solid fa-circle-plus" style={{fontSize: 25}}></i>
         </button>
         {preparations.map((item, idx) => (
-          <div key={idx} className="preparations">
+          <div key={idx} className="recipe-text-fields">
             <label>
-              Instructions
+              Step {idx + 1}
               <input
                 type="text"
                 value={item.description}
@@ -190,42 +216,46 @@ function CreateRecipeModalForm() {
         ))}
 
         <label for="name" className="Global-Modal-Label">
+          Name
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            placeholder="Name"
+            // placeholder="Name"
             className="Global-Modal-input"
           />
         </label>
         <label for="description" className="Global-Modal-Label">
+          Description
           <textarea
             type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
-            placeholder="Description"
+            // placeholder="Description"
             className="Global-Modal-input"
           ></textarea>
         </label>
         <label for="serving_num" className="Global-Modal-Label">
+          Serving Size
           <input
             type="number"
             value={servings_num}
             onChange={(e) => setServingsNum(e.target.value)}
             required
-            placeholder="Serving Size"
+            // placeholder="Serving Size"
             className="Global-Modal-input"
           />
         </label>
         <label for="img_url" className="Global-Modal-Label">
+          Upload Image
           <input
             type="text"
             value={img_url}
             onChange={(e) => setImageUrl(e.target.value)}
             required
-            placeholder="Image"
+            // placeholder="Image"
             className="Global-Modal-input"
           />
         </label>

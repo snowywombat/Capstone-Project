@@ -5,7 +5,7 @@ import '.././Navigation/ProfileButton.css';
 
 
 
-function OpenModalButton({
+function OpenModalButtonSplashPage({
   modalComponent, // component to render inside the modal
   buttonText, // text of the button that opens the modal
   onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
@@ -21,9 +21,9 @@ function OpenModalButton({
 
   return (
     <>
-    <button onClick={onClick} className='open-modal-button'>{buttonText}</button>
+    <button onClick={onClick} className='open-modal-button-splashpage'>{buttonText}</button>
     </>
   );
 }
 
-export default OpenModalButton;
+export default OpenModalButtonSplashPage;

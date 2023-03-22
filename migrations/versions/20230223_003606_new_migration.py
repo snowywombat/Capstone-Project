@@ -42,7 +42,7 @@ def upgrade():
     )
     op.create_table('ingredients',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('measurement_num', sa.Float(), nullable=False),
+    sa.Column('measurement_num', sa.Numeric(), nullable=False),
     sa.Column('measurement_type', sa.String(length=20), nullable=False),
     sa.Column('ingredient', sa.String(length=100), nullable=False),
     sa.Column('recipe_id', sa.Integer(), nullable=False),

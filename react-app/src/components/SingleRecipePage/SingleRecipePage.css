@@ -89,7 +89,7 @@
 
 .ingredient-field {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .preparations{
