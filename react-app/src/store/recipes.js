@@ -168,7 +168,7 @@ export default function recipeReducer(state = initialState, action) {
             //     newState[recipe.id] = recipe;
             // });
             // return newState;
-            return { ...state.recipes, recipeDetails: action.payload };
+            return { ...state, recipeDetails: action.payload.Recipes };
         }
         case CREATE_NEW_RECIPE: {
             const newState = Object.assign({}, state);

@@ -13,7 +13,7 @@ const SingleRecipePage = () => {
     const { recipeId } = useParams();
     const dispatch = useDispatch();
 
-    const singleRecipe = useSelector(state => state.recipes.recipeDetails[recipeId]);
+    const singleRecipe = useSelector(state => state.recipes.recipeDetails);
     const allReviews = useSelector(state => state.reviews);
     const user = useSelector(state => state.session.user);
 
@@ -27,9 +27,9 @@ const SingleRecipePage = () => {
         dispatch(thunkGetAllReviews(recipeId))
     }, [dispatch, recipeId]);
 
-    // if(!singleRecipe) {
-    //     return <div>Loading...</div>
-    // }
+    if(!singleRecipe) {
+        return <div>Loading...</div>
+    }
 
     if(!allReviews)  {
         return <div>Loading...</div>
