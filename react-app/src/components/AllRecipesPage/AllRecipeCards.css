@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 
-.AllRecipes-Container {
+/* .AllRecipes-Container {
   width: 95%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -12,20 +12,37 @@
   top: 15px;
   grid-auto-flow: dense;
   justify-items: center;
+} */
+
+.AllRecipes-Container {
+  box-sizing: border-box;
+  width: 95%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  position: relative;
+  top: 50px;
+  margin: 0 auto;
+}
+
+.recipe-card-nav-link {
+  height: 100%;
+  width: 100%;
 }
 
 .card-holder {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 17px 17px 0;
-
+  width: 100%;
+  height: 100%;
+  /* margin: 0 17px 17px 0; */
 }
 
 .recipe-images {
   display: flex;
-  height: 200px;
-  width: 385.4px;
+  height: 80%;
+  width: 100%;
   object-fit: cover;
 }
 
@@ -34,7 +51,7 @@
   flex-direction: column;
   color: black;
   font-family: "Venturis ADF No2", 'sans-serif';
-  width: 385.4px;
+  width: 100%;
 
 }
 
