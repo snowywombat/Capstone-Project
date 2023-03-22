@@ -470,71 +470,61 @@ def update_recipe(recipeId):
             ingredients.append(item)
         edit_recipe.ingredients = ingredients
 
-        kitchenwaresLst = []
-        for item in edit_recipe.kitchenwares:
-            print(item, 'rose')
-            print(edit_recipe, 'moon')
-
-            for ele in data["kitchenwares"]:
-                editKitchenwares = Kitchenware(
-                    name = ele["name"],
-                    recipe_id = edit_recipe.id,
-                )
-                print(editKitchenwares, 'orchid')
-                db.session.add(editKitchenwares)
-                print(editKitchenwares, 'loft')
-                kitchenwaresLst.append(editKitchenwares)
-                print(editKitchenwares, 'moft')
-
-        print(kitchenwaresLst, 'salmon')
-        edit_recipe.kitchenwares = kitchenwaresLst
-        db.session.commit()
-
-
-        # kitchenwares = []
-        # for ele in data["kitchenwares"]:
-        #     item = Kitchenware(
-        #         name = ele["name"],
-        #         recipe_id = edit_recipe.id
-        #     )
-        #     db.session.add(item)
-        #     kitchenwares.append(item)
-
-        # edit_recipe.kitchenwares = kitchenwares
-        # db.session.commit()
-
-        # print(edit_recipe.id, 'hellooo')
-
-        # kitchenwares = []
-        # for ele in data["kitchenwares"]:
-        #     # Check if a kitchenware with the same name already exists
-        #     print('haa')
-        #     existing_item = Kitchenware.query.filter_by(name=ele["name"], recipe_id=edit_recipe.id).filter(Kitchenware.id != None).first()
-        #     print(existing_item, 'kaa')
-        #     print(edit_recipe.id, 'bello')
-        #     if existing_item:
-        #         # If it exists, update its attributes
-        #         existing_item.name = ele["name"]
-        #         existing_item.recipe_id = edit_recipe.id
-        #         print(edit_recipe.id, 'mello')
-        #         db.session.add(existing_item)
-        #         if existing_item not in kitchenwares:
-        #             kitchenwares.append(existing_item)
-        #             print(edit_recipe.id, 'sello')
-        #     else:
-        #         # If it doesn't exist, create a new kitchenware object
-        #         new_item = Kitchenware(
-        #             name=ele["name"],
-        #             recipe_id=edit_recipe.id,
+        # kitchenwaresLst = []
+        # for item in edit_recipe.kitchenwares:
+        #     for ele in data["kitchenwares"]:
+        #         editKitchenwares = Kitchenware(
+        #             name = ele["name"],
+        #             recipe_id = edit_recipe.id,
         #         )
 
-        #         print(edit_recipe.id, 'jello')
-        #         db.session.add(new_item)
-        #         kitchenwares.append(new_item)
+        #         db.session.add(editKitchenwares)
+        #         kitchenwaresLst.append(editKitchenwares)
 
-        # # Update the recipe's list of kitchenwares and commit the changes
-        # edit_recipe.kitchenwares = kitchenwares
+
+        # edit_recipe.kitchenwares = kitchenwaresLst
         # db.session.commit()
+
+
+        kitchenwares = []
+        for ele in data["kitchenwares"]:
+            print(ele, 'ele in kitchenwares')
+            # Check if a kitchenware with same name already exists
+            existing_item = Kitchenware.query.filter_by(name=ele["name"], recipe_id=edit_recipe.id).filter(Kitchenware.id != None).first()
+            if existing_item:
+                print('it is hitting the if statement')
+                print(existing_item.id, 'id')
+                print(existing_item.name, 'existing item name')
+                print(existing_item.recipe_id, 'recipe_id')
+                # If exists, update its info
+                existing_item.name = ele["name"]
+                existing_item.recipe_id = edit_recipe.id
+                db.session.add(existing_item)
+                print(existing_item.id, 'id1')
+                print(existing_item.name, 'name1')
+                print(existing_item.recipe_id, 'recipe_id1')
+
+            else:
+                # If it doesn't exist, add new kitchenware
+                print('it is hitting the else statement')
+                new_item = Kitchenware(
+                    name=ele["name"],
+                    recipe_id=edit_recipe.id,
+                )
+
+                db.session.add(new_item)
+                kitchenwares.append(new_item)
+                db.session.commit()
+
+        # Update kitchenwares and commit
+        print(kitchenwares, 'the kitchenwares list')
+        edit_recipe.kitchenwares = kitchenwares
+        for item in kitchenwares:
+            print(item, 'this is the item')
+            print(item.to_dict(), 'view item')
+
+        print(edit_recipe.kitchenwares, 'edit recipe kitchenwares')
+        db.session.commit()
 
 
         preparations = []
