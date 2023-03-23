@@ -1,9 +1,9 @@
 .profile-button {
     display: flex;
     justify-content: flex-end;
-    width: 100%;
+    width: 98%;
     height: 100%;
-    margin-right: 25px;
+    margin-bottom: 5px;
     background-color: black;
     border: none;
     color: rgb(235, 195, 16);
@@ -15,60 +15,43 @@
     cursor: pointer;
 }
 
+
 .profile-dropdown {
     display: flex;
     flex-direction: column;
     align-items: center;
     list-style: none;
-    background: black;
-    color: white;
+    background: white;
+    color: black;
+    border: 1px solid black;
     font-size: 20px;
-    width: 110px;
-    height: 150px;
+    width: 200px;
+    height: 80px;
     border-radius: 5px;
     position: absolute;
-    top: 23px;
+    top: 65.5px;
     right: 25px;
     z-index: 1;
 }
 
+
 .profile-dropdown li {
     display: flex;
-    font-size: 15px;
+    font-size: 17px;
     font-family: "Venturis ADF No2", 'sans-serif';
     position: relative;
     top: 5px;
     right: 25px;
 }
 
-.dropdown-buttons {
-    display:flex;
-    flex-direction: column;
-    padding-left: 10.2px;
-    border: none;
-}
-
-.logged-in-dropdown-elements {
-    font-family: 'Montserrat semibold', 'sans-serif';
-}
-
-.dropdown-logout {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    font-size: 8px;
-    background: rgb(249, 56, 72);
-    color: white;
-    width: 60px;
-    height: 20px;
-    border: 0.5px solid rgb(161, 161, 161);
-    border-radius: 12px;
-    top: 7px;
-}
-
 .hidden {
     display: none;
 
+}
+
+.logout-button{
+    background-color: rgb(250, 59, 59);
+    color: white;
+    cursor: pointer;
+    margin-top: 8px;
 }

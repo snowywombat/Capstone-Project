@@ -27,24 +27,28 @@ const SplashPage = () => {
               Sign in or create an account
             </h1>
             <div className = 'splashpage-buttons'>
-              <button>
+              <button className='sign-up-button-splashpage'>
                 <OpenModalButtonSplashPage
-                  buttonText="Sign up"
+                  buttonText="SIGN UP"
                   modalComponent={<SignupFormModal
                   />}
                 />
               </button>
               <button>
                 <OpenModalButtonSplashPage
-                  buttonText="Log in"
+                  buttonText="LOG IN"
                   modalComponent={<LoginFormModal
                   />}
                 />
               </button>
-              ----------------------- or -------------------
+              <div className='or-divider'>
+                <p>
+                ––––––––––––– or –––––––––––––
+                </p>
+              </div>
               <button>
                 <OpenModalButtonSplashPage
-                  buttonText="Try the Demo"
+                  buttonText="TRY THE DEMO"
                   modalComponent={<DemoFormModal
                   />}
                 />

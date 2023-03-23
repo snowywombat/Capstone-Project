@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { signUp } from "../../store/session";
@@ -6,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import "./SignupForm.css";
 
 function SignupFormModal() {
+	const history = useHistory();
 	const dispatch = useDispatch();
 	const [first_name, setFirstName ] = useState("")
 	const [last_name, setLastName ] = useState("")
@@ -23,6 +25,7 @@ function SignupFormModal() {
 				await dispatch(signUp(first_name, last_name, username, email, password))
 					.then(() => {
 						closeModal()
+						history.push('/recipes')
 					})
 			} catch (e) {
 				const errorResponse = e.errors;

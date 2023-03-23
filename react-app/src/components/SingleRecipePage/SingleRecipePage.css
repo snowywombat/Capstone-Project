@@ -1,3 +1,10 @@
+.edit-recipe-button {
+    display: flex;
+    position: absolute;
+    top:200px;
+    left: 50px;
+}
+
 .details-header {
     display: flex;
     flex-direction: row;

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
 import { login } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
@@ -6,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import "./LoginForm.css";
 
 function LoginFormModal() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,6 +20,7 @@ function LoginFormModal() {
       await dispatch(login(email, password))
         .then(() => {
           closeModal()
+          history.push('/recipes')
         })
     } catch (e) {
       const errorResponse = e.errors;
