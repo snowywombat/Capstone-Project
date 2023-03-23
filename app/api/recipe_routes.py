@@ -429,9 +429,9 @@ def update_recipe(recipeId):
             'errors': ['Unauthorized']
         }, 401
 
-    allIngredients = Ingredient.query.all()
-    allKitchenwares = Kitchenware.query.all()
-    allPreparations = Preparation.query.all()
+    # allIngredients = Ingredient.query.all()
+    # allKitchenwares = Kitchenware.query.all()
+    # allPreparations = Preparation.query.all()
 
 
     if current_user.is_authenticated:
@@ -490,19 +490,13 @@ def update_recipe(recipeId):
         for ele in data["kitchenwares"]:
             print(ele, 'ele in kitchenwares')
             # Check if a kitchenware with same name already exists
-            existing_item = Kitchenware.query.filter_by(name=ele["name"], recipe_id=edit_recipe.id).filter(Kitchenware.id != None).first()
+            existing_item = Kitchenware.query.filter_by(recipe_id=edit_recipe.id).first()
+            print(existing_item, 'existing item')
             if existing_item:
-                print('it is hitting the if statement')
-                print(existing_item.id, 'id')
-                print(existing_item.name, 'existing item name')
-                print(existing_item.recipe_id, 'recipe_id')
+                print('it is hitting the if statement **************')
+
                 # If exists, update its info
                 existing_item.name = ele["name"]
-                existing_item.recipe_id = edit_recipe.id
-                db.session.add(existing_item)
-                print(existing_item.id, 'id1')
-                print(existing_item.name, 'name1')
-                print(existing_item.recipe_id, 'recipe_id1')
 
             else:
                 # If it doesn't exist, add new kitchenware
@@ -514,11 +508,10 @@ def update_recipe(recipeId):
 
                 db.session.add(new_item)
                 kitchenwares.append(new_item)
-                db.session.commit()
 
         # Update kitchenwares and commit
         print(kitchenwares, 'the kitchenwares list')
-        edit_recipe.kitchenwares = kitchenwares
+        # edit_recipe.kitchenwares = kitchenwares
         for item in kitchenwares:
             print(item, 'this is the item')
             print(item.to_dict(), 'view item')

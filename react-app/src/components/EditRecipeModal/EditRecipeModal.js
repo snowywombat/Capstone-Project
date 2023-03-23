@@ -94,7 +94,7 @@ function EditRecipeModalForm({ recipes }) {
 
 
   return (
-    <div className="Global-Modal-Container3">
+    <div className="Global-Modal-Container">
       <div className="Global-Modal-Header">Edit a recipe</div>
       <form onSubmit={handleSubmit} className="Global-ModalForm-Container">
         <ul className="Global-Errors-UL">

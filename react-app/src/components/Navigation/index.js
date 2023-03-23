@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import OpenModalButton from '../OpenModalButton';
+import OpenModalButtonAddRecipe from '../OpenModalAddRecipe';
 import CreateRecipeModalForm from '../CreateRecipeModal/CreateRecipeModal'
 import './Navigation.css';
 import './ProfileButton.css'
@@ -14,26 +14,11 @@ function Navigation({ isLoaded }){
 
 		<div className='nav-container'>
 			<nav className='nav-bar'>
-				<NavLink className='home-navlink' exact to="/">
+				<NavLink className='home-navlink' exact to="/recipes">
 				{/* <i className="fa-solid fa-crown" /> */}
 				<h1 className='title'>shana's kitchen</h1>
 				</NavLink>
 			</nav>
-
-			<div className='recipe-button'>
-				{sessionUser && (
-					<div className = 'create-recipe-button'>
-						<OpenModalButton
-
-							user={sessionUser}
-							// recipe={recipe}
-							buttonText="Add Recipe"
-							modalComponent={<CreateRecipeModalForm
-							/>}
-						/>
-					</div>
-				)}
-			</div>
 
 			<div className='profile-div'>
 				{isLoaded && (
@@ -44,11 +29,25 @@ function Navigation({ isLoaded }){
 			</div>
 
 			<nav className='extra-header'>
-				<div className='navigation'>
+				<div className='all-recipes-nav'>
 					<NavLink className='recipes-navlink' exact to="/recipes">
-						<h3 className='recipes-nav'>Recipes</h3>
+						<h3 className='recipes-nav'> All Recipes</h3>
 					</NavLink>
 				</div>
+				<div className='recipe-button'>
+				{sessionUser && (
+					<div className = 'create-recipe-button'>
+						<OpenModalButtonAddRecipe
+
+							user={sessionUser}
+							// recipe={recipe}
+							buttonText="Add a Recipe"
+							modalComponent={<CreateRecipeModalForm
+							/>}
+						/>
+					</div>
+				)}
+			</div>
 			</nav>
 		</div>
 

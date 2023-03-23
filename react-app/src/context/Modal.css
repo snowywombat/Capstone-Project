@@ -19,6 +19,12 @@
 }
 
 #modal-content {
-  position: absolute;
+  position:absolute;
+  margin-top: 175px;
+  width: auto;
+  height: 600px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-radius: 7px;
   background-color:white;
 }
