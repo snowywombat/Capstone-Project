@@ -27,3 +27,17 @@
 .recipe-text-fields {
     font-family: "Venturis ADF No2", 'sans-serif';
 }
+
+.Global-SubmitButton{
+    background-color: rgb(235, 195, 16);
+    font-size: 13px;
+    color: black;
+    padding: 6px;
+    border-radius: 5px;;
+    cursor: pointer;
+}
+
+.Global-SubmitButton:hover {
+    font-size: 15px;
+    padding: 8px;
+}

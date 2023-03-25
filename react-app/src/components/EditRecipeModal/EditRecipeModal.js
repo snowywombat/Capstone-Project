@@ -24,16 +24,16 @@ function EditRecipeModalForm({ recipes }) {
     measurement_type: item.measurement_type,
     recipe_id: item.recipe_id
   })),);
-  // const [kitchenwares, setKitchenwares] = useState(recipes.kitchenware.map((item) => ({
-  //   id: item.id,
-  //   name: item.name,
-  //   recipe_id: item.recipe_id
-  // })),);
-  const [kitchenwares, setKitchenwares] = useState(recipes.kitchenware ? recipes.kitchenware.map((item) => ({
+  const [kitchenwares, setKitchenwares] = useState(recipes.kitchenware.map((item) => ({
     id: item.id,
     name: item.name,
     recipe_id: item.recipe_id
-  })) : []);
+  })),);
+  // const [kitchenwares, setKitchenwares] = useState(recipes.kitchenware ? recipes.kitchenware.map((item) => ({
+  //   id: item.id,
+  //   name: item.name,
+  //   recipe_id: item.recipe_id
+  // })) : []);
   const [preparations, setPreparations] = useState(recipes.preparation.map((item) => ({
     id: item.id,
     description: item.description,
@@ -42,6 +42,22 @@ function EditRecipeModalForm({ recipes }) {
   const [img_url, setImageUrl] = useState(recipes.img_url);
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
+  const [newKitchenware, setNewKitchenware] = useState([])
+
+  const newKitchenwares = () => {
+    setKitchenwares([
+      ...kitchenwares,
+    ])
+    setNewKitchenware([
+      ...newKitchenware,
+      {
+        name: "",
+        recipe_id: recipes.id
+      },
+    ])
+  }
+
+  console.log(newKitchenware, 'newKitchenware')
 
   const handleDelete = () => {
     dispatch(thunkDeleteRecipe(recipes.id))
@@ -55,32 +71,19 @@ function EditRecipeModalForm({ recipes }) {
     e.preventDefault();
     setErrors([]);
 
-    const body = {
+    const recipe = {
       name,
       description,
       servings_num,
       img_url,
-      ingredients: ingredients.map((item) => ({
-        id: item.id ,
-        ingredient: item.ingredient,
-        measurement_num: item.measurement_num,
-        measurement_type: item.measurement_type,
-        recipe_id: recipes.id
-      })),
-      kitchenwares: kitchenwares.map((item) => ({
-        // id: item.id,
-        name: item.name,
-        // recipe_id: recipes.id
-      })),
-      preparations: preparations.map((item) => ({
-        id: item.id,
-        description: item.description,
-        recipe_id: recipes.id
-      })),
+      ingredients,
+      kitchenwares,
+      preparations,
+      newKitchenware
     };
 
     try {
-        await dispatch(thunkEditRecipe(body, recipes.id))
+        await dispatch(thunkEditRecipe(recipe, recipes.id))
           .then(() => dispatch(thunkGetSingleRecipe(recipes.id)))
           .then(() => {
             closeModal()
@@ -159,14 +162,7 @@ function EditRecipeModalForm({ recipes }) {
             </div>
         ))}
 
-        <button type="button" onClick={() => setKitchenwares([
-            ...kitchenwares,
-            {
-                id: Date.now(),
-                name: "",
-                recipe_id: recipes.id
-            },
-        ])}>
+        <button type="button" onClick={newKitchenwares}>
             Add Things You'll Need
         </button>
 
@@ -178,9 +174,32 @@ function EditRecipeModalForm({ recipes }) {
                 type="text"
                 value={item.name}
                 onChange={(e) => {
-                  const newKitchenwares = [...kitchenwares];
+                  const oldKitchenwares = [...kitchenwares];
+
+                  oldKitchenwares[idx] = { ...oldKitchenwares[idx], name: e.target.value };
+
+                  setKitchenwares(oldKitchenwares);
+
+                }}
+              />
+
+            </div>
+        ))}
+
+        {newKitchenware.map((item, idx) => (
+            <div key={item.id} className="kitchenwares">
+              Things You'll Need
+              <input
+                key={item.id}
+                type="text"
+                value={item.name}
+                onChange={(e) => {
+
+                  const newKitchenwares = [...newKitchenware];
+
                   newKitchenwares[idx] = { ...newKitchenwares[idx], name: e.target.value };
-                  setKitchenwares(newKitchenwares);
+
+                  setNewKitchenware(newKitchenwares);
                 }}
               />
 

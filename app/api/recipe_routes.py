@@ -338,7 +338,12 @@ def create_recipe():
 @login_required
 def update_recipe(recipeId):
     edit_recipe = db.session.query(Recipe).get(int(recipeId))
+    edit_kitchenware = db.session.query(Kitchenware).filter_by(recipe_id=recipeId).all()
+    print(edit_kitchenware, 'edit kitchenware')
+    # delete_ingredient = db.session.query(Ingredient).get(int(recipeId))
+    # print(delete_ingredient, 'delete ingredient')
     data = request.get_json()
+    print(data, 'data json')
 
     name = data.get('name')
     description = data.get('description')
@@ -347,6 +352,8 @@ def update_recipe(recipeId):
     kitchenwares = data.get('kitchenwares')
     preparations = data.get('preparations')
     img_url = data.get('img_url')
+    newKitchenwares = data.get('newKitchenware')
+
 
     errors = {}
 
@@ -429,10 +436,6 @@ def update_recipe(recipeId):
             'errors': ['Unauthorized']
         }, 401
 
-    # allIngredients = Ingredient.query.all()
-    # allKitchenwares = Kitchenware.query.all()
-    # allPreparations = Preparation.query.all()
-
 
     if current_user.is_authenticated:
 
@@ -450,73 +453,28 @@ def update_recipe(recipeId):
         #     db.session.add(item)
         #     ingredients.append(item)
 
-
-        # kitchenwares = []
-        # print(edit_recipe.kitchenwares, 'stars')
-        # for item in edit_recipe.kitchenwares:
-        #     for ele in data["kitchenwares"]:
-        #         item.name = ele["name"]
-        #     db.session.add(item)
-        #     kitchenwares.append(item)
-
-
-        ingredients = []
-        for item, ele in zip(edit_recipe.ingredients, data["ingredients"]):
-            item.ingredient = ele["ingredient"]
-            item.measurement_num = ele["measurement_num"]
-            item.measurement_type = ele["measurement_type"]
-            item.recipe_id = edit_recipe.id
-            db.session.add(item)
-            ingredients.append(item)
-        edit_recipe.ingredients = ingredients
-
-        # kitchenwaresLst = []
-        # for item in edit_recipe.kitchenwares:
-        #     for ele in data["kitchenwares"]:
-        #         editKitchenwares = Kitchenware(
-        #             name = ele["name"],
-        #             recipe_id = edit_recipe.id,
-        #         )
-
-        #         db.session.add(editKitchenwares)
-        #         kitchenwaresLst.append(editKitchenwares)
-
-
-        # edit_recipe.kitchenwares = kitchenwaresLst
-        # db.session.commit()
-
+        #creates new kitchenwares
+        for item in newKitchenwares:
+            newKitchenware = Kitchenware(
+                name = item["name"],
+                recipe_id = edit_recipe.id,
+            )
+        db.session.commit()
 
         kitchenwares = []
         for ele in data["kitchenwares"]:
             print(ele, 'ele in kitchenwares')
             # Check if a kitchenware with same name already exists
-            existing_item = Kitchenware.query.filter_by(recipe_id=edit_recipe.id).first()
-            print(existing_item, 'existing item')
-            if existing_item:
-                print('it is hitting the if statement **************')
+            for item in edit_kitchenware:
+                # print(item.id, 'item id')
+                if item.id == ele["id"]:
+                    print('it is hitting the if statement **************')
 
-                # If exists, update its info
-                existing_item.name = ele["name"]
-
-            else:
-                # If it doesn't exist, add new kitchenware
-                print('it is hitting the else statement')
-                new_item = Kitchenware(
-                    name=ele["name"],
-                    recipe_id=edit_recipe.id,
-                )
-
-                db.session.add(new_item)
-                kitchenwares.append(new_item)
+                    # If exists, update its info
+                    item.name = ele["name"]
 
         # Update kitchenwares and commit
         print(kitchenwares, 'the kitchenwares list')
-        # edit_recipe.kitchenwares = kitchenwares
-        for item in kitchenwares:
-            print(item, 'this is the item')
-            print(item.to_dict(), 'view item')
-
-        print(edit_recipe.kitchenwares, 'edit recipe kitchenwares')
         db.session.commit()
 
 
@@ -534,7 +492,6 @@ def update_recipe(recipeId):
         time = Recipe.query.order_by(Recipe.created_at.asc()).first().created_at
         edit_recipe.created_at = time
 
-        print(edit_recipe.to_dict(), 'bread')
 
         recipe_dict = edit_recipe.to_dict()
         del recipe_dict['reviews']
@@ -585,24 +542,11 @@ def update_recipe(recipeId):
         db.session.add(edit_recipe)
         db.session.commit()
 
-        print(edit_recipe.kitchenwares, 'pineapple pudding')
 
-
-        return json.dumps(recipe_dict)
-
-
-        # return {
-        #     "id": edit_recipe.id,
-        #     "user_id": edit_recipe.user_id,
-        #     "name": data["name"],
-        #     "description": data["description"],
-        #     "servings_num": data["servings_num"],
-        #     "img_url": data["img_url"],
-        #     "ingredients": data["ingredients"],
-        #     "kitchenwares": data["kitchenwares"],
-        #     "preparations": data["preparations"],
-        #     "created_at": edit_recipe.created_at
-        # }, 201
+        return {
+            json.dumps(recipe_dict),
+            newKitchenwares
+        }
 
     else:
         return jsonify(message='You are not authorized to access this resource'), 401
@@ -613,6 +557,11 @@ def update_recipe(recipeId):
 def delete_recipe(recipeId):
     #find recipe
     delete_recipe = db.session.query(Recipe).get(int(recipeId))
+    delete_ingredient = db.session.query(Ingredient).get(int(recipeId))
+    delete_kitchenware = db.session.query(Kitchenware).get(int(recipeId))
+    delete_preparation = db.session.query(Preparation).get(int(recipeId))
+
+    print(delete_recipe, 'delete recipe')
 
     if not delete_recipe:
       return {"message": "Recipe couldn't be found"}, 404
