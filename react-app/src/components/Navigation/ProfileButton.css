@@ -1,8 +1,8 @@
 .profile-button {
     display: flex;
-    justify-content: flex-end;
-    width: 98%;
+    width: 150px;
     height: 100%;
+    float: right;
     margin-bottom: 5px;
     background-color: black;
     border: none;
@@ -49,9 +49,14 @@
 
 }
 
-.logout-button{
+.logout-button {
     background-color: rgb(250, 59, 59);
+    padding: 4px 10px 4px 10px;
     color: white;
     cursor: pointer;
-    margin-top: 8px;
+    margin-top: 6px;
+}
+
+.logout-button:hover {
+    background-color: rgb(252, 88, 88);
 }

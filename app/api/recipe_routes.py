@@ -61,6 +61,7 @@ def get_recipe_detail(recipeId):
         return {"message": "Recipe couldn't be found"}, 404
 
     data = single_recipe.to_dict()
+    print(data, 'this is data')
 
     res = {
     "Recipes":[]
@@ -376,6 +377,10 @@ def update_recipe(recipeId):
         errors["img_url"] = "Image is required"
     elif len(img_url) < 2 or len(img_url) > 1000:
         errors["img_url"] = "Image url must be more than 1 and less than 1, 000 characters"
+    elif "http://" not in img_url or "https://" not in img_url:
+        errors["img_url"] = "Image url must include http:// or https://"
+    elif ".jpeg" not in img_url or ".jpg" not in img_url or ".png" not in img_url or ".gif" not in img_url or ".JPEG" not in img_url or ".JPG" not in img_url or ".PNG" not in img_url or ".GIF" not in img_url:
+        errors["img_url"] = "Image url must end in .jpg, .jpeg, .png, or .gif"
 
     if not ingredients:
         errors["ingredients"] = "Ingredients are required"

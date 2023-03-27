@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import OpenModalButton from "../OpenModalButton";
+import OpenModalButtonEdit from "../OpenModalEdit";
+import OpenModalButton from "../OpenModalButton"
 import CreateReviewModalForm from "../CreateReviewModal/CreateReviewModal";
 import EditReviewModalForm from "../EditReviewModal/EditReviewModal";
 import EditRecipeModalForm from "../EditRecipeModal/EditRecipeModal";
@@ -39,11 +40,6 @@ const SingleRecipePage = () => {
     const recipe = Object.values(singleRecipe).find(el => el.id === Number(recipeId))
     console.log(recipe, 'recipe here')
 
-
-    if (!recipe) {
-        return <div>Recipe not found</div>;
-    }
-
     const reviewArr = Object.values(allReviews)
 
     const dateObj = new Date(recipe?.createdAt);
@@ -60,6 +56,13 @@ const SingleRecipePage = () => {
         .then(() => dispatch(thunkGetAllReviews(recipeId)))
     }
 
+   const handleClick = (reviewId) => {
+        const confirmed = window.confirm("Are you sure you want to delete your review?");
+        if (confirmed) {
+          handleDelete(reviewId);
+        }
+      }
+
 
     return (
         <>
@@ -69,7 +72,7 @@ const SingleRecipePage = () => {
                     <div className='recipe-button'>
                     {user && recipe.user_id === user.id && (
                         <div className = 'edit-recipe-button'>
-                            <OpenModalButton
+                            <OpenModalButtonEdit
                                 buttonText="Edit Recipe"
                                 modalComponent={<EditRecipeModalForm
                                     recipes={recipe}
@@ -93,7 +96,10 @@ const SingleRecipePage = () => {
                             </div>
                         </div>
                         <div className='photo-container'>
-                            <img src={recipe.img_url} alt={"image of " + recipe.description} id='recipeImg'></img>
+                            <img src={recipe.img_url}
+                                alt={"image of " + recipe.description}
+                                id='recipeImg'>
+                            </img>
                         </div>
                     </div>
 
@@ -126,19 +132,9 @@ const SingleRecipePage = () => {
                                 <div className = 'ingredient-field'>
                                     {recipe.ingredients && recipe.ingredients.map((item, index) => (
                                         <div key={index} className = 'ingredients-ele'>
-                                            {parseFloat(item.measurement_num).toFixed(0)} {item.measurement_type} {item.ingredient}
+                                            <li>{parseFloat(item.measurement_num).toFixed(0)} {item.measurement_type} {item.ingredient}</li>
                                         </div>
                                     ))}
-                                    {/* {recipe.ingredients && recipe.ingredients.map((item, index) => (
-                                        <div key={index} className = 'ingredient-t'>
-                                            {item.measurement_type}
-                                        </div>
-                                    ))}
-                                    {recipe.ingredients && recipe.ingredients.map((item, index)=> (
-                                        <div key={index} className = 'ingredient-i'>
-                                            {item.ingredient}
-                                        </div>
-                                    ))} */}
                                 </div>
                             </div>
                         </div>
@@ -149,7 +145,8 @@ const SingleRecipePage = () => {
                             <hr className="hr-break" />
                             <div className='preparations-ele'>
                                 {recipe.preparation && recipe.preparation.map((step, index) => (
-                                    <div key={index} className = 'item-name'>
+                                    <div key={index} className = 'steps'>
+                                        <div className='step-label'> Step {index + 1} </div>
                                         {step.description}
                                     </div>
                                 ))}
@@ -171,24 +168,49 @@ const SingleRecipePage = () => {
 
                                     return (
                                     <>
-                                        <div className = 'review-body'>
-
-                                            <div>
+                                        <div className='review-body'>
+                                            {!review.id &&
+                                                <p> No reviews </p>
+                                            }
+                                            <div className = 'review-body-review'>
                                                 {review.review}
-                                                {review.location}
-                                                {formattedDate}
-                                                {review.user && review.user.first_name}
-                                                {review.user && review.user.last_name}
+                                                <div className='review-sub-body-name'>
+                                                    <div className='review-sub-body-first-name'>
+                                                        - {review.user && review.user.first_name}
+                                                    </div>
+
+                                                        {review.user && review.user.last_name}
+
+                                                    <div className='review-sub-body-location'>
+                                                        from {review.location}
+                                                    </div>
+
+                                                    <div className='delete-button'>
+                                                        {user && review.user_id === user.id &&
+                                                            <div key = {review.id}>
+                                                                <div className='delete-review-button-div'>
+                                                                    <button onClick={() => handleClick(review.id)} type="submit" className='delete-review-button'>
+                                                                    <i className="fa-sharp fa-solid fa-circle-xmark" style={{fontSize: 20}}></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
                                                 </div>
 
 
+                                                <div className='review-sub-body-date'>
+                                                    edited at: {formattedDate}
+                                                </div>
+
+                                            </div>
                                         </div>
 
 
                                         <div className='review-button2'>
                                             {user && review.user_id === user.id &&
                                                 <div className = 'edit-review-button'>
-                                                <OpenModalButton
+                                                <OpenModalButtonEdit
                                                     buttonText="Edit Review"
                                                     modalComponent={<EditReviewModalForm
                                                         reviews={review}
@@ -197,48 +219,34 @@ const SingleRecipePage = () => {
                                                 />
                                                 </div>
                                             }
-
-
-                                            <div className='delete-button'>
-                                                {user && review.user_id === user.id &&
-                                                    <div key = {review.id}>
-                                                        <div className='delete-review-button-div'>
-                                                            <button onClick={() => handleDelete(review.id)} type="submit" className='delete-review-button'>
-                                                                Delete Review
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                }
-                                            </div>
                                         </div>
 
 
+                                        <div className='review-button'>
+                                            {!user ? (
+                                                <div className='create-review-button'>
+                                                    <OpenModalButtonEdit
+                                                        buttonText="Add Review"
+                                                        modalComponent={<CreateReviewModalForm recipe={recipe} />}
+                                                    />
+                                                </div>
+                                            ) : user && recipe.user_id !== user.id ? (
+                                                    <div className = 'create-review-button'>
+                                                        <OpenModalButtonEdit
+                                                            buttonText="Add Review"
+                                                            modalComponent={<CreateReviewModalForm
+                                                                recipe={recipe}
+                                                            />}
+                                                        />
+                                                    </div>
+                                            ): null}
+
+                                        </div>
                                     </>
                                     )
                                 })}
 
 
-                                <div className='review-button'>
-                                    {!user ? (
-                                        <div className='create-review-button'>
-                                            <OpenModalButton
-                                                buttonText="Add Review"
-                                                modalComponent={<CreateReviewModalForm recipe={recipe} />}
-                                            />
-                                        </div>
-                                    ) : user && recipe.user_id !== user.id ? (
-                                            <div className = 'create-review-button'>
-                                                <OpenModalButton
-                                                    buttonText="Add Review"
-                                                    modalComponent={<CreateReviewModalForm
-                                                        recipe={recipe}
-                                                    />}
-                                                />
-                                            </div>
-                                    ) : (
-                                        "hello"
-                                    )}
-                                </div>
                             </div>
 
                         </div>

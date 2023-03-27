@@ -8,7 +8,7 @@
 }
 
 .fa-circle-plus:hover {
-    color: rgb(67, 67, 67);
+    color:  rgb(60, 60, 60);
 }
 
 
@@ -16,28 +16,80 @@
     display: flex;
     justify-content: center;
     font-family: "Venturis ADF No2", 'sans-serif';
+    font-weight: bold;
     font-size: 40px;
+    margin-top: 20px;
+}
+
+.Global-Modal-Description {
+    display: flex;
+    justify-content: center;
+    font-family: Futura, sans-serif;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.form-labels {
+    display: flex;
+    font-family: Futura, sans-serif;
+    margin-bottom: 10px;
+
+}
+
+.form-lables-exclude-first {
+    margin-top: 30px;
+}
+
+.sub-fields {
+    margin-bottom: 20px;
+}
+
+.individual-sub-fields {
+    display: flex;
+    margin-top: 15px;
+    justify-content: space-between;
+}
+
+.sub-labels {
+    display: flex;
+    font-family: Futura, sans-serif;
+    margin-bottom: 10px;
+    margin-top: 30px;
+
+}
+
+.form-divider {
+    display: flex;
+    justify-content: center;
+    color: rgb(190, 190, 190);
+    margin-top: 20px;
 }
 
 .Global-ModalForm-Container {
     display: flex;
-    align-items: center;
+    padding: 5px;
 }
 
 .recipe-text-fields {
     font-family: "Venturis ADF No2", 'sans-serif';
 }
 
-.Global-SubmitButton{
-    background-color: rgb(235, 195, 16);
-    font-size: 13px;
-    color: black;
-    padding: 6px;
-    border-radius: 5px;;
+.Global-SubmitButton {
+    display: flex;
+    align-self: center;
+    background-color: black;
+    font-family: Futura, sans-serif;;
+    font-size: 18px;
+    color: white;
+    padding: 15px 5px 15px 5px;
+    border-radius: 5px;
+    width: 20%;
     cursor: pointer;
+    margin-top: 50px;
 }
 
 .Global-SubmitButton:hover {
-    font-size: 15px;
-    padding: 8px;
+    background-color: rgb(60, 60, 60);
 }

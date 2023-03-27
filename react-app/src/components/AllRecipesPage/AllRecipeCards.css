@@ -2,18 +2,6 @@
   box-sizing: border-box;
 }
 
-/* .AllRecipes-Container {
-  width: 95%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  grid-template-rows: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 0;
-  padding: 15px;
-  top: 15px;
-  grid-auto-flow: dense;
-  justify-items: center;
-} */
-
 .AllRecipes-Container {
   box-sizing: border-box;
   width: 95%;
@@ -41,7 +29,7 @@
 
 .recipe-images {
   display: flex;
-  height: 80%;
+  height: 300px;
   width: 100%;
   object-fit: cover;
 }
@@ -50,9 +38,24 @@
   display: flex;
   flex-direction: column;
   color: black;
-  font-family: "Venturis ADF No2", 'sans-serif';
+  font-family: Futura, sans-serif;
   width: 100%;
+}
 
+.allRecipesName {
+  margin-top: 12px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.allRecipesDescription {
+  margin-top: 12px;
+  line-height: 1.6;
+  color:gray;
+}
+
+.allRecipesServingsNum {
+  margin-top: 12px;
 }
 
 .recipe-card-nav-link {

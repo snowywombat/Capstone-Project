@@ -9,6 +9,7 @@ const SplashPage = () => {
 
     return (
       <>
+      <div className='splash-page'>
         <div className="SplashPage-Container">
           <div className="SplashPage-Image-Slides">
             <div className="pic" id="pic10" />
@@ -56,6 +57,12 @@ const SplashPage = () => {
             </div>
           </div>
         </div>
+        <div className='footer'>
+            <p className='footer-name'> Created by: Shana Edouard</p>
+            <a target="_blank" href="https://github.com/snowywombat"><i className="fa-brands fa-square-github"></i></a>
+            <a target="_blank" href="https://www.linkedin.com/in/shana-edouard/"><i className="fa-brands fa-linkedin"></i></a>
+        </div>
+      </div>
       </>
     );
   };

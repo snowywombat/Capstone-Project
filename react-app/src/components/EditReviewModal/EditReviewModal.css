@@ -1,0 +1,18 @@
+.stars-field {
+    margin-top: 20px;
+}
+
+.location-field {
+    margin-top: 20px;
+}
+
+.review-submit-button {
+    margin-top: 20px;
+    background-color: black;
+    color: white;
+    padding: 10px;
+}
+
+.review-submit-button:hover {
+    background-color: rgb(59, 59, 59);
+}
