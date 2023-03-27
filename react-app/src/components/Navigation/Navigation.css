@@ -45,12 +45,16 @@ body {
   display: flex;
   margin-left: 50px;
   font-size: 18px;
-  font-family: "Venturis ADF No2", 'sans-serif';
 }
 
 .recipes-navlink {
   text-decoration: none;
   color: white;
+}
+
+.recipes-nav {
+  font-family: "Venturis ADF No2", 'sans-serif';
+
 }
 
 .recipes-navlink:hover {

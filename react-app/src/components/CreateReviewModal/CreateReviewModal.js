@@ -103,7 +103,7 @@ function CreateReviewModalForm({ recipe }) {
             required
           />
         </div>
-        <button type="submit" className="Global-SubmitButton">
+        <button type="submit" className="review-submit-button">
           Add Review
         </button>
       </form>

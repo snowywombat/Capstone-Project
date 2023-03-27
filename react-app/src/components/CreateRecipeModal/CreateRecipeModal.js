@@ -5,7 +5,8 @@ import { useHistory, useParams } from "react-router-dom";
 import { thunkCreateRecipe, thunkGetSingleRecipe } from "../../store/recipes";
 import { thunkGetAllReviews } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
-// import TextField from '@material-ui/core/TextField';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import "../LoginFormModal/LoginForm.css";
 import "./CreateRecipeModal.css";
 import { v4 as uuidv4 } from 'uuid';
@@ -76,6 +77,7 @@ function CreateRecipeModalForm() {
   return (
     <div className="Global-Modal-Container3">
       <div className="Global-Modal-Header">Add a new recipe</div>
+      <div className="Global-Modal-Description">Fill out the form below to share your recipe!</div>
       <form onSubmit={handleSubmit} className="Global-ModalForm-Container">
         <ul className="Global-Errors-UL">
           {errors.map((error, idx) => (
@@ -85,92 +87,160 @@ function CreateRecipeModalForm() {
           ))}
         </ul>
 
-        <div className='ingredient-name'>
-          Add Ingredient
+
+        <label className='form-labels'>Name of your recipe:</label>
+        <TextField
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          variant="outlined"
+          placeholder="Spaghetti & Meatballs"
+          className="Global-Modal-input"
+        />
+
+
+        <label className='form-labels form-lables-exclude-first'>Add a description:</label>
+        <TextField
+          type="text"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+          variant="outlined"
+          multiline
+          minRows={3}
+          placeholder="Juicy meatballs made with ground beef, breadcrumbs..."
+          className="Global-Modal-input"
+        />
+
+
+        <label className='form-labels form-lables-exclude-first'>Serving size:</label>
+        <TextField
+          type="number"
+          value={servings_num}
+          onChange={(e) => setServingsNum(e.target.value)}
+          required
+          variant="outlined"
+          placeholder="4"
+          className="Global-Modal-input"
+        />
+
+        <div className='form-divider'>
+          ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
         </div>
-        <button type="button" className='add-button' onClick={() => setIngredients([
-              ...ingredients,
-              {
-                measurement_num: "",
-                measurement_type: "",
-                ingredient: "",
-              },
-            ])
-          }
-        >
-          <i class="fa-solid fa-circle-plus" style={{fontSize: 25}}></i>
-        </button>
 
-        {ingredients.map((item, idx) => (
-            <div key={idx}>
 
-              <div className='recipe-text-fields'>
-                <label>
-                  Measurement Amount
-                  <input
-                    value={item.measurement_num}
-                    onChange={(e) => { const newIngredients = [...ingredients];
-                      newIngredients[idx].measurement_num= e.target.value;
-                      setIngredients(newIngredients);
-                    }}
-                    type="number"
-                    required
-                  />
-                </label>
-              </div>
+        <div className='form-labels form-lables-exclude-first'>
+          Add Ingredient:
+        </div>
 
-              <div className='recipe-text-fields'>
-                <label>
-                  Meaurement Type
-                  <input
-                    value={item.measurement_type}
-                    onChange={(e) => {
-                      const newIngredients = [...ingredients];
-                      newIngredients[idx].measurement_type = e.target.value;
-                      setIngredients(newIngredients);
-                    }}
-                    required
-                  />
-                </label>
-              </div>
 
-              <div className='recipe-text-fields'>
-              <label>
-                Ingredient
-                <input
-                  type="text"
-                  value={item.ingredient}
-                  onChange={(e) => {
-                    const newIngredients = [...ingredients];
-                    newIngredients[idx].ingredient = e.target.value;
-                    setIngredients(newIngredients);
-                  }}
-                  required
-                />
-              </label>
-              </div>
+        <div className='sub-fields'>
+          {ingredients.map((item, idx) => (
+            <div key={idx} className='individual-sub-fields'>
 
+              <TextField
+                className='measurement-amount-field'
+                label="Measurement Amount"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+
+                    </InputAdornment>
+                  ),
+                }}
+                value={item.measurement_num}
+                onChange={(e) => { const newIngredients = [...ingredients];
+                  newIngredients[idx].measurement_num= e.target.value;
+                  setIngredients(newIngredients);
+                }}
+                type="number"
+                required
+                variant="outlined"
+                placeholder="3"
+              />
+
+              <TextField
+                className='measurement-type-field'
+                label='Measurement Type'
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+
+                    </InputAdornment>
+                  ),
+                }}
+                value={item.measurement_type}
+                onChange={(e) => {
+                  const newIngredients = [...ingredients];
+                  newIngredients[idx].measurement_type = e.target.value;
+                  setIngredients(newIngredients);
+                }}
+                required
+                variant="outlined"
+                placeholder="cups"
+              />
+
+
+              <TextField
+                label='Ingredient'
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+
+                    </InputAdornment>
+                  ),
+                }}
+                type="text"
+                value={item.ingredient}
+                onChange={(e) => {
+                  const newIngredients = [...ingredients];
+                  newIngredients[idx].ingredient = e.target.value;
+                  setIngredients(newIngredients);
+                }}
+                required
+                variant="outlined"
+                placeholder="flour"
+              />
             </div>
-        ))}
-
-        <div className='kitchenware-name'>
-          Add Things You'll Need
+          ))}
         </div>
-        <button type="button" className='add-button' onClick={() => setKitchenwares([
-              ...kitchenwares,
-              {
-                name: "",
-              },
-            ])
-          }
+
+        <button type="button" className='add-button' onClick={() => setIngredients([
+          ...ingredients,
+            {
+              measurement_num: "",
+              measurement_type: "",
+              ingredient: "",
+            },
+          ])}
         >
-          <i class="fa-solid fa-circle-plus" style={{fontSize: 25}}></i>
+          <i class="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
         </button>
-        {kitchenwares.map((item, idx) => (
-            <div key={idx} className="recipe-text-fields">
-              <label>
-                Kitchen Item
-                <input
+
+
+        <div className='form-divider'>
+          ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        </div>
+
+
+        <div className='form-labels form-lables-exclude-first'>
+          Add Things You'll Need:
+        </div>
+
+        <div className='sub-fields'>
+          {kitchenwares.map((item, idx) => (
+              <div key={idx} className="individual-sub-fields">
+
+                <TextField
+                  label= "Kitchen Item"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+
+                      </InputAdornment>
+                    ),
+                  }}
                   type="text"
                   value={item.name}
                   onChange={(e) => {
@@ -179,29 +249,46 @@ function CreateRecipeModalForm() {
                     setKitchenwares(newKitchenwares);
                   }}
                   required
+                  variant="outlined"
+                  placeholder='12" sheet pan'
                 />
-              </label>
-            </div>
-        ))}
-
-        <div className='preparation-name'>
-          Add Instuctions
+              </div>
+          ))}
         </div>
-        <button type="button" className='add-button' onClick={() => setPreparations([
-              ...preparations,
-              {
-                description: "",
-              },
-            ])
-          }
+
+        <button type="button" className='add-button' onClick={() => setKitchenwares([
+          ...kitchenwares,
+            {
+              name: "",
+            },
+          ])}
         >
-          <i class="fa-solid fa-circle-plus" style={{fontSize: 25}}></i>
+          <i class="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
         </button>
-        {preparations.map((item, idx) => (
-          <div key={idx} className="recipe-text-fields">
-            <label>
-              Step {idx + 1}
-              <input
+
+
+        <div className='form-divider'>
+          ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        </div>
+
+
+        <div className='form-labels form-lables-exclude-first'>
+          Add Instuctions:
+        </div>
+
+        <div className='sub-fields'>
+          {preparations.map((item, idx) => (
+            <div key={idx} className="individual-sub-fields">
+
+              <TextField
+                label= {`Step ${idx + 1}`}
+                InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+
+                      </InputAdornment>
+                    ),
+                  }}
                 type="text"
                 value={item.description}
                 onChange={(e) => {
@@ -210,58 +297,46 @@ function CreateRecipeModalForm() {
                   setPreparations(newPreparations);
                 }}
                 required
-              />
-            </label>
-          </div>
-        ))}
+                variant="outlined"
+                placeholder='Add step here'
 
-        <label for="name" className="Global-Modal-Label">
-          Name
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            // placeholder="Name"
-            className="Global-Modal-input"
-          />
-        </label>
-        <label for="description" className="Global-Modal-Label">
-          Description
-          <textarea
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-            // placeholder="Description"
-            className="Global-Modal-input"
-          ></textarea>
-        </label>
-        <label for="serving_num" className="Global-Modal-Label">
-          Serving Size
-          <input
-            type="number"
-            value={servings_num}
-            onChange={(e) => setServingsNum(e.target.value)}
-            required
-            // placeholder="Serving Size"
-            className="Global-Modal-input"
-          />
-        </label>
-        <label for="img_url" className="Global-Modal-Label">
-          Upload Image
-          <input
-            type="text"
-            value={img_url}
-            onChange={(e) => setImageUrl(e.target.value)}
-            required
-            // placeholder="Image"
-            className="Global-Modal-input"
-          />
-        </label>
+              />
+            </div>
+          ))}
+        </div>
+
+        <button type="button" className='add-button' onClick={() => setPreparations([
+          ...preparations,
+            {
+              description: "",
+            },
+          ])}
+        >
+          <i class="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
+        </button>
+
+        <div className='form-divider'>
+          ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        </div>
+
+        <label className='form-labels form-lables-exclude-first'>Upload Image:</label>
+
+        <TextField
+          type="text"
+          value={img_url}
+          onChange={(e) => setImageUrl(e.target.value)}
+          required
+          // placeholder="Image"
+          variant="outlined"
+          placeholder="example.jpg"
+          className="Global-Modal-input"
+        />
+
+
         <button type="submit" className="Global-SubmitButton">
           Add Recipe
         </button>
+
       </form>
     </div>
   );

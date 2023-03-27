@@ -15,7 +15,6 @@ const AllRecipeCards = ({ recipe }) => {
         <div className="content-holder">
           <div className="allRecipesName">{name}</div>
           <div className="allRecipesDescription">{description}</div>
-          <div className="allRecipesServingsNum">{servings_num} servings</div>
         </div>
       </div>
     </NavLink>

@@ -6,6 +6,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import AllRecipesPage from "./components/AllRecipesPage/index.js";
 import SingleRecipePage from "./components/SingleRecipePage";
 import SplashPage from "./components/SplashPage";
+import NotFoundPage from "./components/NotFoundPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 
@@ -35,6 +36,9 @@ function App() {
           </Route>
           <Route path="/" exact>
             <SplashPage />
+          </Route>
+          <Route path="*">
+            <NotFoundPage />
           </Route>
         </Switch>
       )}

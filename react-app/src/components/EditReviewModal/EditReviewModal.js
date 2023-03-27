@@ -100,7 +100,7 @@ function EditReviewModalForm({ reviews, recipe }) {
                 required
               />
             </div>
-            <button type="submit" className="Global-SubmitButton">
+            <button type="submit" className="review-submit-button">
               Edit Review
             </button>
           </form>

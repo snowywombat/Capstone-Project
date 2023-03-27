@@ -1,0 +1,14 @@
+.not-found-photo-container {
+    display: flex;
+    justify-content: center;
+    width: auto;
+    height: auto;
+}
+
+.not-found-photo {
+    width: 20%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 3px;
+    box-shadow: 5px 5px 10px rgba(255, 208, 0, 0.984), -5px -5px 10px rgba(255, 208, 0, 0.984);
+}
