@@ -61,8 +61,7 @@ const SingleRecipePage = () => {
         if (confirmed) {
           handleDelete(reviewId);
         }
-      }
-
+    }
 
     return (
         <>
@@ -132,7 +131,7 @@ const SingleRecipePage = () => {
                                 <div className = 'ingredient-field'>
                                     {recipe.ingredients && recipe.ingredients.map((item, index) => (
                                         <div key={index} className = 'ingredients-ele'>
-                                            <li>{parseFloat(item.measurement_num).toFixed(0)} {item.measurement_type} {item.ingredient}</li>
+                                            <li>{parseFloat(item.measurement_num).toFixed(2)} {item.measurement_type} {item.ingredient}</li>
                                         </div>
                                     ))}
                                 </div>
@@ -169,9 +168,6 @@ const SingleRecipePage = () => {
                                     return (
                                     <>
                                         <div className='review-body'>
-                                            {!review.id &&
-                                                <p> No reviews </p>
-                                            }
                                             <div className = 'review-body-review'>
                                                 {review.review}
                                                 <div className='review-sub-body-name'>
@@ -221,27 +217,39 @@ const SingleRecipePage = () => {
                                             }
                                         </div>
 
-
                                         <div className='review-button'>
-                                            {!user ? (
+                                            {(recipe.user_id !== user.id) && (
+                                            (!recipe.reviews || recipe.reviews.length === 0 ||
+                                            !recipe.reviews.some(review => review.user_id === user.id))
+                                            ) ? (
+                                            <div className='create-review-button'>
+                                                <OpenModalButtonEdit
+                                                buttonText="Add Review"
+                                                modalComponent={<CreateReviewModalForm recipe={recipe} />}
+                                                />
+                                            </div>
+                                            ) : null}
+                                        </div>
+
+
+                                        {/* <div className='review-button'>
+                                            {recipe.user_id !== user.id && review.user_id !== user.id ? (
                                                 <div className='create-review-button'>
                                                     <OpenModalButtonEdit
                                                         buttonText="Add Review"
                                                         modalComponent={<CreateReviewModalForm recipe={recipe} />}
                                                     />
                                                 </div>
-                                            ) : user && recipe.user_id !== user.id ? (
-                                                    <div className = 'create-review-button'>
-                                                        <OpenModalButtonEdit
-                                                            buttonText="Add Review"
-                                                            modalComponent={<CreateReviewModalForm
-                                                                recipe={recipe}
-                                                            />}
-                                                        />
-                                                    </div>
-                                            ): null}
+                                            ) : review ? null : (
+                                                <div className='create-review-button'>
+                                                  <OpenModalButtonEdit
+                                                    buttonText="Add Review"
+                                                    modalComponent={<CreateReviewModalForm recipe={recipe} />}
+                                                  />
+                                                </div>
+                                              )}
 
-                                        </div>
+                                        </div> */}
                                     </>
                                     )
                                 })}

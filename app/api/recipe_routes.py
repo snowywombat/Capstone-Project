@@ -56,6 +56,8 @@ def get_all_recipes():
 @recipe_routes.route('/<int:recipeId>')
 def get_recipe_detail(recipeId):
     single_recipe = db.session.query(Recipe).get(int(recipeId))
+    all_reviews = Review.query.filter_by(recipe_id=single_recipe.id).all()
+    print(all_reviews, 'all reviews')
 
     if not single_recipe:
         return {"message": "Recipe couldn't be found"}, 404
@@ -66,6 +68,16 @@ def get_recipe_detail(recipeId):
     res = {
     "Recipes":[]
     }
+
+    #get reviews out of recipe
+    reviewsData = []
+    for review in all_reviews:
+        reviewDict = review.to_dict()
+        reviewDict.pop("recipe")
+        reviewDict.pop("user")
+        reviewsData.append(reviewDict)
+
+    print(reviewsData, 'reviews DAta')
 
     #get kitchenware out of recipe
     kitchenwareData = []
@@ -105,7 +117,9 @@ def get_recipe_detail(recipeId):
         },
         "kitchenware": kitchenwareData,
         "ingredients": ingredientData,
-        "preparation": preparationData
+        "preparation": preparationData,
+        "reviews": reviewsData
+
     }
 
     res["Recipes"].append(recipe)
@@ -377,9 +391,9 @@ def update_recipe(recipeId):
         errors["img_url"] = "Image is required"
     elif len(img_url) < 2 or len(img_url) > 1000:
         errors["img_url"] = "Image url must be more than 1 and less than 1, 000 characters"
-    elif "http://" not in img_url or "https://" not in img_url:
+    elif "http://" not in img_url and "https://" not in img_url:
         errors["img_url"] = "Image url must include http:// or https://"
-    elif ".jpeg" not in img_url or ".jpg" not in img_url or ".png" not in img_url or ".gif" not in img_url or ".JPEG" not in img_url or ".JPG" not in img_url or ".PNG" not in img_url or ".GIF" not in img_url:
+    elif ".jpeg" not in img_url and ".jpg" not in img_url and ".png" not in img_url and ".gif" not in img_url and ".JPEG" not in img_url and ".JPG" not in img_url and ".PNG" not in img_url and ".GIF" not in img_url:
         errors["img_url"] = "Image url must end in .jpg, .jpeg, .png, or .gif"
 
     if not ingredients:
@@ -464,6 +478,7 @@ def update_recipe(recipeId):
                 name = item["name"],
                 recipe_id = edit_recipe.id,
             )
+            db.session.add(newKitchenware)
         db.session.commit()
 
         kitchenwares = []
@@ -544,14 +559,15 @@ def update_recipe(recipeId):
         recipe_dict["ingredients"] = newIngredientArray
 
 
+        #creating new key called newKitchenwares
+        recipe_dict["newKitchenwares"] = newKitchenwares
+
         db.session.add(edit_recipe)
         db.session.commit()
 
+        print(newKitchenwares, 'new Kitchenwares ********')
+        return json.dumps(recipe_dict)
 
-        return {
-            json.dumps(recipe_dict),
-            newKitchenwares
-        }
 
     else:
         return jsonify(message='You are not authorized to access this resource'), 401

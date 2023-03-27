@@ -122,22 +122,6 @@ export const thunkEditRecipe = (recipe, recipeId) => async (dispatch) => {
         })
     });
 
-    // const response2 = await fetch(`/api/recipes/`, {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //         name: name,
-    //         description: description,
-    //         servings_num: servings_num,
-    //         img_url: img_url,
-    //         ingredients: ingredients,
-    //         kitchenwares: kitchenwares,
-    //         preparations: preparations
-    //     })
-    // });
-
     if (response.ok) {
         console.log('hi')
         const data = await response.json();
