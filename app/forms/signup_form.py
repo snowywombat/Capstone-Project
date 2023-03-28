@@ -21,18 +21,28 @@ def username_exists(form, field):
 def first_name_validator(form, field):
     first_name = field.data
     if len(field.data) < 2 or len(field.data) > 20 :
-        raise ValidationError('First name must be more than 1 and less than 20 characters long.')
+        raise ValidationError('First name must be between 1 and 20 characters.')
 
 def last_name_validator(form, field):
     last_name = field.data
     if len(field.data) < 2 or len(field.data) > 20 :
-        raise ValidationError('Last name must be more than 1 and less than 20 characters long.')
+        raise ValidationError('Last name must be between 1 and 20 characters.')
+
+def username_validator(form, field):
+    username = field.data
+    if len(field.data) < 2 or len(field.data) > 20 :
+        raise ValidationError( 'Username must be between 1 and 20 characters.')
+
+def password_validator(form, field):
+    password = field.data
+    if len(field.data) < 5 or len(field.data) > 20 :
+        raise ValidationError( 'Password must be between 6 and 20 characters.')
 
 
 class SignUpForm(FlaskForm):
     first_name = StringField('first_name', validators=[DataRequired(), first_name_validator])
     last_name = StringField('last_name', validators=[DataRequired(), last_name_validator])
     username = StringField(
-        'username', validators=[DataRequired(), username_exists])
-    email = StringField('email', validators=[DataRequired(), user_exists])
-    password = StringField('password', validators=[DataRequired()])
+        'username', validators=[DataRequired(), username_exists, username_validator])
+    email = StringField('email', validators=[DataRequired(), Email(), user_exists])
+    password = StringField('password', validators=[DataRequired(), password_validator])

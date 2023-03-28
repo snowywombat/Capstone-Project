@@ -40,6 +40,7 @@ function DemoFormModal() {
         <div className='email-login-field'>
             <label>Email:</label>
             <input
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
