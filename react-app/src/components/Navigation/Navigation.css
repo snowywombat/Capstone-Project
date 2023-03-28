@@ -124,8 +124,17 @@ body {
 
 .open-modal-button {
   display:flex;
+  height: 25px;
+  width: 98%;
   border: none;
-  color:black;
-  background-color: rgb(235, 195, 16);
-  border-radius: 10px;
+  color: black;
+  font-family: Futura, sans-serif;
+  font-size: 15px;
+  align-items: center;
+  background-color: white;
+}
+
+.open-modal-button:hover {
+ background-color: black;
+ color: white;
 }

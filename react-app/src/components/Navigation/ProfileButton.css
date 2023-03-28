@@ -32,6 +32,14 @@
     top: 65.5px;
     right: 25px;
     z-index: 1;
+    padding: 0;
+    justify-content: center;
+}
+
+.dropdown-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%
 }
 
 
@@ -40,8 +48,8 @@
     font-size: 17px;
     font-family: "Venturis ADF No2", 'sans-serif';
     position: relative;
-    top: 5px;
-    right: 25px;
+    width: 100%;
+    justify-content: center;
 }
 
 .hidden {
