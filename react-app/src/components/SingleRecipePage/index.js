@@ -49,7 +49,6 @@ const SingleRecipePage = () => {
         year: "numeric"
     });
 
-
     const handleDelete = (reviewId) => {
         dispatch(thunkDeleteReview(reviewId))
         .then(() => dispatch(thunkGetSingleRecipe(recipeId)))
@@ -61,8 +60,19 @@ const SingleRecipePage = () => {
         if (confirmed) {
           handleDelete(reviewId);
         }
-      }
+    }
 
+
+    // console.log("is true:", recipe?.reviews && recipe?.reviews.some(review => review.user_id !== user.id))
+
+    // console.log(recipe?.reviews, 'recipe reviews')
+    // console.log(user.id, 'user id')
+    // console.log(recipe?.reviews[2]?.user_id, 'review user id')
+    // console.log(typeof(user.id), 'user id type')
+    // console.log(typeof(recipe?.reviews[2]?.user_id), 'review user id type')
+
+    // console.log("is true:", recipe?.reviews && recipe?.reviews.length === 0)
+    // console.log("is true:", recipe?.user_id !== user.id)
 
     return (
         <>
@@ -169,9 +179,6 @@ const SingleRecipePage = () => {
                                     return (
                                     <>
                                         <div className='review-body'>
-                                            {!review.id &&
-                                                <p> No reviews </p>
-                                            }
                                             <div className = 'review-body-review'>
                                                 {review.review}
                                                 <div className='review-sub-body-name'>
@@ -220,32 +227,24 @@ const SingleRecipePage = () => {
                                                 </div>
                                             }
                                         </div>
-
-
-                                        <div className='review-button'>
-                                            {!user ? (
-                                                <div className='create-review-button'>
-                                                    <OpenModalButtonEdit
-                                                        buttonText="Add Review"
-                                                        modalComponent={<CreateReviewModalForm recipe={recipe} />}
-                                                    />
-                                                </div>
-                                            ) : user && recipe.user_id !== user.id ? (
-                                                    <div className = 'create-review-button'>
-                                                        <OpenModalButtonEdit
-                                                            buttonText="Add Review"
-                                                            modalComponent={<CreateReviewModalForm
-                                                                recipe={recipe}
-                                                            />}
-                                                        />
-                                                    </div>
-                                            ): null}
-
-                                        </div>
                                     </>
                                     )
                                 })}
 
+
+                                <div className='review-button'>
+                                    {(recipe.user_id !== user.id) && (
+                                        (recipe.reviews && recipe.reviews.length === 0 ||
+                                            recipe.reviews && recipe.reviews.some(review => review.user_id !== user.id))
+                                            ) ? (
+                                                <div className='create-review-button'>
+                                        <OpenModalButtonEdit
+                                        buttonText="Add Review"
+                                        modalComponent={<CreateReviewModalForm recipe={recipe} />}
+                                        />
+                                    </div>
+                                    ) : null}
+                                </div>
 
                             </div>
 

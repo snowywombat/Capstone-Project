@@ -56,6 +56,8 @@ def get_all_recipes():
 @recipe_routes.route('/<int:recipeId>')
 def get_recipe_detail(recipeId):
     single_recipe = db.session.query(Recipe).get(int(recipeId))
+    all_reviews = Review.query.filter_by(recipe_id=single_recipe.id).all()
+    print(all_reviews, 'all reviews')
 
     if not single_recipe:
         return {"message": "Recipe couldn't be found"}, 404
@@ -66,6 +68,16 @@ def get_recipe_detail(recipeId):
     res = {
     "Recipes":[]
     }
+
+    #get reviews out of recipe
+    reviewsData = []
+    for review in all_reviews:
+        reviewDict = review.to_dict()
+        reviewDict.pop("recipe")
+        reviewDict.pop("user")
+        reviewsData.append(reviewDict)
+
+    print(reviewsData, 'reviews DAta')
 
     #get kitchenware out of recipe
     kitchenwareData = []
@@ -105,7 +117,9 @@ def get_recipe_detail(recipeId):
         },
         "kitchenware": kitchenwareData,
         "ingredients": ingredientData,
-        "preparation": preparationData
+        "preparation": preparationData,
+        "reviews": reviewsData
+
     }
 
     res["Recipes"].append(recipe)
@@ -339,10 +353,10 @@ def create_recipe():
 @login_required
 def update_recipe(recipeId):
     edit_recipe = db.session.query(Recipe).get(int(recipeId))
+    edit_ingredient = db.session.query(Ingredient).filter_by(recipe_id=recipeId).all()
     edit_kitchenware = db.session.query(Kitchenware).filter_by(recipe_id=recipeId).all()
-    print(edit_kitchenware, 'edit kitchenware')
-    # delete_ingredient = db.session.query(Ingredient).get(int(recipeId))
-    # print(delete_ingredient, 'delete ingredient')
+    edit_preparation = db.session.query(Preparation).filter_by(recipe_id=recipeId).all()
+
     data = request.get_json()
     print(data, 'data json')
 
@@ -354,7 +368,10 @@ def update_recipe(recipeId):
     preparations = data.get('preparations')
     img_url = data.get('img_url')
     newKitchenwares = data.get('newKitchenware')
-
+    print(newKitchenwares, 'newKitchenwares ******** ')
+    newIngredients = data.get('newIngredient')
+    print(newIngredients, 'newIngredients *******')
+    newPreparations = data.get('newPreparation')
 
     errors = {}
 
@@ -377,9 +394,9 @@ def update_recipe(recipeId):
         errors["img_url"] = "Image is required"
     elif len(img_url) < 2 or len(img_url) > 1000:
         errors["img_url"] = "Image url must be more than 1 and less than 1, 000 characters"
-    elif "http://" not in img_url or "https://" not in img_url:
+    elif "http://" not in img_url and "https://" not in img_url:
         errors["img_url"] = "Image url must include http:// or https://"
-    elif ".jpeg" not in img_url or ".jpg" not in img_url or ".png" not in img_url or ".gif" not in img_url or ".JPEG" not in img_url or ".JPG" not in img_url or ".PNG" not in img_url or ".GIF" not in img_url:
+    elif ".jpeg" not in img_url and ".jpg" not in img_url and ".png" not in img_url and ".gif" not in img_url and ".JPEG" not in img_url and ".JPG" not in img_url and ".PNG" not in img_url and ".GIF" not in img_url:
         errors["img_url"] = "Image url must end in .jpg, .jpeg, .png, or .gif"
 
     if not ingredients:
@@ -449,32 +466,57 @@ def update_recipe(recipeId):
         edit_recipe.servings_num = data["servings_num"]
         edit_recipe.img_url = data["img_url"]
 
-        # ingredients = []
-        # for item in edit_recipe.ingredients:
-        #     for ele in data["ingredients"]:
-        #         item.ingredient = ele["ingredient"]
-        #         item.measurement_num = ele["measurement_num"]
-        #         item.measurement_type = ele["measurement_type"]
-        #     db.session.add(item)
-        #     ingredients.append(item)
-
         #creates new kitchenwares
         for item in newKitchenwares:
             newKitchenware = Kitchenware(
                 name = item["name"],
                 recipe_id = edit_recipe.id,
             )
+            db.session.add(newKitchenware)
         db.session.commit()
+
+        #creates new ingredients
+        for item in newIngredients:
+            newIngredient = Ingredient(
+                measurement_num = item["measurement_num"],
+                measurement_type = item["measurement_type"],
+                ingredient = item["ingredient"],
+                recipe_id = edit_recipe.id,
+            )
+            db.session.add(newIngredient)
+        db.session.commit()
+
+        #creates new preparations
+        for item in newPreparations:
+            newPreparation = Preparation(
+                description = item["description"],
+                recipe_id = edit_recipe.id,
+            )
+            db.session.add(newPreparation)
+        db.session.commit()
+
+
+        ingredients = []
+        for ele in data["ingredients"]:
+            # Check if a ingredient with same name already exists
+            for item in edit_ingredient:
+                if item.id == ele["id"]:
+                    # If exists, update its info
+                    item.measurement_num = ele["measurement_num"]
+                    item.measurement_type = ele["measurement_type"]
+                    item.ingredient = ele["ingredient"]
+
+        # Update ingredients and commit
+        db.session.commit()
+
+        print(ingredients, 'oranges')
+
 
         kitchenwares = []
         for ele in data["kitchenwares"]:
-            print(ele, 'ele in kitchenwares')
             # Check if a kitchenware with same name already exists
             for item in edit_kitchenware:
-                # print(item.id, 'item id')
                 if item.id == ele["id"]:
-                    print('it is hitting the if statement **************')
-
                     # If exists, update its info
                     item.name = ele["name"]
 
@@ -484,13 +526,14 @@ def update_recipe(recipeId):
 
 
         preparations = []
-        for item, ele in zip(edit_recipe.preparations, data["preparations"]):
-            item.description = ele["description"]
-            item.recipe_id = edit_recipe.id
-            db.session.add(item)
-            preparations.append(item)
+        for ele in data["preparations"]:
+            # Check if a preparation with same name already exists
+            for item in edit_preparation:
+                if item.id == ele["id"]:
+                    # If exists, update its info
+                    item.description = ele["description"]
 
-        edit_recipe.preparations = preparations
+        # Update preparations and commit
         db.session.commit()
 
 
@@ -544,14 +587,21 @@ def update_recipe(recipeId):
         recipe_dict["ingredients"] = newIngredientArray
 
 
+        #creating new key called newKitchenwares
+        recipe_dict["newKitchenwares"] = newKitchenwares
+
+        #creating new key called newIngredients
+        recipe_dict["newIngredients"] = newIngredients
+
+        #creating new key called newPreparations
+        recipe_dict["newPreparations"] = newPreparations
+
         db.session.add(edit_recipe)
         db.session.commit()
 
 
-        return {
-            json.dumps(recipe_dict),
-            newKitchenwares
-        }
+        return json.dumps(recipe_dict)
+
 
     else:
         return jsonify(message='You are not authorized to access this resource'), 401

@@ -103,8 +103,9 @@ export const thunkCreateRecipe = (recipe) => async (dispatch) => {
 }
 
 export const thunkEditRecipe = (recipe, recipeId) => async (dispatch) => {
-    const { name, description, servings_num, img_url, ingredients, kitchenwares, preparations, newKitchenware } = recipe;
+    const { name, description, servings_num, img_url, ingredients, kitchenwares, preparations, newKitchenware, newPreparation, newIngredient } = recipe;
     console.log(kitchenwares, 'kitchenware in edit thunk')
+    console.log(newIngredient, 'newIngredient in thunk')
     const response = await fetch(`/api/recipes/${recipeId}`, {
         method: "PUT",
         headers: {
@@ -118,31 +119,16 @@ export const thunkEditRecipe = (recipe, recipeId) => async (dispatch) => {
             ingredients: ingredients,
             kitchenwares: kitchenwares,
             preparations: preparations,
-            newKitchenware: newKitchenware
+            newKitchenware: newKitchenware,
+            newIngredient: newIngredient,
+            newPreparation: newPreparation
         })
     });
 
-    // const response2 = await fetch(`/api/recipes/`, {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //         name: name,
-    //         description: description,
-    //         servings_num: servings_num,
-    //         img_url: img_url,
-    //         ingredients: ingredients,
-    //         kitchenwares: kitchenwares,
-    //         preparations: preparations
-    //     })
-    // });
-
     if (response.ok) {
-        console.log('hi')
         const data = await response.json();
+        console.log(data, 'edit thunk data')
         dispatch(editRecipe(data));
-        console.log(data, 'sparkle pants')
         return data;
     }   else if (response.status < 500) {
         const data = await response.json();

@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { signUp } from "../../store/session";
-import TextField from '@material-ui/core/TextField';
 import "./SignupForm.css";
 
 function SignupFormModal() {
@@ -50,70 +49,52 @@ function SignupFormModal() {
 				</ul>
 				<div className='fields'>
 					<div className='first-name-field'>
-						<TextField
-						label="First Name"
+						<label>First Name:</label>
+						<input
 						value={first_name}
-						variant="outlined"
-						size="small"
-						InputLabelProps={{ style: { fontSize: 12 } }}
 						onChange={(e) => setFirstName(e.target.value)}
 						required
 						/>
 					</div>
 					<div className='last-name-field'>
-						<TextField
-						label="Last Name"
+						<label>Last Name:</label>
+						<input
 						value={last_name}
-						variant="outlined"
-						size="small"
-						InputLabelProps={{ style: { fontSize: 12 } }}
 						onChange={(e) => setLastName(e.target.value)}
 						required
 						/>
 					</div>
 					<div className='email-signup-field'>
-						<TextField
-						label="Email"
+						<label>Email:</label>
+						<input
 						value={email}
-						variant="outlined"
-						size="small"
-						InputLabelProps={{ style: { fontSize: 12 } }}
 						onChange={(e) => setEmail(e.target.value)}
 						required
 						/>
 					</div>
 					<div className='username-signup-field'>
-						<TextField
-						label="Username"
+						<label>Username:</label>
+						<input
 						value={username}
-						variant="outlined"
-						size="small"
-						InputLabelProps={{ style: { fontSize: 12 } }}
 						onChange={(e) => setUsername(e.target.value)}
 						required
 						/>
 					</div>
 					<div className='password-signup-field'>
-						<TextField
-						label="Password"
+						<label>Password:</label>
+						<input
 						type="password"
 						value={password}
-						variant="outlined"
-						size="small"
-						InputLabelProps={{ style: { fontSize: 12 } }}
 						onChange={(e) => setPassword(e.target.value)}
 						required
 						/>
 					</div>
 
 					<div className='confirm-password-field'>
-						<TextField
-						label="Confirm Password"
+						<label>Confirm Password:</label>
+						<input
 						type="password"
 						value={confirmPassword}
-						variant="outlined"
-						size="small"
-						InputLabelProps={{ style: { fontSize: 12 } }}
 						onChange={(e) => setConfirmPassword(e.target.value)}
 						required
 						/>
