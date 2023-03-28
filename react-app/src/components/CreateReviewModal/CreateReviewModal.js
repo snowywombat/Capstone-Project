@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { thunkCreateReview } from "../../store/reviews";
 import { thunkGetAllReviews } from "../../store/reviews";
 import { thunkGetSingleRecipe } from "../../store/recipes";
-import TextField from '@material-ui/core/TextField';
 import { useModal } from "../../context/Modal";
 import "../LoginFormModal/LoginForm.css";
 import "./CreateReviewModal.css";
@@ -67,40 +66,37 @@ function CreateReviewModalForm({ recipe }) {
             </li>
           ))}
         </ul>
+
         <div className='review-field'>
-          <TextField
-            label="Your Review"
+          <label>Your Review:</label>
+          <input
             value={review}
-            variant="outlined"
-            size="small"
-            InputLabelProps={{ style: { fontSize: 12 } }}
             onChange={(e) => setReview(e.target.value)}
             required
+            placeholder="I loved this recipe!"
           />
         </div>
+
         <div className='stars-field'>
-          <TextField
-            label="Rate this recipe 1-5 stars"
-            value={stars}
-            variant="outlined"
-            size="small"
-            InputLabelProps={{ style: { fontSize: 12 } }}
-            onChange={(e) => setStars(e.target.value)}
-            required
+          <label>Rate this recipe 1-5 stars:</label>
+          <input
             type="number"
             min='1'
             max='5'
+            value={stars}
+            onChange={(e) => setStars(e.target.value)}
+            required
+            placeholder="5"
           />
         </div>
+
         <div className='location-field'>
-          <TextField
-            label="Where are you from?"
+          <label>Where are you from?</label>
+          <input
             value={location}
-            variant="outlined"
-            size="small"
-            InputLabelProps={{ style: { fontSize: 12 } }}
             onChange={(e) => setLocation(e.target.value)}
             required
+            placeholder="Seattle, WA"
           />
         </div>
         <button type="submit" className="review-submit-button">

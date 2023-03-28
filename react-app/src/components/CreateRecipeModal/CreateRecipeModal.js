@@ -5,11 +5,8 @@ import { useHistory, useParams } from "react-router-dom";
 import { thunkCreateRecipe, thunkGetSingleRecipe } from "../../store/recipes";
 import { thunkGetAllReviews } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import "../LoginFormModal/LoginForm.css";
 import "./CreateRecipeModal.css";
-import { v4 as uuidv4 } from 'uuid';
 import SingleRecipePage from "../SingleRecipePage";
 
 function CreateRecipeModalForm() {
@@ -56,8 +53,6 @@ function CreateRecipeModalForm() {
       })),
     };
 
-    console.log(body, 'edit body')
-
     try {
       await dispatch(thunkCreateRecipe(body))
       .then((data) => {
@@ -89,38 +84,33 @@ function CreateRecipeModalForm() {
 
 
         <label className='form-labels'>Name of your recipe:</label>
-        <TextField
+        <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          variant="outlined"
           placeholder="Spaghetti & Meatballs"
           className="Global-Modal-input"
         />
 
 
         <label className='form-labels form-lables-exclude-first'>Add a description:</label>
-        <TextField
+        <input
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
-          variant="outlined"
-          multiline
-          minRows={3}
           placeholder="Juicy meatballs made with ground beef, breadcrumbs..."
           className="Global-Modal-input"
         />
 
 
         <label className='form-labels form-lables-exclude-first'>Serving size:</label>
-        <TextField
+        <input
           type="number"
           value={servings_num}
           onChange={(e) => setServingsNum(e.target.value)}
           required
-          variant="outlined"
           placeholder="4"
           className="Global-Modal-input"
         />
@@ -139,16 +129,9 @@ function CreateRecipeModalForm() {
           {ingredients.map((item, idx) => (
             <div key={idx} className='individual-sub-fields'>
 
-              <TextField
+              <input
                 className='measurement-amount-field'
                 label="Measurement Amount"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-
-                    </InputAdornment>
-                  ),
-                }}
                 value={item.measurement_num}
                 onChange={(e) => { const newIngredients = [...ingredients];
                   newIngredients[idx].measurement_num= e.target.value;
@@ -156,20 +139,12 @@ function CreateRecipeModalForm() {
                 }}
                 type="number"
                 required
-                variant="outlined"
                 placeholder="3"
               />
 
-              <TextField
+              <input
                 className='measurement-type-field'
                 label='Measurement Type'
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-
-                    </InputAdornment>
-                  ),
-                }}
                 value={item.measurement_type}
                 onChange={(e) => {
                   const newIngredients = [...ingredients];
@@ -177,20 +152,12 @@ function CreateRecipeModalForm() {
                   setIngredients(newIngredients);
                 }}
                 required
-                variant="outlined"
                 placeholder="cups"
               />
 
 
-              <TextField
+              <input
                 label='Ingredient'
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-
-                    </InputAdornment>
-                  ),
-                }}
                 type="text"
                 value={item.ingredient}
                 onChange={(e) => {
@@ -199,7 +166,6 @@ function CreateRecipeModalForm() {
                   setIngredients(newIngredients);
                 }}
                 required
-                variant="outlined"
                 placeholder="flour"
               />
             </div>
@@ -232,15 +198,8 @@ function CreateRecipeModalForm() {
           {kitchenwares.map((item, idx) => (
               <div key={idx} className="individual-sub-fields">
 
-                <TextField
+                <input
                   label= "Kitchen Item"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-
-                      </InputAdornment>
-                    ),
-                  }}
                   type="text"
                   value={item.name}
                   onChange={(e) => {
@@ -249,7 +208,6 @@ function CreateRecipeModalForm() {
                     setKitchenwares(newKitchenwares);
                   }}
                   required
-                  variant="outlined"
                   placeholder='12" sheet pan'
                 />
               </div>
@@ -280,15 +238,8 @@ function CreateRecipeModalForm() {
           {preparations.map((item, idx) => (
             <div key={idx} className="individual-sub-fields">
 
-              <TextField
+              <input
                 label= {`Step ${idx + 1}`}
-                InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-
-                      </InputAdornment>
-                    ),
-                  }}
                 type="text"
                 value={item.description}
                 onChange={(e) => {
@@ -297,7 +248,6 @@ function CreateRecipeModalForm() {
                   setPreparations(newPreparations);
                 }}
                 required
-                variant="outlined"
                 placeholder='Add step here'
 
               />
@@ -321,13 +271,11 @@ function CreateRecipeModalForm() {
 
         <label className='form-labels form-lables-exclude-first'>Upload Image:</label>
 
-        <TextField
+        <input
           type="text"
           value={img_url}
           onChange={(e) => setImageUrl(e.target.value)}
           required
-          // placeholder="Image"
-          variant="outlined"
           placeholder="example.jpg"
           className="Global-Modal-input"
         />

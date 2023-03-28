@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { thunkEditReview } from "../../store/reviews";
 import { thunkGetAllReviews } from "../../store/reviews";
 import { thunkGetSingleRecipe } from "../../store/recipes";
-import TextField from '@material-ui/core/TextField';
 import { useModal } from "../../context/Modal";
 import "../LoginFormModal/LoginForm.css";
 import "./EditReviewModal.css";
@@ -64,42 +63,39 @@ function EditReviewModalForm({ reviews, recipe }) {
                 </li>
               ))}
             </ul>
-            <div className='review-field'>
-              <TextField
-                label="Your Review"
+
+
+              <div className='review-field'>
+              <label>Your Review:</label>
+              <input
                 value={review}
-                variant="outlined"
-                size="small"
-                InputLabelProps={{ style: { fontSize: 12 } }}
                 onChange={(e) => setReview(e.target.value)}
                 required
               />
             </div>
+
             <div className='stars-field'>
-              <TextField
-                label="Rate this recipe 1-5 stars"
-                value={stars}
-                variant="outlined"
-                size="small"
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                onChange={(e) => setStars(e.target.value)}
-                required
+              <label>Rate this recipe 1-5 stars:</label>
+              <input
                 type="number"
                 min='1'
                 max='5'
+                value={stars}
+                onChange={(e) => setStars(e.target.value)}
+                required
               />
             </div>
+
             <div className='location-field'>
-              <TextField
-                label="Where are you from?"
+              <label>Where are you from?</label>
+              <input
                 value={location}
-                variant="outlined"
-                size="small"
-                InputLabelProps={{ style: { fontSize: 12 } }}
                 onChange={(e) => setLocation(e.target.value)}
                 required
               />
             </div>
+
+
             <button type="submit" className="review-submit-button">
               Edit Review
             </button>

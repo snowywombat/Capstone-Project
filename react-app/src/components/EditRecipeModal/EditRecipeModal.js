@@ -6,8 +6,6 @@ import { thunkEditRecipe } from "../../store/recipes";
 import { thunkDeleteRecipe } from "../../store/recipes";
 import { thunkGetSingleRecipe } from "../../store/recipes";
 import { useModal } from "../../context/Modal";
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import "../LoginFormModal/LoginForm.css";
 import "./EditRecipeModal.css";
 
@@ -39,10 +37,7 @@ function EditRecipeModalForm({ recipes }) {
   const [img_url, setImageUrl] = useState(recipes.img_url);
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
-
   const [newKitchenware, setNewKitchenware] = useState([])
-  const [newIngredient, setNewIngredient] = useState([])
-  const [newPreparation, setNewPreparation] = useState([])
 
   const newKitchenwares = () => {
     setKitchenwares([
@@ -57,33 +52,7 @@ function EditRecipeModalForm({ recipes }) {
     ])
   }
 
-  const newIngredients = () => {
-    setIngredients([
-      ...ingredients,
-    ])
-    setNewIngredient([
-      ...newIngredient,
-      {
-        measurement_num: "",
-        measurement_type: "",
-        ingredient: "",
-        recipe_id: recipes.id
-      },
-    ])
-  }
-
-  const newPreparations = () => {
-    setPreparations([
-      ...preparations,
-    ])
-    setNewPreparation([
-      ...newPreparation,
-      {
-        description: "",
-        recipe_id: recipes.id
-      }
-    ])
-  }
+  console.log(newKitchenware, 'newKitchenware')
 
   const handleDelete = () => {
     dispatch(thunkDeleteRecipe(recipes.id))
@@ -112,9 +81,7 @@ function EditRecipeModalForm({ recipes }) {
       ingredients,
       kitchenwares,
       preparations,
-      newKitchenware,
-      newIngredient,
-      newPreparation
+      newKitchenware
     };
 
     try {
@@ -145,7 +112,7 @@ function EditRecipeModalForm({ recipes }) {
 
 
         <label className='form-labels'>Name of your recipe:</label>
-        <TextField
+        <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -156,7 +123,7 @@ function EditRecipeModalForm({ recipes }) {
 
 
         <label className='form-labels form-lables-exclude-first'>Add a description:</label>
-        <TextField
+        <input
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -169,7 +136,7 @@ function EditRecipeModalForm({ recipes }) {
 
 
         <label className='form-labels form-lables-exclude-first'>Serving size:</label>
-        <TextField
+        <input
           type="number"
           value={servings_num}
           onChange={(e) => setServingsNum(e.target.value)}
@@ -183,153 +150,69 @@ function EditRecipeModalForm({ recipes }) {
         </div>
 
 
-        {/* <div className='form-labels form-lables-exclude-first'>
+        <div className='form-labels form-lables-exclude-first'>
           Add Ingredient:
         </div>
 
 
         <div className='sub-fields'>
           {ingredients.map((item, idx) => (
-            <div key={item.id} className='individual-sub-fields'>
+            <div key={idx} className='individual-sub-fields'>
 
-              <TextField
-                key={item.id}
+              <input
+                className='measurement-amount-field'
                 label="Measurement Amount"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-
-                    </InputAdornment>
-                  )
-                }}
+                type="number"
                 value={item.measurement_num}
                 onChange={(e) => {
-                  const oldIngredients = [...ingredients];
-                  oldIngredients[idx] = { ...oldIngredients[idx], measurement_num: e.target.value };
-                  setIngredients(oldIngredients);
+                  const newIngredients = [...ingredients];
+                  newIngredients[idx].measurement_num= e.target.value;
+                  setIngredients(newIngredients);
                 }}
-                type="number"
-                // required
-                variant="outlined"
+                required
+
               />
 
-              <TextField
-                key={item.id}
+              <input
+                className='measurement-type-field'
                 label='Measurement Type'
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-
-                    </InputAdornment>
-                  ),
-                }}
                 type="text"
                 value={item.measurement_type}
                 onChange={(e) => {
-                  const oldIngredients = [...ingredients];
-                  oldIngredients[idx] = { ...oldIngredients[idx], measurement_type: e.target.value };
-                  setIngredients(oldIngredients);
+                  const newIngredients = [...ingredients];
+                  newIngredients[idx].measurement_type = e.target.value;
+                  setIngredients(newIngredients);
                 }}
-                // required
-                variant="outlined"
+                required
               />
 
 
-              <TextField
-                key={item.id}
+              <input
                 label='Ingredient'
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-
-                    </InputAdornment>
-                  ),
-                }}
                 type="text"
                 value={item.ingredient}
                 onChange={(e) => {
-                  const oldIngredients = [...ingredients];
-                  oldIngredients[idx] = { ...oldIngredients[idx], ingredient: e.target.value };
-                  setIngredients(oldIngredients);;
+                  const newIngredients = [...ingredients];
+                  newIngredients[idx].ingredient = e.target.value;
+                  setIngredients(newIngredients);
                 }}
-                // required
-                variant="outlined"
-              />
-            </div>
-          ))}
-
-          {newIngredient.map((item, idx) => (
-            <div key={item.id} className="individual-sub-fields">
-
-              <TextField
-                key={item.id}
-                label= "Measurement Amount"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-
-                    </InputAdornment>
-                  ),
-                }}
-                type="number"
-                value={item.measurement_num}
-                onChange={(e) => {
-                  const newIngredients = [...newIngredient];
-                  newIngredients[idx] = { ...newIngredients[idx], measurement_num: e.target.value };
-                  setNewIngredient(newIngredients);
-                }}
-                // required
-                variant="outlined"
-              />
-
-              <TextField
-                key={item.id}
-                label= "Measurement Type"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-
-                    </InputAdornment>
-                  ),
-                }}
-                type="text"
-                value={item.measurement_type}
-                onChange={(e) => {
-                  const newIngredients = [...newIngredient];
-                  newIngredients[idx] = { ...newIngredients[idx], measurement_type: e.target.value };
-                  setNewIngredient(newIngredients);
-                }}
-                // required
-                variant="outlined"
-              />
-
-              <TextField
-                key={item.id}
-                label= "Ingredient"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-
-                    </InputAdornment>
-                  ),
-                }}
-                type="text"
-                value={item.ingredient}
-                onChange={(e) => {
-                  const newIngredients = [...newIngredient];
-                  newIngredients[idx] = { ...newIngredients[idx], ingredient: e.target.value };
-                  setNewIngredient(newIngredients);
-                }}
-                // required
-                variant="outlined"
+                required
               />
             </div>
           ))}
         </div>
 
-        <button type="button" className='add-button' onClick={newIngredients}>
-          <i className ="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
-        </button> */}
+        <button type="button" className='add-button' onClick={() => setIngredients([
+          ...ingredients,
+            {
+              measurement_num: "",
+              measurement_type: "",
+              ingredient: "",
+            },
+          ])}
+        >
+          <i className="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
+        </button>
 
 
         <div className='form-divider'>
@@ -345,16 +228,9 @@ function EditRecipeModalForm({ recipes }) {
           {kitchenwares.map((item, idx) => (
             <div key={item.id} className="individual-sub-fields">
 
-              <TextField
+              <input
                 key={item.id}
                 label= "Kitchen Item"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-
-                    </InputAdornment>
-                  ),
-                }}
                 type="text"
                 value={item.name}
                 onChange={(e) => {
@@ -362,8 +238,7 @@ function EditRecipeModalForm({ recipes }) {
                   oldKitchenwares[idx] = { ...oldKitchenwares[idx], name: e.target.value };
                   setKitchenwares(oldKitchenwares);
                 }}
-                // required
-                variant="outlined"
+                required
               />
             </div>
           ))}
@@ -371,16 +246,9 @@ function EditRecipeModalForm({ recipes }) {
           {newKitchenware.map((item, idx) => (
             <div key={item.id} className="individual-sub-fields">
 
-              <TextField
+              <input
                 key={item.id}
                 label= "Kitchen Item"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-
-                    </InputAdornment>
-                  ),
-                }}
                 type="text"
                 value={item.name}
                 onChange={(e) => {
@@ -388,8 +256,7 @@ function EditRecipeModalForm({ recipes }) {
                   newKitchenwares[idx] = { ...newKitchenwares[idx], name: e.target.value };
                   setNewKitchenware(newKitchenwares);
                 }}
-                // required
-                variant="outlined"
+                required
               />
             </div>
           ))}
@@ -397,7 +264,7 @@ function EditRecipeModalForm({ recipes }) {
         </div>
 
         <button type="button" className='add-button' onClick={newKitchenwares}>
-          <i className ="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
+          <i className="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
         </button>
 
 
@@ -406,84 +273,50 @@ function EditRecipeModalForm({ recipes }) {
         </div>
 
 
-        {/* <div className='form-labels form-lables-exclude-first'>
+        <div className='form-labels form-lables-exclude-first'>
           Add Instuctions:
         </div>
 
         <div className='sub-fields'>
           {preparations.map((item, idx) => (
-            <div key={item.id} className="individual-sub-fields">
+            <div key={idx} className="individual-sub-fields">
 
-              <TextField
-                key={item.id}
+              <input
                 label= {`Step ${idx + 1}`}
-                InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-
-                      </InputAdornment>
-                    ),
-                  }}
                 type="text"
                 value={item.description}
                 onChange={(e) => {
-                  const oldPreparations = [...preparations];
-                  oldPreparations[idx] = { ...oldPreparations[idx], description: e.target.value };
-                  setPreparations(oldPreparations);
+                  const newPreparations = [...preparations];
+                  newPreparations[idx].description = e.target.value;
+                  setPreparations(newPreparations);
                 }}
-                // required
-                variant="outlined"
+                required
               />
             </div>
           ))}
-
-
-          {newPreparation.map((item, idx) => (
-            <div key={item.id} className="individual-sub-fields">
-              {preparations.map((prep, idx) => (
-
-              <TextField
-                key={item.id}
-                label= {`Step ${prep.id + 1}`}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-
-                    </InputAdornment>
-                  ),
-                }}
-                type="text"
-                value={item.description}
-                onChange={(e) => {
-                  const newPreparations = [...newPreparation];
-                  newPreparations[idx] = { ...newPreparations[idx], description: e.target.value };
-                  setNewPreparation(newPreparations);
-                }}
-                // required
-                variant="outlined"
-              />
-              ))}
-            </div>
-          ))}
-
         </div>
 
-        <button type="button" className='add-button' onClick={newPreparations}>
-          <i className ="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
-        </button> */}
+        <button type="button" className='add-button' onClick={() => setPreparations([
+          ...preparations,
+            {
+              description: "",
+            },
+          ])}
+        >
+          <i className="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
+        </button>
 
         <div className='form-divider'>
           ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
         </div>
 
         <label className='form-labels form-lables-exclude-first'>Upload Image:</label>
-        <TextField
+        <input
+          className="Global-Modal-input"
           type="text"
           value={img_url}
           onChange={(e) => setImageUrl(e.target.value)}
           required
-          variant="outlined"
-          className="Global-Modal-input"
         />
 
         <button type="submit" className="Global-SubmitButton">

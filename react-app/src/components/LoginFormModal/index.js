@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { login } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import TextField from '@material-ui/core/TextField';
 import "./LoginForm.css";
 
 function LoginFormModal() {
@@ -39,29 +38,26 @@ function LoginFormModal() {
           ))}
         </ul>
         <div className='fields'>
+
           <div className='email-login-field'>
-            <TextField
-              label="Email"
-              value={email}
-              variant="outlined"
-              size="small"
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <label>Email:</label>
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
           </div>
+
           <div className='password-login-field'>
-            <TextField
-              label="Password"
-              type="password"
-              value={password}
-              variant="outlined"
-              size="small"
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <label>Password:</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
           </div>
+
         </div>
         <button type="submit" className='login-button'>Log In</button>
       </form>
