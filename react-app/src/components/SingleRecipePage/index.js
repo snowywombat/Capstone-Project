@@ -42,6 +42,8 @@ const SingleRecipePage = () => {
 
     const reviewArr = Object.values(allReviews)
 
+    console.log(reviewArr, 'reviewArr')
+
     const dateObj = new Date(recipe?.createdAt);
     const formattedDate = dateObj.toLocaleDateString("en-US", {
         month: "long",
@@ -61,18 +63,6 @@ const SingleRecipePage = () => {
           handleDelete(reviewId);
         }
     }
-
-
-    // console.log("is true:", recipe?.reviews && recipe?.reviews.some(review => review.user_id !== user.id))
-
-    // console.log(recipe?.reviews, 'recipe reviews')
-    // console.log(user.id, 'user id')
-    // console.log(recipe?.reviews[2]?.user_id, 'review user id')
-    // console.log(typeof(user.id), 'user id type')
-    // console.log(typeof(recipe?.reviews[2]?.user_id), 'review user id type')
-
-    // console.log("is true:", recipe?.reviews && recipe?.reviews.length === 0)
-    // console.log("is true:", recipe?.user_id !== user.id)
 
     return (
         <>
@@ -168,74 +158,78 @@ const SingleRecipePage = () => {
                             Reviews
                             <hr className="hr-break" />
                             <div className='reviews-ele'>
-                                {reviewArr.map((review, index) => {
-                                    const dateObj = new Date(review.created_at);
-                                    const formattedDate = dateObj.toLocaleDateString("en-US", {
-                                        month: "long",
-                                        day: "numeric",
-                                        year: "numeric"
-                                    });
+                                {recipe.user_id === user?.id && reviewArr.length === 0 ? (
+                                    <p>No Reviews</p>
+                                ) : (
+                                    reviewArr.map((review, index) => {
+                                        const dateObj = new Date(review.created_at);
+                                        const formattedDate = dateObj.toLocaleDateString("en-US", {
+                                            month: "long",
+                                            day: "numeric",
+                                            year: "numeric"
+                                        });
 
-                                    return (
-                                    <>
-                                        <div className='review-body'>
-                                            <div className = 'review-body-review'>
-                                                {review.review}
-                                                <div className='review-sub-body-name'>
-                                                    <div className='review-sub-body-first-name'>
-                                                        - {review.user && review.user.first_name}
-                                                    </div>
+                                        return (
+                                        <>
+                                            <div className='review-body'>
+                                                <div className = 'review-body-review'>
+                                                    {review.review}
+                                                    <div className='review-sub-body-name'>
+                                                        <div className='review-sub-body-first-name'>
+                                                            - {review.user && review.user.first_name}
+                                                        </div>
 
-                                                        {review.user && review.user.last_name}
+                                                            {review.user && review.user.last_name}
 
-                                                    <div className='review-sub-body-location'>
-                                                        from {review.location}
-                                                    </div>
+                                                        <div className='review-sub-body-location'>
+                                                            from {review.location}
+                                                        </div>
 
-                                                    <div className='delete-button'>
-                                                        {user && review.user_id === user.id &&
-                                                            <div key = {review.id}>
-                                                                <div className='delete-review-button-div'>
-                                                                    <button onClick={() => handleClick(review.id)} type="submit" className='delete-review-button'>
-                                                                    <i className="fa-sharp fa-solid fa-circle-xmark" style={{fontSize: 20}}></i>
-                                                                    </button>
+                                                        <div className='delete-button'>
+                                                            {user && review.user_id === user.id &&
+                                                                <div key = {review.id}>
+                                                                    <div className='delete-review-button-div'>
+                                                                        <button onClick={() => handleClick(review.id)} type="submit" className='delete-review-button'>
+                                                                        <i className="fa-sharp fa-solid fa-circle-xmark" style={{fontSize: 20}}></i>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        }
+                                                            }
+                                                        </div>
                                                     </div>
+
+
+                                                    <div className='review-sub-body-date'>
+                                                        edited on: {formattedDate}
+                                                    </div>
+
                                                 </div>
-
-
-                                                <div className='review-sub-body-date'>
-                                                    edited at: {formattedDate}
-                                                </div>
-
                                             </div>
-                                        </div>
 
 
-                                        <div className='review-button2'>
-                                            {user && review.user_id === user.id &&
-                                                <div className = 'edit-review-button'>
-                                                <OpenModalButtonEdit
-                                                    buttonText="Edit Review"
-                                                    modalComponent={<EditReviewModalForm
-                                                        reviews={review}
-                                                        recipe = {recipe}
-                                                    />}
-                                                />
-                                                </div>
-                                            }
-                                        </div>
-                                    </>
-                                    )
-                                })}
+                                            <div className='review-button2'>
+                                                {user && review.user_id === user.id &&
+                                                    <div className = 'edit-review-button'>
+                                                    <OpenModalButtonEdit
+                                                        buttonText="Edit Review"
+                                                        modalComponent={<EditReviewModalForm
+                                                            reviews={review}
+                                                            recipe = {recipe}
+                                                        />}
+                                                    />
+                                                    </div>
+                                                }
+                                            </div>
+                                        </>
+                                        )
+                                    })
+                                )}
 
 
                                 <div className='review-button'>
-                                    {(recipe.user_id !== user.id) && (
+                                    {(recipe.user_id !== user?.id) && (
                                         (recipe.reviews && recipe.reviews.length === 0 ||
-                                            recipe.reviews && recipe.reviews.some(review => review.user_id !== user.id))
+                                            recipe.reviews && !recipe.reviews.some(review => review.user_id === user?.id))
                                             ) ? (
                                                 <div className='create-review-button'>
                                         <OpenModalButtonEdit
