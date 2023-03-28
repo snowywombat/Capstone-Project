@@ -215,7 +215,7 @@ function CreateRecipeModalForm() {
             },
           ])}
         >
-          <i class="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
+          <i className ="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
         </button>
 
 
@@ -263,7 +263,7 @@ function CreateRecipeModalForm() {
             },
           ])}
         >
-          <i class="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
+          <i className ="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
         </button>
 
 
@@ -312,7 +312,7 @@ function CreateRecipeModalForm() {
             },
           ])}
         >
-          <i class="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
+          <i className ="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
         </button>
 
         <div className='form-divider'>
