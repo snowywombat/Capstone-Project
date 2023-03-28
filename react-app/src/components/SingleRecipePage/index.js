@@ -131,7 +131,7 @@ const SingleRecipePage = () => {
                                 <div className = 'ingredient-field'>
                                     {recipe.ingredients && recipe.ingredients.map((item, index) => (
                                         <div key={index} className = 'ingredients-ele'>
-                                            <li>{parseFloat(item.measurement_num).toFixed(2)} {item.measurement_type} {item.ingredient}</li>
+                                            <li>{parseFloat(item.measurement_num).toFixed(0)} {item.measurement_type} {item.ingredient}</li>
                                         </div>
                                     ))}
                                 </div>

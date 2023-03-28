@@ -20,7 +20,7 @@ function EditRecipeModalForm({ recipes }) {
   const [ingredients, setIngredients] = useState(recipes.ingredients.map((item) => ({
     id: item.id,
     ingredient: item.ingredient,
-    measurement_num:parseFloat(item.measurement_num).toFixed(0),
+    measurement_num: parseFloat(item.measurement_num),
     measurement_type: item.measurement_type,
     recipe_id: item.recipe_id
   })),);
@@ -38,6 +38,8 @@ function EditRecipeModalForm({ recipes }) {
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
   const [newKitchenware, setNewKitchenware] = useState([])
+  const [newPreparation, setNewPreparation] = useState([])
+  const [newIngredient, setNewIngredient] = useState([])
 
   const newKitchenwares = () => {
     setKitchenwares([
@@ -52,7 +54,35 @@ function EditRecipeModalForm({ recipes }) {
     ])
   }
 
-  console.log(newKitchenware, 'newKitchenware')
+  const newPreparations = () => {
+    setPreparations([
+      ...preparations,
+    ])
+    setNewPreparation([
+      ...newPreparation,
+      {
+        description: "",
+        recipe_id: recipes.id
+      }
+    ])
+  }
+
+  const newIngredients = () => {
+    setIngredients([
+      ...ingredients,
+    ])
+    setNewIngredient([
+      ...newIngredient,
+      {
+        measurement_num: "",
+        measurement_type: "",
+        ingredient: "",
+        recipe_id: recipes.id
+      }
+    ])
+  }
+
+  console.log(newIngredient, 'newIngredient')
 
   const handleDelete = () => {
     dispatch(thunkDeleteRecipe(recipes.id))
@@ -81,7 +111,9 @@ function EditRecipeModalForm({ recipes }) {
       ingredients,
       kitchenwares,
       preparations,
-      newKitchenware
+      newKitchenware,
+      newPreparation,
+      newIngredient
     };
 
     try {
@@ -117,7 +149,6 @@ function EditRecipeModalForm({ recipes }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          variant="outlined"
           className="Global-Modal-input"
         />
 
@@ -128,9 +159,6 @@ function EditRecipeModalForm({ recipes }) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
-          variant="outlined"
-          multiline
-          minRows={3}
           className="Global-Modal-input"
         />
 
@@ -141,7 +169,6 @@ function EditRecipeModalForm({ recipes }) {
           value={servings_num}
           onChange={(e) => setServingsNum(e.target.value)}
           required
-          variant="outlined"
           className="Global-Modal-input"
         />
 
@@ -165,9 +192,9 @@ function EditRecipeModalForm({ recipes }) {
                 type="number"
                 value={item.measurement_num}
                 onChange={(e) => {
-                  const newIngredients = [...ingredients];
-                  newIngredients[idx].measurement_num= e.target.value;
-                  setIngredients(newIngredients);
+                  const oldIngredients = [...ingredients];
+                  oldIngredients[idx] = { ...oldIngredients[idx], measurement_num: e.target.value }
+                  setIngredients(oldIngredients);
                 }}
                 required
 
@@ -179,9 +206,9 @@ function EditRecipeModalForm({ recipes }) {
                 type="text"
                 value={item.measurement_type}
                 onChange={(e) => {
-                  const newIngredients = [...ingredients];
-                  newIngredients[idx].measurement_type = e.target.value;
-                  setIngredients(newIngredients);
+                  const oldIngredients = [...ingredients];
+                  oldIngredients[idx] = { ...oldIngredients[idx], measurement_type: e.target.value }
+                  setIngredients(oldIngredients);
                 }}
                 required
               />
@@ -192,25 +219,66 @@ function EditRecipeModalForm({ recipes }) {
                 type="text"
                 value={item.ingredient}
                 onChange={(e) => {
-                  const newIngredients = [...ingredients];
-                  newIngredients[idx].ingredient = e.target.value;
-                  setIngredients(newIngredients);
+                  const oldIngredients = [...ingredients];
+                  oldIngredients[idx] = { ...oldIngredients[idx], ingredient: e.target.value }
+                  setIngredients(oldIngredients);
                 }}
                 required
               />
             </div>
           ))}
+
+          {newIngredient.map((item, idx) => (
+            <div key={idx} className='individual-sub-fields'>
+              {console.log(item, 'newIngredient inside return')}
+
+              <input
+                className='measurement-amount-field'
+                label="Measurement Amount"
+                type="number"
+                value={item.measurement_num}
+                onChange={(e) => {
+                  const newIngredients = [...newIngredient];
+                  newIngredients[idx] = { ...newIngredients[idx], measurement_num: e.target.value }
+                  {console.log(newIngredient[idx], 'newIngredients [idx]')}
+                  setNewIngredient(newIngredients);
+                  {console.log(newIngredients, 'the new ingredients')}
+                }}
+                required
+
+              />
+
+              <input
+                className='measurement-type-field'
+                label='Measurement Type'
+                type="text"
+                value={item.measurement_type}
+                onChange={(e) => {
+                  const newIngredients = [...newIngredient];
+                  newIngredients[idx] = { ...newIngredients[idx], measurement_type: e.target.value }
+                  setNewIngredient(newIngredients);
+                }}
+                required
+              />
+
+
+              <input
+                label='Ingredient'
+                type="text"
+                value={item.ingredient}
+                onChange={(e) => {
+                  const newIngredients = [...newIngredient];
+                  newIngredients[idx] = { ...newIngredients[idx], ingredient: e.target.value }
+                  setNewIngredient(newIngredients);
+                }}
+                required
+              />
+            </div>
+          ))}
+
         </div>
 
-        <button type="button" className='add-button' onClick={() => setIngredients([
-          ...ingredients,
-            {
-              measurement_num: "",
-              measurement_type: "",
-              ingredient: "",
-            },
-          ])}
-        >
+        <button type="button" className='add-button' onClick={newIngredients}>
           <i className="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
         </button>
 
@@ -226,10 +294,9 @@ function EditRecipeModalForm({ recipes }) {
 
         <div className='sub-fields'>
           {kitchenwares.map((item, idx) => (
-            <div key={item.id} className="individual-sub-fields">
+            <div key={idx} className="individual-sub-fields">
 
               <input
-                key={item.id}
                 label= "Kitchen Item"
                 type="text"
                 value={item.name}
@@ -244,10 +311,9 @@ function EditRecipeModalForm({ recipes }) {
           ))}
 
           {newKitchenware.map((item, idx) => (
-            <div key={item.id} className="individual-sub-fields">
+            <div key={idx} className="individual-sub-fields">
 
               <input
-                key={item.id}
                 label= "Kitchen Item"
                 type="text"
                 value={item.name}
@@ -286,23 +352,35 @@ function EditRecipeModalForm({ recipes }) {
                 type="text"
                 value={item.description}
                 onChange={(e) => {
-                  const newPreparations = [...preparations];
-                  newPreparations[idx].description = e.target.value;
-                  setPreparations(newPreparations);
+                  const oldPreparations = [...preparations];
+                  oldPreparations[idx] = { ...oldPreparations[idx], description: e.target.value }
+                  setPreparations(oldPreparations);
                 }}
                 required
               />
             </div>
           ))}
+
+          {newPreparation.map((item, idx) => (
+            <div key={idx} className="individual-sub-fields">
+
+              <input
+                label= {`Step ${idx + 1}`}
+                type="text"
+                value={item.description}
+                onChange={(e) => {
+                  const newPreparations = [...newPreparation];
+                  newPreparations[idx] = { ...newPreparations[idx], description: e.target.value }
+                  setNewPreparation(newPreparations);
+                }}
+                required
+              />
+            </div>
+          ))}
+
         </div>
 
-        <button type="button" className='add-button' onClick={() => setPreparations([
-          ...preparations,
-            {
-              description: "",
-            },
-          ])}
-        >
+        <button type="button" className='add-button' onClick={newPreparations}>
           <i className="fa-solid fa-circle-plus" style={{fontSize: 30}}></i>
         </button>
 

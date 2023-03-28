@@ -103,8 +103,9 @@ export const thunkCreateRecipe = (recipe) => async (dispatch) => {
 }
 
 export const thunkEditRecipe = (recipe, recipeId) => async (dispatch) => {
-    const { name, description, servings_num, img_url, ingredients, kitchenwares, preparations, newKitchenware, newIngredient, newPreparation } = recipe;
+    const { name, description, servings_num, img_url, ingredients, kitchenwares, preparations, newKitchenware, newPreparation, newIngredient } = recipe;
     console.log(kitchenwares, 'kitchenware in edit thunk')
+    console.log(newIngredient, 'newIngredient in thunk')
     const response = await fetch(`/api/recipes/${recipeId}`, {
         method: "PUT",
         headers: {
@@ -126,6 +127,7 @@ export const thunkEditRecipe = (recipe, recipeId) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
+        console.log(data, 'edit thunk data')
         dispatch(editRecipe(data));
         return data;
     }   else if (response.status < 500) {

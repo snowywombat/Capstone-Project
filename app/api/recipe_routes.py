@@ -357,7 +357,6 @@ def update_recipe(recipeId):
     edit_kitchenware = db.session.query(Kitchenware).filter_by(recipe_id=recipeId).all()
     edit_preparation = db.session.query(Preparation).filter_by(recipe_id=recipeId).all()
 
-
     data = request.get_json()
     print(data, 'data json')
 
@@ -369,13 +368,10 @@ def update_recipe(recipeId):
     preparations = data.get('preparations')
     img_url = data.get('img_url')
     newKitchenwares = data.get('newKitchenware')
+    print(newKitchenwares, 'newKitchenwares ******** ')
     newIngredients = data.get('newIngredient')
+    print(newIngredients, 'newIngredients *******')
     newPreparations = data.get('newPreparation')
-
-    print(newKitchenwares, 'new kitchenwares !!!!!!!!')
-    print(newIngredients, 'new ingredients**********')
-    print(newPreparations, 'new preparations &&&&&&&&&&&&&')
-
 
     errors = {}
 
@@ -506,12 +502,14 @@ def update_recipe(recipeId):
             for item in edit_ingredient:
                 if item.id == ele["id"]:
                     # If exists, update its info
-                    item.measurement_num = ele["measurement_num"],
-                    item.measurement_type = ele["measurement_type"],
+                    item.measurement_num = ele["measurement_num"]
+                    item.measurement_type = ele["measurement_type"]
                     item.ingredient = ele["ingredient"]
 
         # Update ingredients and commit
         db.session.commit()
+
+        print(ingredients, 'oranges')
 
 
         kitchenwares = []
