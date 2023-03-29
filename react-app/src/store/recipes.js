@@ -1,9 +1,11 @@
 //Actions
-const GET_ALL_RECIPES = "recipes/get_all_recipes";
+const GET_ALL_RECIPES = "recipes/get_all_recipes"
 const GET_SINGLE_RECIPE = "recipes/get_single_recipe"
 const CREATE_NEW_RECIPE = "recipes/create_new_recipe"
 const EDIT_RECIPE = "recipes/edit_recipe"
 const DELETE_RECIPE = "recipes/delete_recipe"
+const DELETE_KITCHENWARE = "recipes/delete_kitchenware"
+const DELETE_PREPARATION = "recipes/delete_preparation"
 
 //Action creators
 const getAllRecipes = (recipes) => ({
@@ -29,6 +31,17 @@ const editRecipe = (recipe) => ({
 const deleteRecipe = (recipe) => ({
     type: DELETE_RECIPE,
     payload: recipe
+})
+
+
+const deleteKitchenware = (kitchenware) => ({
+    type: DELETE_KITCHENWARE,
+    payload: kitchenware
+})
+
+const deletePreparation = (preparation) => ({
+    type: DELETE_PREPARATION,
+    payload: preparation
 })
 
 

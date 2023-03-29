@@ -1,18 +1,22 @@
 import React from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { thunkEditRecipe } from "../../store/recipes";
 import { thunkDeleteRecipe } from "../../store/recipes";
+import { thunkDeleteIngredient } from "../../store/ingredients";
 import { thunkGetSingleRecipe } from "../../store/recipes";
 import { useModal } from "../../context/Modal";
 import "../LoginFormModal/LoginForm.css";
 import "./EditRecipeModal.css";
+import { thunkGetAllIngredients } from "../../store/ingredients";
 
 function EditRecipeModalForm({ recipes }) {
 
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const allIngredients = useSelector(state => state.ingredients)
 
   const [name, setName] = useState(recipes.name);
   const [description, setDescription] = useState(recipes.description);
@@ -84,12 +88,28 @@ function EditRecipeModalForm({ recipes }) {
 
   console.log(newIngredient, 'newIngredient')
 
+  useEffect(() => {
+    dispatch(thunkGetAllIngredients(recipes.id))
+  }, [dispatch, recipes.id]);
+
+  if(!allIngredients)  {
+    return <div>Loading...</div>
+  }
+  const ingredientArr = Object.values(allIngredients)
+
   const handleDelete = () => {
     dispatch(thunkDeleteRecipe(recipes.id))
     .then(() => {
       history.push('/recipes')
       closeModal()
     })
+  }
+
+  const handleIngredientDelete = () => {
+    for(let i = 0; i < ingredientArr.length; i++) {
+      let ingredient = ingredientArr[i]
+      dispatch(thunkDeleteIngredient(recipes.id, ingredient.id))
+    }
   }
 
   const handleClick = () => {
@@ -184,6 +204,8 @@ function EditRecipeModalForm({ recipes }) {
 
         <div className='sub-fields'>
           {ingredients.map((item, idx) => (
+            <>
+
             <div key={idx} className='individual-sub-fields'>
 
               <input
@@ -226,6 +248,11 @@ function EditRecipeModalForm({ recipes }) {
                 required
               />
             </div>
+
+            {/* <button onClick={handleIngredientDelete} type="submit" className='sub-edit-delete-button'>
+              <i className="fa-sharp fa-solid fa-circle-xmark" style={{fontSize: 12}}></i>
+            </button> */}
+            </>
           ))}
 
           {newIngredient.map((item, idx) => (
@@ -273,6 +300,7 @@ function EditRecipeModalForm({ recipes }) {
                 }}
                 required
               />
+
             </div>
           ))}
 

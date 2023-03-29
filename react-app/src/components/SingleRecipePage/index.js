@@ -8,15 +8,16 @@ import EditReviewModalForm from "../EditReviewModal/EditReviewModal";
 import EditRecipeModalForm from "../EditRecipeModal/EditRecipeModal";
 import { thunkGetSingleRecipe } from "../../store/recipes";
 import { thunkDeleteReview, thunkGetAllReviews } from "../../store/reviews"
+import { thunkGetAllIngredients } from "../../store/ingredients";
 import './SingleRecipePage.css'
 
 const SingleRecipePage = () => {
     const { recipeId } = useParams();
-    console.log(typeof(recipeId), 'recipeId')
     const dispatch = useDispatch();
 
     const singleRecipe = useSelector(state => state.recipes);
     const allReviews = useSelector(state => state.reviews);
+    const allIngredients = useSelector(state => state.ingredients)
     const user = useSelector(state => state.session.user);
 
     console.log(singleRecipe, 'singleRecipe in component')
@@ -29,11 +30,19 @@ const SingleRecipePage = () => {
         dispatch(thunkGetAllReviews(recipeId))
     }, [dispatch, recipeId]);
 
+    useEffect(() => {
+        dispatch(thunkGetAllIngredients(recipeId))
+    }, [dispatch, recipeId]);
+
     if(!singleRecipe) {
         return <div>Loading...</div>
     }
 
     if(!allReviews)  {
+        return <div>Loading...</div>
+    }
+
+    if(!allIngredients)  {
         return <div>Loading...</div>
     }
 
@@ -43,6 +52,8 @@ const SingleRecipePage = () => {
     const reviewArr = Object.values(allReviews)
 
     console.log(reviewArr, 'reviewArr')
+
+    const ingredientArr = Object.values(allIngredients)
 
     const dateObj = new Date(recipe?.createdAt);
     const formattedDate = dateObj.toLocaleDateString("en-US", {
@@ -69,19 +80,22 @@ const SingleRecipePage = () => {
             {recipe && (
             <section className='details-page'>
                 <div className = 'details-main'>
-                    <div className='recipe-button'>
-                    {user && recipe.user_id === user.id && (
-                        <div className = 'edit-recipe-button'>
-                            <OpenModalButtonEdit
-                                buttonText="Edit Recipe"
-                                modalComponent={<EditRecipeModalForm
-                                    recipes={recipe}
-                                />}
-                            />
+
+                        <div className='recipe-button'>
+                        {user && recipe.user_id === user.id && (
+                            <div className = 'edit-recipe-button'>
+                                    <OpenModalButtonEdit
+                                        buttonText="Edit Recipe"
+                                        modalComponent={<EditRecipeModalForm
+                                            recipes={recipe}
+
+                                        />}
+                                    />
+                            </div>
+
+                        )}
                         </div>
 
-                    )}
-                    </div>
 
                     <div className = 'details-header'>
                         <div key={recipe.id} className='recipe-info-container'>

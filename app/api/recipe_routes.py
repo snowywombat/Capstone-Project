@@ -612,11 +612,8 @@ def update_recipe(recipeId):
 def delete_recipe(recipeId):
     #find recipe
     delete_recipe = db.session.query(Recipe).get(int(recipeId))
-    delete_ingredient = db.session.query(Ingredient).get(int(recipeId))
     delete_kitchenware = db.session.query(Kitchenware).get(int(recipeId))
     delete_preparation = db.session.query(Preparation).get(int(recipeId))
-
-    print(delete_recipe, 'delete recipe')
 
     if not delete_recipe:
       return {"message": "Recipe couldn't be found"}, 404
@@ -630,6 +627,115 @@ def delete_recipe(recipeId):
     return {"message": "Successfully deleted"}
 
 
+@recipe_routes.route('<int:recipeId>/ingredients/<int:ingredientId>', methods=["DELETE"])
+@login_required
+def delete_ingredients(recipeId, ingredientId):
+
+    delete_ingredient = db.session.query(Ingredient).get(int(ingredientId))
+
+    if not delete_ingredient:
+      return {"message": "Ingredient couldn't be found"}, 404
+
+
+    if delete_ingredient.recipe_id != recipeId:
+        return {'errors': ['Unauthorized']}, 401
+
+    db.session.delete(delete_ingredient)
+    db.session.commit()
+
+    return {"message": "Successfully deleted"}
+
+@recipe_routes.route('<int:recipeId>/kitchenwares/<int:kitchenwareId>', methods=["DELETE"])
+@login_required
+def delete_kitchenwares(recipeId, kitchenwareId):
+
+    delete_kitchenware = db.session.query(Kitchenware).get(int(kitchenwareId))
+
+    if not delete_kitchenware:
+      return {"message": "Kitchenware couldn't be found"}, 404
+
+
+    if delete_kitchenware.recipe_id != recipeId:
+        return {'errors': ['Unauthorized']}, 401
+
+    db.session.delete(delete_kitchenware)
+    db.session.commit()
+
+    return {"message": "Successfully deleted"}
+
+
+@recipe_routes.route('<int:recipeId>/preparations/<int:preparationId>', methods=["DELETE"])
+@login_required
+def delete_preparations(recipeId, preparationId):
+
+    delete_preparation = db.session.query(Preparation).get(int(preparationId))
+
+    if not delete_preparation:
+      return {"message": "Preparation couldn't be found"}, 404
+
+
+    if delete_preparation.recipe_id != recipeId:
+        return {'errors': ['Unauthorized']}, 401
+
+    db.session.delete(delete_preparation)
+    db.session.commit()
+
+    return {"message": "Successfully deleted"}
+
+
+@recipe_routes.route('/<int:recipeId>/ingredients')
+def get_all_ingredients(recipeId):
+    single_recipe = db.session.query(Recipe).get(int(recipeId))
+    all_ingredients = Ingredient.query.filter_by(recipe_id=single_recipe.id).all()
+
+    if not single_recipe:
+        return {"message": "Recipe couldn't be found"}, 404
+
+    res = {
+    "Ingredients":[]
+    }
+
+    for ingredient in all_ingredients:
+        data = ingredient.to_dict()
+        data.pop("recipe")
+        res["Ingredients"].append(data)
+
+    return res
+
+@recipe_routes.route('/ingredients/<int:ingredientId>')
+def get_single_ingredient(ingredientId):
+    single_ingredient = db.session.query(Ingredient).get(int(ingredientId))
+
+    if not single_ingredient:
+        return {"message": "Ingredient couldn't be found"}, 404
+
+    data = single_ingredient.to_dict()
+
+    res = {
+    "Ingredient":[]
+    }
+
+    # recipeData = []
+    # for recipe in data["recipe"]:
+    #     recipeDict = recipe.to_dict()
+    #     recipeDict.pop("user")
+    #     recipeDict.pop("reviews")
+    #     recipeDict.pop("kitchenwares")
+    #     recipeDict.pop("preparations")
+    #     recipeDict.pop("ingredients")
+    #     recipeData.append(recipeDict)
+
+    ingredient = {
+        "id": data["id"],
+        "measurement_num": data["measurement_num"],
+        "measurement_type": data["measurement_type"],
+        "ingredient": data["ingredient"],
+        "recipe_id": data["recipe_id"],
+        # "recipes": recipeData
+    }
+
+    res["Ingredient"].append(ingredient)
+    return res
 
 @recipe_routes.route('/<int:recipeId>/reviews')
 def get_all_reviews(recipeId):
