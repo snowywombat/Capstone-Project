@@ -340,7 +340,7 @@ function EditRecipeModalForm({ recipes }) {
 
 
         <div className='form-labels form-lables-exclude-first'>
-          Add Instuctions:
+          Add Instructions:
         </div>
 
         <div className='sub-fields'>
