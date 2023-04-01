@@ -6,12 +6,7 @@ import './AllRecipeCards.css'
 
 const AllRecipesPage = () => {
     const dispatch = useDispatch();
-    // const [loadedPage, setLoadedPage] = useState(false);
     const allRecipes = useSelector(state => state.recipes)
-
-    // useEffect(() => {
-    //     dispatch(thunkGetAllRecipes()).then(() => setLoadedPage(true))
-    // }, [dispatch])
 
     useEffect(() => {
         dispatch(thunkGetAllRecipes())
@@ -24,11 +19,13 @@ const AllRecipesPage = () => {
 
     return (
         <>
-            <div className="AllRecipes-Container">
-                {Object.values(allRecipes).map((recipe, index) => (
-                <AllRecipeCards recipe={recipe} key={index} />
-            ))}
-            </div>
+            {allRecipes &&
+                 <div className="AllRecipes-Container">
+                 {Object.values(allRecipes).map((recipe, index) => (
+                 <AllRecipeCards recipe={recipe} key={index} />
+                 ))}
+             </div>
+            }
 
         </>
     )
