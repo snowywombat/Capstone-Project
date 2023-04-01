@@ -12,7 +12,7 @@
     color: white;
     font-size: 60px;
     justify-content: center;
-    animation: change-color 6s linear forwards;
+    animation: change-color 15s linear forwards;
   }
 
   @keyframes change-color {
