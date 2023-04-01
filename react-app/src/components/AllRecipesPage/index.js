@@ -6,15 +6,21 @@ import './AllRecipeCards.css'
 
 const AllRecipesPage = () => {
     const dispatch = useDispatch();
-    const [loadedPage, setLoadedPage] = useState(false);
+    // const [loadedPage, setLoadedPage] = useState(false);
     const allRecipes = useSelector(state => state.recipes)
 
+    // useEffect(() => {
+    //     dispatch(thunkGetAllRecipes()).then(() => setLoadedPage(true))
+    // }, [dispatch])
+
     useEffect(() => {
-        dispatch(thunkGetAllRecipes()).then(() => setLoadedPage(true))
-    }, [dispatch])
+        dispatch(thunkGetAllRecipes())
+    }, [dispatch]);
 
 
-    if (!loadedPage) return null;
+    if(!allRecipes) {
+        return <div>Loading...</div>
+    }
 
     return (
         <>

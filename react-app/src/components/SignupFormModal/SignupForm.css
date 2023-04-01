@@ -13,6 +13,21 @@
     cursor: pointer;
 }
 
+/* .labels {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3px;
+} */
+/*
+.inputs {
+    display: flex;
+    justify-content: center;
+} */
+
+.labels {
+    margin-right: 10px;
+}
+
 .first-name-field {
     margin-bottom: 7px;
 }

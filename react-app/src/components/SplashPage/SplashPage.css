@@ -210,3 +210,12 @@ button {
 .fa-linkedin:hover {
     color:rgb(89, 89, 89);
 }
+
+.dashes {
+    letter-spacing: -3px;
+}
+
+.or {
+    margin-right: 13px;
+    margin-left: 15px;
+}

@@ -40,7 +40,7 @@ function SignupFormModal() {
 
 	return (
 		<>
-			<h1>Sign Up</h1>
+			<h1 className='sign-up-header'>Sign Up</h1>
 			<form onSubmit={handleSubmit}>
 				<ul>
 					{errors.map((error, idx) => (
@@ -49,53 +49,60 @@ function SignupFormModal() {
 				</ul>
 				<div className='fields'>
 					<div className='first-name-field'>
-						<label>First Name:</label>
+						<label className='labels'>First Name:</label>
 						<input
+						className='inputs'
 						value={first_name}
+						// placeholder='Jane'
 						onChange={(e) => setFirstName(e.target.value)}
 						required
 						/>
 					</div>
 					<div className='last-name-field'>
-						<label>Last Name:</label>
+						<label className='labels'>Last Name:</label>
 						<input
 						value={last_name}
+						// placeholder='Doe'
 						onChange={(e) => setLastName(e.target.value)}
 						required
 						/>
 					</div>
 					<div className='email-signup-field'>
-						<label>Email:</label>
+						<label className='labels'>Email:</label>
 						<input
 						type="email"
 						value={email}
+						// placeholder="janedoe@aa.io"
 						onChange={(e) => setEmail(e.target.value)}
 						required
 						/>
 					</div>
 					<div className='username-signup-field'>
-						<label>Username:</label>
+						<label className='labels'>Username:</label>
 						<input
 						value={username}
+						// placeholder='janedoe'
 						onChange={(e) => setUsername(e.target.value)}
 						required
 						/>
 					</div>
 					<div className='password-signup-field'>
-						<label>Password:</label>
+						<label className='labels'>Password:</label>
 						<input
 						type="password"
 						value={password}
+						// placeholder='********'
 						onChange={(e) => setPassword(e.target.value)}
 						required
 						/>
 					</div>
 
 					<div className='confirm-password-field'>
-						<label>Confirm Password:</label>
+						<label className='labels'>Confirm Password:</label>
 						<input
 						type="password"
 						value={confirmPassword}
+						// placeholder='********'
 						onChange={(e) => setConfirmPassword(e.target.value)}
 						required
 						/>
