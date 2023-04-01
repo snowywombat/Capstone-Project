@@ -43,9 +43,18 @@ const SplashPage = () => {
                 />
               </button>
               <div className='or-divider'>
-                <p>
-                ––––––––––––– or –––––––––––––
+                <p className='dashes'>
+                ––––––––––––––––––––
                 </p>
+
+                <p className='or'>
+                or
+                </p>
+
+                <p className='dashes'>
+                ––––––––––––––––––––
+                </p>
+
               </div>
               <button>
                 <OpenModalButtonSplashPage

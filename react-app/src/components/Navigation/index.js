@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import OpenModalButtonAddRecipe from '../OpenModalAddRecipe';
 import CreateRecipeModalForm from '../CreateRecipeModal/CreateRecipeModal'
+import AddRecipeModalForm from '../AddRecipeModal/AddRecipeModal'
 import './Navigation.css';
 import './ProfileButton.css'
 
@@ -35,19 +36,19 @@ function Navigation({ isLoaded }){
 					</NavLink>
 				</div>
 				<div className='recipe-button'>
-				{sessionUser && (
-					<div className = 'create-recipe-button'>
-						<OpenModalButtonAddRecipe
+					{sessionUser && (
+						<div className = 'create-recipe-button'>
+							<OpenModalButtonAddRecipe
 
-							user={sessionUser}
-							// recipe={recipe}
-							buttonText="Add a Recipe"
-							modalComponent={<CreateRecipeModalForm
-							/>}
-						/>
-					</div>
-				)}
-			</div>
+								user={sessionUser}
+								// recipe={recipe}
+								buttonText="Add a Recipe"
+								modalComponent={<AddRecipeModalForm
+								/>}
+							/>
+						</div>
+					)}
+				</div>
 			</nav>
 		</div>
 
