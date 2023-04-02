@@ -188,7 +188,7 @@ def create_recipe():
 
         if amount is None:
             errors["amount"] = "Measurement amount is required"
-        elif amount < 1.0 or amount > 10000.0:
+        elif amount < 0.001 or amount > 10000.0:
             errors["amount"] = "Measurement number must be less than 10, 000"
 
     for item in kitchenwares:

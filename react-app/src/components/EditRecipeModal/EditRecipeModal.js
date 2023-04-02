@@ -105,19 +105,25 @@ function EditRecipeModalForm({ recipes }) {
     })
   }
 
-  const handleIngredientDelete = () => {
-    for(let i = 0; i < ingredientArr.length; i++) {
-      let ingredient = ingredientArr[i]
-      dispatch(thunkDeleteIngredient(recipes.id, ingredient.id))
-    }
-  }
-
   const handleClick = () => {
     const confirmed = window.confirm("Are you sure you want to delete the recipe?");
     if (confirmed) {
       handleDelete();
     }
   }
+
+  const handleIngredientDelete = (id) => {
+    dispatch(thunkDeleteIngredient(recipes.id, id))
+      .then(() => {
+        closeModal(false)
+      })
+  }
+
+  const handleNewIngredientDelete = (idx) => {
+    const newIngredientCopy = [...newIngredient];
+    newIngredientCopy.splice(idx, 1); // Remove the specified element
+    setNewIngredient(newIngredientCopy);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -249,9 +255,9 @@ function EditRecipeModalForm({ recipes }) {
               />
             </div>
 
-            {/* <button onClick={handleIngredientDelete} type="submit" className='sub-edit-delete-button'>
+            <button onClick={() => handleIngredientDelete(item.id)} type="submit" className='sub-edit-delete-button'>
               <i className="fa-sharp fa-solid fa-circle-xmark" style={{fontSize: 12}}></i>
-            </button> */}
+            </button>
             </>
           ))}
 
@@ -272,6 +278,7 @@ function EditRecipeModalForm({ recipes }) {
                   {console.log(newIngredients, 'the new ingredients')}
                 }}
                 required
+                placeholder="3"
 
               />
 
@@ -286,6 +293,7 @@ function EditRecipeModalForm({ recipes }) {
                   setNewIngredient(newIngredients);
                 }}
                 required
+                placeholder="cups"
               />
 
 
@@ -299,7 +307,12 @@ function EditRecipeModalForm({ recipes }) {
                   setNewIngredient(newIngredients);
                 }}
                 required
+                placeholder="flour"
               />
+
+            <button onClick={() => handleNewIngredientDelete(idx)} type="submit" className='sub-edit-delete-button'>
+              <i className="fa-sharp fa-solid fa-circle-xmark" style={{fontSize: 12}}></i>
+            </button>
 
             </div>
           ))}

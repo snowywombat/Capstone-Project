@@ -10,14 +10,18 @@ export function ModalProvider({ children }) {
   // callback function that will be called when modal is closing
   const [onModalClose, setOnModalClose] = useState(null);
 
-  const closeModal = () => {
-    setModalContent(null); // clear the modal contents
+  const closeModal = (shouldCloseModal = true) => {
+    if (shouldCloseModal) {
+      setModalContent(null); // clear the modal contents
+    }
+
     // If callback function is truthy, call the callback function and reset it
     // to null:
     if (typeof onModalClose === 'function') {
       setOnModalClose(null);
       onModalClose();
     }
+
   };
 
   const contextValue = {

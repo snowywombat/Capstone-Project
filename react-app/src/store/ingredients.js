@@ -51,7 +51,7 @@ export const thunkSingleIngredient = (ingredientId) => async (dispatch) => {
     }
 }
 
-export const thunkDeleteIngredient = (recipeId, ingredientId) => async (dispatch) => {
+export const thunkDeleteIngredient = (recipeId, ingredientId, closeModal = true) => async (dispatch) => {
     const response = await fetch(`/api/recipes/${recipeId}/ingredients/${ingredientId}`, {
         method: 'DELETE',
     })
