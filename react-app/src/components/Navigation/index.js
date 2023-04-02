@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import OpenModalButtonAddRecipe from '../OpenModalAddRecipe';
 import CreateRecipeModalForm from '../CreateRecipeModal/CreateRecipeModal'
-import AddRecipeModalForm from '../AddRecipeModal/AddRecipeModal'
 import './Navigation.css';
 import './ProfileButton.css'
 
@@ -43,7 +42,7 @@ function Navigation({ isLoaded }){
 								user={sessionUser}
 								// recipe={recipe}
 								buttonText="Add a Recipe"
-								modalComponent={<AddRecipeModalForm
+								modalComponent={<CreateRecipeModalForm
 								/>}
 							/>
 						</div>

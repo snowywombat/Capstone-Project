@@ -66,7 +66,7 @@ const SingleRecipePage = () => {
 
     return (
         <>
-            {recipe && (
+            {recipe && recipe.user && formattedDate && (
             <section className='details-page'>
                 <div className = 'details-main'>
                     <div className='recipe-button'>

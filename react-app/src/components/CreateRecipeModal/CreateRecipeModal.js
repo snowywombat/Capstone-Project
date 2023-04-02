@@ -41,9 +41,9 @@ function CreateRecipeModalForm() {
         recipe_id: item.recipe_id
       })),
       kitchenwares: kitchenwares.map((item) => ({
-        // id: item.id,
+        id: item.id,
         name: item.name,
-        // recipe_id: item.recipe_id
+        recipe_id: item.recipe_id
 
       })),
       preparations: preparations.map((item) => ({
