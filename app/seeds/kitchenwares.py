@@ -8,7 +8,7 @@ kitchenware2 = Kitchenware(name="Colander for draining pasta",
     recipe_id=1
 )
 
-kitchenware3 = Kitchenware(name="Food processor or blender for making the pesto sauce",
+kitchenware3 = Kitchenware(name="Food processor or blender",
     recipe_id=1
 )
 
@@ -16,7 +16,7 @@ kitchenware4 = Kitchenware(name="Measuring cups and spoons",
     recipe_id=1
 )
 
-kitchenware5 = Kitchenware(name="Wooden spoon or tongs for stirring pasta",
+kitchenware5 = Kitchenware(name="Wooden spoon or tongs",
     recipe_id=1
 )
 
