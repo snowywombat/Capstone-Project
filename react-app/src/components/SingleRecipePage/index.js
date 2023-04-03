@@ -132,7 +132,7 @@ const SingleRecipePage = () => {
                                 <div className = 'ingredient-field'>
                                     {recipe.ingredients && recipe.ingredients.map((item, index) => (
                                         <div key={index} className = 'ingredients-ele'>
-                                            <li>{parseFloat(item.measurement_num).toFixed(0)} {item.measurement_type} {item.ingredient}</li>
+                                            <li>{parseFloat(item.measurement_num)} {item.measurement_type} {item.ingredient}</li>
                                         </div>
                                     ))}
                                 </div>
@@ -146,8 +146,8 @@ const SingleRecipePage = () => {
                             <div className='preparations-ele'>
                                 {recipe.preparation && recipe.preparation.map((step, index) => (
                                     <div key={index} className = 'steps'>
-                                        <div className='step-label'> Step {index + 1} </div>
-                                        {step.description}
+                                        <div className='step-label'> Step {index + 1}: </div>
+                                        <div className='step-descripton'>{step.description} </div>
                                     </div>
                                 ))}
                             </div>

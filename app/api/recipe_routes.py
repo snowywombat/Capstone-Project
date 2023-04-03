@@ -145,13 +145,13 @@ def create_recipe():
 
     if not name:
         errors["name"] = "Name is required"
-    elif len(name) < 2 or len(name) > 50:
-        errors["name"] = "Name must be more than 1 and less than 50 characters"
+    elif len(name) < 2 or len(name) > 100:
+        errors["name"] = "Name must be between 2 and 100 characters"
 
     if not description:
         errors["description"] = "Description is required"
-    elif len(description) < 2 or len(description) > 200:
-        errors["description"] = "Description must be more than 1 and less than 200 characters"
+    elif len(description) < 2 or len(description) > 500:
+        errors["description"] = "Description must between 2 and 500 characters"
 
     if not servings_num:
         errors["servings_num"] = "Serving size is required"
@@ -160,8 +160,12 @@ def create_recipe():
 
     if not img_url:
         errors["img_url"] = "Image is required"
-    elif len(img_url) < 2 or len(img_url) > 1000:
-        errors["img_url"] = "Image url must be more than 1 and less than 1, 000 characters"
+    elif len(img_url) < 13 or len(img_url) > 1000:
+        errors["img_url"] = "Image url must be between 13 and 1, 000 characters"
+    elif "http://" not in img_url and "https://" not in img_url:
+        errors["img_url"] = "Image url must include http:// or https://"
+    elif ".jpeg" not in img_url and ".jpg" not in img_url and ".png" not in img_url and ".gif" not in img_url and ".JPEG" not in img_url and ".JPG" not in img_url and ".PNG" not in img_url and ".GIF" not in img_url:
+        errors["img_url"] = "Image url must end in .jpg, .jpeg, .png, or .gif"
 
     if not ingredients:
         errors["ingredients"] = "Ingredients are required"
@@ -174,36 +178,36 @@ def create_recipe():
 
     for item in ingredients:
 
-        amount = item["measurement_num"]
+        amount = decimal.Decimal(item["measurement_num"])
 
         if not item["ingredient"]:
             errors["item['ingredient']"] = "Ingredient is required"
         elif len(item["ingredient"]) < 2 or len(item["ingredient"]) > 100:
-            errors["item['ingredient']"] = "Ingredient must be more than 1 and less than 100 characters"
+            errors["item['ingredient']"] = "Ingredient item must be between 2 and 100 characters"
 
         if not item["measurement_type"]:
             errors["item['measurment_type]"] = "Measurement type is required"
         elif len(item["measurement_type"]) < 2 or len(item["measurement_type"]) > 20:
-            errors["item['measurement_type]"] = "Measurement type must be more than 1 and less than 20 characters"
+            errors["item['measurement_type]"] = "Ingredient measurement type must be between 2 and 20 characters"
 
         if amount is None:
             errors["amount"] = "Measurement amount is required"
-        elif amount < 1.0 or amount > 10000.0:
-            errors["amount"] = "Measurement number must be less than 10, 000"
+        elif amount < 0.001 or amount > 10000.0:
+            errors["amount"] = "Ingredient measurement number must be less than 10, 000"
 
     for item in kitchenwares:
 
         if not item["name"]:
             errors["item['name']"] = "Name of cookware is required"
         elif len(item["name"]) < 2 or len(item["name"]) > 50:
-            errors["item['name']"] = "Name of things you'll need must be more than 1 and less than 20 characters"
+            errors["item['name']"] = "Things you'll need item must be between 2 and 50 characters"
 
     for item in preparations:
 
         if not item["description"]:
             errors["item['description']"] = "Preparation step is required"
         elif len(item["description"]) < 2 or len(item["description"]) > 200:
-            errors["item['description]"] = "Preparation step must be more than 1 and less than 200 characters long"
+            errors["item['description]"] = "Instruction step must be between 2 and 200 characters"
 
 
     formatted_errors = [f"{key}: {value}" for key, value in errors.items()]
@@ -377,13 +381,13 @@ def update_recipe(recipeId):
 
     if not name:
         errors["name"] = "Name is required"
-    elif len(name) < 2 or len(name) > 50:
-        errors["name"] = "Name must be more than 1 and less than 50 characters"
+    elif len(name) < 2 or len(name) > 100:
+        errors["name"] = "Name must be between 2 and 100 characters"
 
     if not description:
         errors["description"] = "Description is required"
-    elif len(description) < 2 or len(description) > 200:
-        errors["description"] = "Description must be more than 1 and less than 200 characters"
+    elif len(description) < 2 or len(description) > 500:
+        errors["description"] = "Description must between 2 and 500 characters"
 
     if not servings_num:
         errors["servings_num"] = "Serving size is required"
@@ -392,8 +396,8 @@ def update_recipe(recipeId):
 
     if not img_url:
         errors["img_url"] = "Image is required"
-    elif len(img_url) < 2 or len(img_url) > 1000:
-        errors["img_url"] = "Image url must be more than 1 and less than 1, 000 characters"
+    elif len(img_url) < 13 or len(img_url) > 1000:
+        errors["img_url"] = "Image url must be between 13 and 1, 000 characters"
     elif "http://" not in img_url and "https://" not in img_url:
         errors["img_url"] = "Image url must include http:// or https://"
     elif ".jpeg" not in img_url and ".jpg" not in img_url and ".png" not in img_url and ".gif" not in img_url and ".JPEG" not in img_url and ".JPG" not in img_url and ".PNG" not in img_url and ".GIF" not in img_url:
@@ -415,31 +419,31 @@ def update_recipe(recipeId):
         if not item["ingredient"]:
             errors["item['ingredient']"] = "Ingredient is required"
         elif len(item["ingredient"]) < 2 or len(item["ingredient"]) > 100:
-            errors["item['ingredient']"] = "Ingredient must be more than 1 and less than 100 characters"
+            errors["item['ingredient']"] = "Ingredient item must be between 2 and 100 characters"
 
         if not item["measurement_type"]:
             errors["item['measurment_type]"] = "Measurement type is required"
         elif len(item["measurement_type"]) < 2 or len(item["measurement_type"]) > 20:
-            errors["item['measurement_type]"] = "Measurement type must be more than 1 and less than 20 characters"
+            errors["item['measurement_type]"] = "Ingredient measurement type must be between 2 and 20 characters"
 
         if amount is None:
             errors["amount"] = "Measurement amount is required"
-        elif amount < 1.0 or amount > 10000.0:
-            errors["amount"] = "Measurement number must be less than 10, 000"
+        elif amount < 0.001 or amount > 10000.0:
+            errors["amount"] = "Ingredient measurement number must be less than 10, 000"
 
     for item in kitchenwares:
 
         if not item["name"]:
             errors["item['name']"] = "Name of cookware is required"
         elif len(item["name"]) < 2 or len(item["name"]) > 50:
-            errors["item['name']"] = "Name of things you'll need must be more than 1 and less than 20 characters"
+            errors["item['name']"] = "Things you'll need item must be between 2 and 50 characters"
 
     for item in preparations:
 
         if not item["description"]:
             errors["item['description']"] = "Preparation step is required"
         elif len(item["description"]) < 2 or len(item["description"]) > 200:
-            errors["item['description]"] = "Preparation step must be more than 1 and less than 200 characters long"
+            errors["item['description]"] = "Instruction step must be between 2 and 200 characters"
 
 
     formatted_errors = [f"{key}: {value}" for key, value in errors.items()]

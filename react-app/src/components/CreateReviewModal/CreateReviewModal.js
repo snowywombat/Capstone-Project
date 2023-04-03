@@ -42,7 +42,7 @@ function CreateReviewModalForm({ recipe }) {
         })
     } catch (e) {
       const errorResponse = e.errors;
-      const errorMessages = errorResponse.map((error) => error);
+      const errorMessages = errorResponse.map((error) => error.split(": ")[1]);
       setErrors(errorMessages);
     }
   };
@@ -59,13 +59,11 @@ function CreateReviewModalForm({ recipe }) {
     <div className="Global-Modal-Container3">
       <div className="Global-Modal-Header">Add a new review</div>
       <form onSubmit={handleSubmit} className="Global-ModalForm-Container">
-        <ul className="Global-Errors-UL">
-          {errors.map((error, idx) => (
-            <li key={idx} className="Global-Errors-LI">
-              {error}
-            </li>
-          ))}
-        </ul>
+        <ul>
+					{errors.map((error, idx) => (
+						<li className='errors-div' key={idx}>{error}</li>
+					))}
+				</ul>
 
         <div className='review-field'>
           <label>Your Review:</label>
@@ -102,6 +100,13 @@ function CreateReviewModalForm({ recipe }) {
         <button type="submit" className="review-submit-button">
           Add Review
         </button>
+
+        <ul className='errors-bottom'>
+					{errors.map((error, idx) => (
+						<li className='errors-div' key={idx}>{error}</li>
+					))}
+				</ul>
+
       </form>
     </div>
   );

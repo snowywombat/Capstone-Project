@@ -1,3 +1,13 @@
+.errors-div {
+    color: red;
+    margin-bottom: 10px;
+
+}
+
+.errors-bottom {
+    margin-top: 30px;
+}
+
 .signup-button {
     display: flex;
     justify-content: center;
@@ -13,46 +23,34 @@
     cursor: pointer;
 }
 
-/* .labels {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 3px;
-} */
-/*
-.inputs {
-    display: flex;
-    justify-content: center;
-} */
-
-.labels {
-    margin-right: 10px;
-}
-
 .first-name-field {
-    margin-bottom: 7px;
+    margin-top: 7px;
+    margin-bottom: 25px;
+
 }
 
 .last-name-field {
     margin-top: 7px;
-    margin-bottom: 7px;
+    margin-bottom: 25px;
 
 }
 .email-signup-field {
     margin-top: 7px;
-    margin-bottom: 7px;
+    margin-bottom: 25px;
 
 }
 .username-signup-field {
     margin-top: 7px;
-    margin-bottom: 7px;
+    margin-bottom: 25px;
 
 }
 .password-signup-field{
     margin-top: 7px;
-    margin-bottom: 7px;
+    margin-bottom: 25px;
 
 }
 
 .confirm-password-field {
     margin-top: 7px;
+    margin-bottom: 25px;
 }

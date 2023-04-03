@@ -74,14 +74,11 @@ function CreateRecipeModalForm() {
       <div className="Global-Modal-Header">Add a new recipe</div>
       <div className="Global-Modal-Description">Fill out the form below to share your recipe!</div>
       <form onSubmit={handleSubmit} className="Global-ModalForm-Container">
-        <ul className="Global-Errors-UL">
-          {errors.map((error, idx) => (
-            <li key={idx} className="Global-Errors-LI">
-              {error}
-            </li>
-          ))}
-        </ul>
-
+        <ul>
+					{errors.map((error, idx) => (
+						<li className='errors-div' key={idx}>{error}</li>
+					))}
+				</ul>
 
         <label className='form-labels'>Name of your recipe:</label>
         <input
@@ -95,8 +92,8 @@ function CreateRecipeModalForm() {
 
 
         <label className='form-labels form-lables-exclude-first'>Add a description:</label>
-        <input
-          type="text"
+        <textarea
+          rows="3"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
@@ -127,7 +124,7 @@ function CreateRecipeModalForm() {
 
         <div className='sub-fields'>
           {ingredients.map((item, idx) => (
-            <div key={idx} className='individual-sub-fields'>
+            <div key={idx} className='individual-sub-fields-ingredients'>
 
               <input
                 className='measurement-amount-field'
@@ -140,6 +137,7 @@ function CreateRecipeModalForm() {
                 type="number"
                 required
                 placeholder="3"
+
               />
 
               <input
@@ -208,7 +206,7 @@ function CreateRecipeModalForm() {
                     setKitchenwares(newKitchenwares);
                   }}
                   required
-                  placeholder='12" sheet pan'
+                  placeholder='large bowl'
                 />
               </div>
           ))}
@@ -238,7 +236,7 @@ function CreateRecipeModalForm() {
           {preparations.map((item, idx) => (
             <div key={idx} className="individual-sub-fields">
 
-              <input
+              <textarea
                 label= {`Step ${idx + 1}`}
                 type="text"
                 value={item.description}
@@ -249,6 +247,7 @@ function CreateRecipeModalForm() {
                 }}
                 required
                 placeholder='Add step here'
+                rows="1"
 
               />
             </div>
@@ -284,6 +283,12 @@ function CreateRecipeModalForm() {
         <button type="submit" className="Global-SubmitButton">
           Add Recipe
         </button>
+
+        <ul className='errors-bottom'>
+					{errors.map((error, idx) => (
+						<li className='errors-div' key={idx}>{error}</li>
+					))}
+				</ul>
 
       </form>
     </div>
