@@ -4,21 +4,21 @@ recipe1 = Recipe(name='Pesto Pasta',
     description='A simple yet delicious recipe for pesto pasta.',
     servings_num = 6,
     img_url='https://images.pexels.com/photos/1435896/pexels-photo-1435896.jpeg?auto=compress&cs=tinysrgb&w=1600',
-    user_id=3
+    user_id=1
 )
 
 recipe2 = Recipe(name='Chicken Curry',
     description='A spicy chicken curry recipe that is perfect for cold nights.',
     servings_num = 2,
     img_url='https://images.pexels.com/photos/7438982/pexels-photo-7438982.jpeg?auto=compress&cs=tinysrgb&w=1600',
-    user_id=6
+    user_id=2
 )
 
 recipe3 = Recipe(name='Cheese Pizza',
     description='A classic cheese pizza recipe that is sure to please.',
     servings_num = 4,
     img_url='https://images.pexels.com/photos/2471171/pexels-photo-2471171.jpeg?auto=compress&cs=tinysrgb&w=1600',
-    user_id=7
+    user_id=3
 )
 
 
