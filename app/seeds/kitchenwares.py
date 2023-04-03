@@ -1,84 +1,73 @@
 from app.models import db, Kitchenware, environment, SCHEMA
 
-kitchenware1 = Kitchenware(name="spoon",
+kitchenware1 = Kitchenware(name="Large pot for boiling pasta",
     recipe_id=1
 )
 
-kitchenware2 = Kitchenware(name="bowl",
-    recipe_id=2
-)
-
-kitchenware3 = Kitchenware(name="pan",
-    recipe_id=3
-)
-
-kitchenware4 = Kitchenware(name="wisk",
-    recipe_id=4
-)
-
-kitchenware5 = Kitchenware(name="baking sheet",
-    recipe_id=5
-)
-
-kitchenware6 = Kitchenware(name="large bowl",
-    recipe_id=6
-)
-
-kitchenware7 = Kitchenware(name="spatula",
-    recipe_id=7
-)
-
-kitchenware8 = Kitchenware(name="cutting knife",
-    recipe_id=8
-)
-
-kitchenware9 = Kitchenware(name="cutting board",
-    recipe_id=9
-)
-
-kitchenware10 = Kitchenware(name="pot",
-    recipe_id=10
-)
-
-kitchenware11 = Kitchenware(name="oven proof pan",
-    recipe_id=11
-)
-
-kitchenware12 = Kitchenware(name="blender",
+kitchenware2 = Kitchenware(name="Colander for draining pasta",
     recipe_id=1
 )
 
-kitchenware13 = Kitchenware(name="rolling pin",
+kitchenware3 = Kitchenware(name="Food processor or blender for making the pesto sauce",
+    recipe_id=1
+)
+
+kitchenware4 = Kitchenware(name="Measuring cups and spoons",
+    recipe_id=1
+)
+
+kitchenware5 = Kitchenware(name="Wooden spoon or tongs for stirring pasta",
+    recipe_id=1
+)
+
+kitchenware6 = Kitchenware(name="Serving bowl",
+    recipe_id=1
+)
+
+kitchenware7 = Kitchenware(name="Large pot",
     recipe_id=2
 )
 
-kitchenware14 = Kitchenware(name="10' deep pan",
+kitchenware8 = Kitchenware(name="Cutting board",
+    recipe_id=2
+)
+
+kitchenware9 = Kitchenware(name="Sharp knife",
+    recipe_id=2
+)
+
+kitchenware10 = Kitchenware(name="Wooden spoon or spatula",
+    recipe_id=2
+)
+
+kitchenware11 = Kitchenware(name="Measuring cups and spoons",
+    recipe_id=2
+)
+
+kitchenware12 = Kitchenware(name="Can opener",
+    recipe_id=2
+)
+
+kitchenware13 = Kitchenware(name="Small bowl",
+    recipe_id=2
+)
+
+kitchenware14 = Kitchenware(name="Rolling pin",
     recipe_id=3
 )
 
-kitchenware15 = Kitchenware(name="grater",
-    recipe_id=4
+kitchenware15 = Kitchenware(name="Pizza pan or baking sheet",
+    recipe_id=3
 )
 
-kitchenware16 = Kitchenware(name="slicer",
-    recipe_id=5
+kitchenware16 = Kitchenware(name="Parchment paper",
+    recipe_id=3
 )
 
-kitchenware17 = Kitchenware(name="wooden spoon",
-    recipe_id=6
+kitchenware17 = Kitchenware(name="Measuring cups and spoons",
+    recipe_id=3
 )
 
-kitchenware18 = Kitchenware(name="beater",
-    recipe_id=7
-)
-
-kitchenware19 = Kitchenware(name="salad fork",
-    recipe_id=8
-)
-
-kitchenware20 = Kitchenware(name="pitcher",
-    recipe_id=9
-)
 
 
 def seed_kitchenwares():
@@ -99,9 +88,6 @@ def seed_kitchenwares():
     db.session.add(kitchenware15)
     db.session.add(kitchenware16)
     db.session.add(kitchenware17)
-    db.session.add(kitchenware18)
-    db.session.add(kitchenware19)
-    db.session.add(kitchenware20)
     db.session.commit()
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
