@@ -134,13 +134,11 @@ function EditRecipeModalForm({ recipes }) {
     <div className="Global-Modal-Container">
       <div className="Global-Modal-Header">Edit a recipe</div>
       <form onSubmit={handleSubmit} className="Global-ModalForm-Container">
-        <ul className="Global-Errors-UL">
-          {errors.map((error, idx) => (
-            <li key={idx} className="Global-Errors-LI">
-              {error}
-            </li>
-          ))}
-        </ul>
+        <ul>
+					{errors.map((error, idx) => (
+						<li className='errors-div' key={idx}>{error}</li>
+					))}
+				</ul>
 
 
         <label className='form-labels'>Name of your recipe:</label>
@@ -149,16 +147,18 @@ function EditRecipeModalForm({ recipes }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
+          placeholder="Spaghetti & Meatballs"
           className="Global-Modal-input"
         />
 
 
         <label className='form-labels form-lables-exclude-first'>Add a description:</label>
-        <input
-          type="text"
+        <textarea
+          rows="3"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
+          placeholder="Juicy meatballs made with ground beef, breadcrumbs..."
           className="Global-Modal-input"
         />
 
@@ -169,6 +169,7 @@ function EditRecipeModalForm({ recipes }) {
           value={servings_num}
           onChange={(e) => setServingsNum(e.target.value)}
           required
+          placeholder="4"
           className="Global-Modal-input"
         />
 
@@ -197,6 +198,7 @@ function EditRecipeModalForm({ recipes }) {
                   setIngredients(oldIngredients);
                 }}
                 required
+                placeholder="3"
 
               />
 
@@ -211,6 +213,7 @@ function EditRecipeModalForm({ recipes }) {
                   setIngredients(oldIngredients);
                 }}
                 required
+                placeholder="cups"
               />
 
 
@@ -224,6 +227,7 @@ function EditRecipeModalForm({ recipes }) {
                   setIngredients(oldIngredients);
                 }}
                 required
+                placeholder="flour"
               />
             </div>
           ))}
@@ -245,6 +249,7 @@ function EditRecipeModalForm({ recipes }) {
                   {console.log(newIngredients, 'the new ingredients')}
                 }}
                 required
+                placeholder="3"
 
               />
 
@@ -259,6 +264,7 @@ function EditRecipeModalForm({ recipes }) {
                   setNewIngredient(newIngredients);
                 }}
                 required
+                placeholder="cups"
               />
 
 
@@ -272,6 +278,7 @@ function EditRecipeModalForm({ recipes }) {
                   setNewIngredient(newIngredients);
                 }}
                 required
+                placeholder="flour"
               />
             </div>
           ))}
@@ -306,6 +313,7 @@ function EditRecipeModalForm({ recipes }) {
                   setKitchenwares(oldKitchenwares);
                 }}
                 required
+                placeholder='large bowl'
               />
             </div>
           ))}
@@ -323,6 +331,7 @@ function EditRecipeModalForm({ recipes }) {
                   setNewKitchenware(newKitchenwares);
                 }}
                 required
+                placeholder='large bowl'
               />
             </div>
           ))}
@@ -347,7 +356,7 @@ function EditRecipeModalForm({ recipes }) {
           {preparations.map((item, idx) => (
             <div key={idx} className="individual-sub-fields">
 
-              <input
+              <textarea
                 label= {`Step ${idx + 1}`}
                 type="text"
                 value={item.description}
@@ -357,6 +366,8 @@ function EditRecipeModalForm({ recipes }) {
                   setPreparations(oldPreparations);
                 }}
                 required
+                rows="1"
+                placeholder={`Step ${idx + 1}`}
               />
             </div>
           ))}
@@ -364,7 +375,7 @@ function EditRecipeModalForm({ recipes }) {
           {newPreparation.map((item, idx) => (
             <div key={idx} className="individual-sub-fields">
 
-              <input
+              <textarea
                 label= {`Step ${idx + 1}`}
                 type="text"
                 value={item.description}
@@ -374,6 +385,8 @@ function EditRecipeModalForm({ recipes }) {
                   setNewPreparation(newPreparations);
                 }}
                 required
+                rows="1"
+                placeholder='Add step here'
               />
             </div>
           ))}
@@ -395,6 +408,7 @@ function EditRecipeModalForm({ recipes }) {
           value={img_url}
           onChange={(e) => setImageUrl(e.target.value)}
           required
+          placeholder="example.jpg"
         />
 
         <button type="submit" className="Global-SubmitButton">
@@ -403,6 +417,13 @@ function EditRecipeModalForm({ recipes }) {
         <button onClick={handleClick} type="submit" className='edit-delete-button'>
           Delete
         </button>
+
+        <ul className='errors-bottom'>
+					{errors.map((error, idx) => (
+						<li className='errors-div' key={idx}>{error}</li>
+					))}
+				</ul>
+
       </form>
     </div>
   );

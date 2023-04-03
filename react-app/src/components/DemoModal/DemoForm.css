@@ -12,3 +12,13 @@
 .demo-button:hover {
     cursor: pointer;
 }
+
+.email-label {
+    margin-right: 5px;
+
+}
+
+.password-label {
+    margin-right: 5px;
+
+}

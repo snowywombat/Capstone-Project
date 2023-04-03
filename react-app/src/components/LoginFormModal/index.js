@@ -32,15 +32,15 @@ function LoginFormModal() {
     <>
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
-        <ul>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
-        </ul>
+      <ul>
+					{errors.map((error, idx) => (
+						<li className='errors-div' key={idx}>{error}</li>
+					))}
+				</ul>
         <div className='fields'>
 
           <div className='email-login-field'>
-            <label>Email:</label>
+            <label className='email-label'>Email:</label>
               <input
                 type="email"
                 value={email}
@@ -50,7 +50,7 @@ function LoginFormModal() {
           </div>
 
           <div className='password-login-field'>
-            <label>Password:</label>
+            <label className='password-label'>Password:</label>
               <input
                 type="password"
                 value={password}

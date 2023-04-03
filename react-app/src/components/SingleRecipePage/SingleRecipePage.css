@@ -71,7 +71,10 @@
 
 .kitchen-ele {
     font-size: 18px;
+}
 
+.item-name {
+    margin-bottom: 4px;
 }
 
 .ingredients {
@@ -81,6 +84,7 @@
 
 .ingredients-ele {
     font-size: 18px;
+    margin-bottom: 4px;
 }
 
 .servings {
@@ -160,10 +164,12 @@
 
 .step-label {
     margin-bottom: 5px;
+    margin-right: 10px;
     font-weight: 500;
 }
 
 .steps {
+    display: flex;
     margin-bottom: 20px;
 }
 
