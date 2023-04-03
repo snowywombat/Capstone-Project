@@ -30,94 +30,118 @@ ingredient5 = Ingredient(measurement_num=0.5,
     recipe_id=1
 )
 
-ingredient6 = Ingredient(measurement_num=0.75,
-    measurement_type="cup",
-    ingredient="granulated sugar",
-    recipe_id=10
+ingredient6 = Ingredient(measurement_num=1,
+    measurement_type="lb",
+    ingredient="boneless, skinless chicken breasts, cut into bite-sized pieces",
+    recipe_id=2
 )
 
-ingredient7 = Ingredient(measurement_num=2,
-    measurement_type="large",
-    ingredient="eggs",
-    recipe_id=6
-)
-
-ingredient8 = Ingredient(measurement_num=2,
-    measurement_type="tablespoons",
-    ingredient="olive oil",
-    recipe_id=8
-)
-
-ingredient9 = Ingredient(measurement_num=1,
+ingredient7 = Ingredient(measurement_num=1,
     measurement_type="medium",
     ingredient="onion, chopped",
     recipe_id=2
 )
 
+ingredient8 = Ingredient(measurement_num=1,
+    measurement_type="tbsp",
+    ingredient="ginger, minced",
+    recipe_id=2
+)
+
+ingredient9 = Ingredient(measurement_num=1,
+    measurement_type="tbsp",
+    ingredient="vegetable oil",
+    recipe_id=2
+)
+
 ingredient10 = Ingredient(measurement_num=1,
-    measurement_type="cup",
-    ingredient="flour",
-    recipe_id=4
+    measurement_type="tbsp",
+    ingredient="curry powder",
+    recipe_id=2
 )
 
-ingredient11 = Ingredient(measurement_num=2,
-    measurement_type="cloves",
-    ingredient="garlic, minced",
-    recipe_id=9
+ingredient11 = Ingredient(measurement_num=1,
+    measurement_type="tsp",
+    ingredient="ground cumin",
+    recipe_id=2
 )
 
-ingredient12 = Ingredient(measurement_num=2,
-    measurement_type="cans (28 oz each)",
-    ingredient="whole peeled tomatoes",
-    recipe_id=3
+ingredient12 = Ingredient(measurement_num=1,
+    measurement_type="tsp",
+    ingredient="ground coriander",
+    recipe_id=2
 )
 
 ingredient13 = Ingredient(measurement_num=0.5,
-    measurement_type="cup",
-    ingredient="chicken or vegetable broth",
-    recipe_id=5
+    measurement_type="tsp",
+    ingredient="turmeric",
+    recipe_id=2
 )
 
 ingredient14 = Ingredient(measurement_num=0.5,
-    measurement_type="cup",
-    ingredient="heavy cream",
-    recipe_id=7
+    measurement_type="tsp",
+    ingredient="cayenne pepper (adjust to taste)",
+    recipe_id=2
 )
 
-ingredient15 = Ingredient(measurement_num=2,
-    measurement_type="tablespoons",
-    ingredient="chopped fresh basil leaves",
+ingredient15 = Ingredient(measurement_num=0.5,
+    measurement_type="tsp",
+    ingredient="salt (adjust to taste)",
     recipe_id=2
 )
 
 ingredient16 = Ingredient(measurement_num=1,
-    measurement_type="pound",
-    ingredient="boneless, skinless chicken breast, sliced into thin strips",
-    recipe_id=1
+    measurement_type="can (14 oz)",
+    ingredient="diced tomatoes",
+    recipe_id=2
 )
 
 ingredient17 = Ingredient(measurement_num=1,
-    measurement_type="tablespoon",
-    ingredient="grated fresh ginger",
-    recipe_id=9
+    measurement_type="can (13.5 oz)",
+    ingredient="coconut milk",
+    recipe_id=2
 )
 
 ingredient18 = Ingredient(measurement_num=0.25,
     measurement_type="cup",
-    ingredient="soy sauce",
-    recipe_id=11
+    ingredient="fresh cilantro leaves, chopped (optional)",
+    recipe_id=2
 )
 
 ingredient19 = Ingredient(measurement_num=1,
-    measurement_type="ablespoon",
-    ingredient="honey",
-    recipe_id=6
+    measurement_type="pound",
+    ingredient="pizza dough",
+    recipe_id=3
 )
 
-ingredient20 = Ingredient(measurement_num=2,
+ingredient20 = Ingredient(measurement_num=0.5,
     measurement_type="cup",
-    ingredient="mixed vegetables",
-    recipe_id=8
+    ingredient="tomato sauce",
+    recipe_id=3
+)
+
+ingredient21 = Ingredient(measurement_num=0.25,
+    measurement_type="tsp",
+    ingredient="garlic powder",
+    recipe_id=3
+)
+
+ingredient22 = Ingredient(measurement_num=0.25,
+    measurement_type="tsp",
+    ingredient="onion powder",
+    recipe_id=3
+)
+
+ingredient23 = Ingredient(measurement_num=0.25,
+    measurement_type="tsp",
+    ingredient="dried oregano",
+    recipe_id=3
+)
+
+ingredient24 = Ingredient(measurement_num=2,
+    measurement_type="cups",
+    ingredient="shredded mozzarella cheese",
+    recipe_id=3
 )
 
 
@@ -142,6 +166,10 @@ def seed_ingredients():
     db.session.add(ingredient18)
     db.session.add(ingredient19)
     db.session.add(ingredient20)
+    db.session.add(ingredient21)
+    db.session.add(ingredient22)
+    db.session.add(ingredient23)
+    db.session.add(ingredient24)
     db.session.commit()
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
