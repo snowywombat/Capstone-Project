@@ -102,12 +102,6 @@ function CreateReviewModalForm({ recipe }) {
           Add Review
         </button>
 
-        <ul className='errors-bottom'>
-					{errors.map((error, idx) => (
-						<li className='errors-div' key={idx}>{error}</li>
-					))}
-				</ul>
-
       </form>
     </div>
   );
