@@ -1,33 +1,33 @@
 from app.models import db, Ingredient, environment, SCHEMA
 
 ingredient1 = Ingredient(measurement_num=1,
-    measurement_type="cup",
-    ingredient="flour",
-    recipe_id=6
-)
-
-ingredient2 = Ingredient(measurement_num=3,
-    measurement_type="cups",
-    ingredient="water",
+    measurement_type="pound",
+    ingredient="pasta",
     recipe_id=1
 )
 
-ingredient3 = Ingredient(measurement_num=0.5,
-    measurement_type="teaspoon",
-    ingredient="salt",
-    recipe_id=7
+ingredient2 = Ingredient(measurement_num=2,
+    measurement_type="cups",
+    ingredient="fresh basil leaves, packed",
+    recipe_id=1
 )
 
-ingredient4 = Ingredient(measurement_num=2,
-    measurement_type="1/4 cup",
-    ingredient="yeast",
-    recipe_id=5
+ingredient3 = Ingredient(measurement_num=3,
+    measurement_type="cloves",
+    ingredient="garlic, minced",
+    recipe_id=1
 )
 
-ingredient5 = Ingredient(measurement_num=1,
-    measurement_type="teaspoon",
-    ingredient="baking soda",
-    recipe_id=11
+ingredient4 = Ingredient(measurement_num=0.5,
+    measurement_type="cup",
+    ingredient="grated Parmesan cheese",
+    recipe_id=1
+)
+
+ingredient5 = Ingredient(measurement_num=0.5,
+    measurement_type="cup",
+    ingredient="olive oil",
+    recipe_id=1
 )
 
 ingredient6 = Ingredient(measurement_num=0.75,

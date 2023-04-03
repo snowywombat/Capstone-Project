@@ -1,27 +1,27 @@
 from app.models import db, Preparation, environment, SCHEMA
 
-preparation1 = Preparation(description="Preheat your oven to 375°F (190°C). Line a baking sheet with parchment paper.",
-    recipe_id=4
+preparation1 = Preparation(description="Cook the pasta according to package instructions until al dente. Reserve 1/2 cup of the pasta water.",
+    recipe_id=1
 )
 
-preparation2 = Preparation(description="In a medium bowl, whisk together the flour, baking soda, and salt.",
-    recipe_id=9
+preparation2 = Preparation(description="While the pasta is cooking, make the pesto sauce. In a food processor, combine the basil leaves, garlic, Parmesan cheese, and olive oil. Pulse until smooth.",
+    recipe_id=1
 )
 
-preparation3 = Preparation(description="In a large bowl, using an electric mixer, cream together the butter, granulated sugar, and brown sugar until light and fluffy, about 3-4 minutes.",
-    recipe_id=3
+preparation3 = Preparation(description="If the pesto sauce is too thick, add some of the reserved pasta water, a tablespoon at a time, until the desired consistency is reached.",
+    recipe_id=1
 )
 
-preparation4 = Preparation(description="Add the eggs one at a time, beating well after each addition.",
-    recipe_id=8
+preparation4 = Preparation(description="Drain the pasta and return it to the pot. Add the pesto sauce and toss to coat the pasta evenly.",
+    recipe_id=1
 )
 
-preparation5 = Preparation(description="Add the vanilla extract and beat until well combined.",
-    recipe_id=5
+preparation5 = Preparation(description="Season with salt and pepper to taste.",
+    recipe_id=1
 )
 
-preparation6 = Preparation(description="Gradually add the dry ingredients to the butter mixture, beating on low speed until just incorporated.",
-    recipe_id=10
+preparation6 = Preparation(description="Serve hot, garnished with additional Parmesan cheese and fresh basil leaves, if desired.",
+    recipe_id=1
 )
 
 preparation7 = Preparation(description="Stir in the chocolate chips by hand, making sure they are evenly distributed throughout the dough.",
