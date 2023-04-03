@@ -23,34 +23,65 @@
     cursor: pointer;
 }
 
+.first-name-label {
+    width: 70%;
+}
+
+.last-name-label {
+    width: 70%;
+}
+
+.email-label {
+    width: 30%;
+}
+
+.username-label {
+    width: 65%;
+}
+
+.password-label {
+    width: 55%;
+}
+
+.confirm-password-label {
+    width: 110%;
+}
+
+
 .first-name-field {
+    display: flex;
     margin-top: 7px;
     margin-bottom: 25px;
 
 }
 
 .last-name-field {
+    display: flex;
     margin-top: 7px;
     margin-bottom: 25px;
 
 }
 .email-signup-field {
+    display: flex;
     margin-top: 7px;
     margin-bottom: 25px;
 
 }
 .username-signup-field {
+    display: flex;
     margin-top: 7px;
     margin-bottom: 25px;
 
 }
-.password-signup-field{
+.password-signup-field {
+    display: flex;
     margin-top: 7px;
     margin-bottom: 25px;
 
 }
 
 .confirm-password-field {
+    display: flex;
     margin-top: 7px;
     margin-bottom: 25px;
 }

@@ -50,7 +50,7 @@ function SignupFormModal() {
 				<div className='fields'>
 
 					<div className='first-name-field'>
-					<label className='labels'>First Name:</label>
+					<label className='first-name-label'>First Name:</label>
 						<input
 						className='inputs'
 						value={first_name}
@@ -61,7 +61,7 @@ function SignupFormModal() {
 					</div>
 
 					<div className='last-name-field'>
-					<label className='labels'>Last Name:</label>
+					<label className='last-name-label'>Last Name:</label>
 						<input
 						value={last_name}
 						// placeholder='Doe'
@@ -71,7 +71,7 @@ function SignupFormModal() {
 					</div>
 
 					<div className='email-signup-field'>
-					<label className='labels'>Email:</label>
+					<label className='email-label'>Email:</label>
 						<input
 						type="email"
 						value={email}
@@ -82,7 +82,7 @@ function SignupFormModal() {
 					</div>
 
 					<div className='username-signup-field'>
-					<label className='labels'>Username:</label>
+					<label className='username-label'>Username:</label>
 						<input
 						value={username}
 						// placeholder='janedoe'
@@ -92,7 +92,7 @@ function SignupFormModal() {
 					</div>
 
 					<div className='password-signup-field'>
-					<label className='labels'>Password:</label>
+					<label className='password-label'>Password:</label>
 						<input
 						type="password"
 						value={password}
@@ -103,7 +103,7 @@ function SignupFormModal() {
 					</div>
 
 					<div className='confirm-password-field'>
-					<label className='labels'>Confirm Password:</label>
+					<label className='confirm-password-label'>Confirm Password:</label>
 						<input
 						type="password"
 						value={confirmPassword}
