@@ -12,7 +12,7 @@ def seed_users():
     sandra = User(
         first_name='Sandra', last_name="Bullock", username='sandrabullock', email='sandra@aa.io', password='password')
 
-    db.session.add(user)
+    db.session.add(demo)
     db.session.add(shana)
     db.session.add(meryl)
     db.session.add(sandra)
