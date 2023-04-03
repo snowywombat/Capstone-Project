@@ -163,6 +163,7 @@
 }
 
 .step-label {
+    display: flex;
     margin-bottom: 5px;
     margin-right: 10px;
     font-weight: 500;
@@ -170,6 +171,7 @@
 
 .steps {
     display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
 }
 
