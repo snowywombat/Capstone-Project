@@ -206,8 +206,8 @@ def create_recipe():
 
         if not item["description"]:
             errors["item['description']"] = "Preparation step is required"
-        elif len(item["description"]) < 2 or len(item["description"]) > 200:
-            errors["item['description]"] = "Instruction step must be between 2 and 200 characters"
+        elif len(item["description"]) < 2 or len(item["description"]) > 150:
+            errors["item['description]"] = "Instruction step must be between 2 and 150 characters"
 
 
     formatted_errors = [f"{key}: {value}" for key, value in errors.items()]
@@ -442,8 +442,8 @@ def update_recipe(recipeId):
 
         if not item["description"]:
             errors["item['description']"] = "Preparation step is required"
-        elif len(item["description"]) < 2 or len(item["description"]) > 200:
-            errors["item['description]"] = "Instruction step must be between 2 and 200 characters"
+        elif len(item["description"]) < 2 or len(item["description"]) > 150:
+            errors["item['description]"] = "Instruction step must be between 2 and 150 characters"
 
 
     formatted_errors = [f"{key}: {value}" for key, value in errors.items()]
