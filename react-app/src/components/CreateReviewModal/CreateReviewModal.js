@@ -42,7 +42,8 @@ function CreateReviewModalForm({ recipe }) {
         })
     } catch (e) {
       const errorResponse = e.errors;
-      const errorMessages = errorResponse.map((error) => error.split(": ")[1]);
+      console.log(errorResponse, 'error Response')
+      const errorMessages = errorResponse.map((error) => error);
       setErrors(errorMessages);
     }
   };
