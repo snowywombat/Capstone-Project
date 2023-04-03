@@ -66,7 +66,7 @@ const SingleRecipePage = () => {
 
     return (
         <>
-            {recipe && recipe.user && formattedDate ? (
+            {recipe && recipe.user && formattedDate && (
                 <section className='details-page'>
                     <div className = 'details-main'>
                         <div className='recipe-button'>
@@ -247,10 +247,6 @@ const SingleRecipePage = () => {
                     </div>
 
                 </section>
-            ) : (
-
-                <h1>Recipe not found</h1>
-
             )}
         </>
     )
