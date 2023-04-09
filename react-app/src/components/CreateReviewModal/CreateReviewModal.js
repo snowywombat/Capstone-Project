@@ -42,7 +42,8 @@ function CreateReviewModalForm({ recipe }) {
         })
     } catch (e) {
       const errorResponse = e.errors;
-      const errorMessages = errorResponse.map((error) => error.split(": ")[1]);
+      console.log(errorResponse, 'error Response')
+      const errorMessages = errorResponse.map((error) => error);
       setErrors(errorMessages);
     }
   };
@@ -100,12 +101,6 @@ function CreateReviewModalForm({ recipe }) {
         <button type="submit" className="review-submit-button">
           Add Review
         </button>
-
-        <ul className='errors-bottom'>
-					{errors.map((error, idx) => (
-						<li className='errors-div' key={idx}>{error}</li>
-					))}
-				</ul>
 
       </form>
     </div>
