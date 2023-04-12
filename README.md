@@ -1,6 +1,6 @@
 # Shana's Kitchen 🍋
 
-Shana's Kitchen is a website clone of Bon Appetit. It is a platform to post and view recipes for your own culinary exploration!
+Shana's Kitchen is inspired by the website, Bon Appetit. It is a platform to post and view recipes for your own culinary exploration!
 
 Live site: https://shanaskitchen.onrender.com
 
