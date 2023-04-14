@@ -11,11 +11,30 @@ def seed_users():
         first_name='Meryl', last_name='Streep', username='merylstreep',email='meryl@aa.io', password='password')
     sandra = User(
         first_name='Sandra', last_name="Bullock", username='sandrabullock', email='sandra@aa.io', password='password')
+    aubrey = User(
+        first_name='Aubrey', last_name='Plaza', username='aubreyplaza', email='aubrey@aa.io', password='password')
+    boglarka = User(
+        first_name='Boglarka', last_name='Edouard', username='boglarkaedouard', email='boglarka@aa.io', password='password')
+    coreen = User(
+        first_name='Coreen', last_name='Viczian', username='coreenviczian', email='coreen@aa.io', password='password')
+    steve = User(
+        first_name='Steve', last_name='Carell', username='stevecarell', email='steve@aa.io', password='password')
+    gordon = User(
+        first_name='Gordon', last_name='Ramsay', username='gordonramsay', email='gordon@aa.io', password='password')
+    bill = User(
+        first_name='Bill', last_name='Hader', username='billhader', email='bill@aa.io', password='password')
+
 
     db.session.add(demo)
     db.session.add(shana)
     db.session.add(meryl)
     db.session.add(sandra)
+    db.session.add(aubrey)
+    db.session.add(boglarka)
+    db.session.add(coreen)
+    db.session.add(steve)
+    db.session.add(gordon)
+    db.session.add(bill)
     db.session.commit()
 
 
