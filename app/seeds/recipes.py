@@ -21,12 +21,84 @@ recipe3 = Recipe(name='Cheese Pizza',
     user_id=3
 )
 
+recipe4 = Recipe(name='Baked Salmon',
+    description='Flaky baked salmon seasoned with lemon and herbs, tender and delicious.',
+    servings_num = 6,
+    img_url='https://images.pexels.com/photos/5741440/pexels-photo-5741440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    user_id=4
+)
+
+recipe5 = Recipe(name='Carne Asada Tacos',
+    description='Tender beef in warm corn tortillas, topped with onion and cilantro.',
+    servings_num = 5,
+    img_url='https://images.pexels.com/photos/7613568/pexels-photo-7613568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    user_id=5
+)
+
+recipe6 = Recipe(name='Greek Yogurt Parfait',
+    description='Thick Greek yogurt layered with fresh berries and crunchy granola.',
+    servings_num = 4,
+    img_url='https://images.pexels.com/photos/4696280/pexels-photo-4696280.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    user_id=5
+)
+
+recipe7 = Recipe(name='Mixed Salad w/ Avocado',
+    description='Colorful mix of greens, veggies, and feta cheese, dressed with tangy vinaigrette.',
+    servings_num = 6,
+    img_url='https://images.pexels.com/photos/1213710/pexels-photo-1213710.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    user_id=10
+)
+
+recipe8 = Recipe(name='Very Berry Pancakes',
+    description='Delicious pancakes loaded with fresh berries, a sweet breakfast treat.',
+    servings_num = 8,
+    img_url='https://images.pexels.com/photos/2280545/pexels-photo-2280545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    user_id=7
+)
+
+recipe9 = Recipe(name='Low Calorie Buttery Popcorn',
+    description='Light and airy popcorn seasoned with buttery flavor, guilt-free snacking.',
+    servings_num = 2,
+    img_url='https://images.pexels.com/photos/3537844/pexels-photo-3537844.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    user_id=8
+)
+
+recipe10 = Recipe(name='Avocado Toast with Spinach',
+    description='Crusty bread topped with creamy avocado, fresh spinach, and zesty lemon.',
+    servings_num = 2,
+    img_url='https://images.pexels.com/photos/1351238/pexels-photo-1351238.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    user_id=9
+)
+
+recipe11 = Recipe(name='Chicken Noodle Soup',
+    description='Hearty chicken soup with tender noodles and fresh herbs, comforting classic.',
+    servings_num = 8,
+    img_url='https://images.pexels.com/photos/4041711/pexels-photo-4041711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    user_id=6
+)
+
+recipe12 = Recipe(name='Rustic Artesian Bread',
+    description='Crusty, rustic bread made with simple ingredients, perfect for sandwiches.',
+    servings_num = 12,
+    img_url='https://images.pexels.com/photos/1387070/pexels-photo-1387070.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    user_id=3
+)
+
 
 
 def seed_recipes():
     db.session.add(recipe1)
     db.session.add(recipe2)
     db.session.add(recipe3)
+    db.session.add(recipe4)
+    db.session.add(recipe5)
+    db.session.add(recipe6)
+    db.session.add(recipe7)
+    db.session.add(recipe8)
+    db.session.add(recipe9)
+    db.session.add(recipe10)
+    db.session.add(recipe11)
+    db.session.add(recipe12)
 
 
     db.session.commit()
