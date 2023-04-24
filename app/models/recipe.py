@@ -21,6 +21,7 @@ class Recipe(db.Model):
     user = db.relationship("User", back_populates="recipes")
 
     reviews = db.relationship("Review", back_populates="recipe", cascade="all,delete")
+    tags = db.relationship("Tag", back_populates="recipe", cascade="all,delete")
     kitchenwares = db.relationship("Kitchenware", back_populates="recipe", cascade="all,delete")
     preparations = db.relationship("Preparation", back_populates="recipe", cascade="all,delete")
     ingredients = db.relationship("Ingredient", back_populates="recipe", cascade="all,delete")
@@ -38,6 +39,7 @@ class Recipe(db.Model):
             'user_id': self.user_id,
             'user': self.user,
             'reviews': self.reviews,
+            'tags': self.tags,
             'kitchenwares': self.kitchenwares,
             'preparations': self.preparations,
             'ingredients':self.ingredients

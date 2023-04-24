@@ -8,6 +8,8 @@ import EditReviewModalForm from "../EditReviewModal/EditReviewModal";
 import EditRecipeModalForm from "../EditRecipeModal/EditRecipeModal";
 import { thunkGetSingleRecipe } from "../../store/recipes";
 import { thunkDeleteReview, thunkGetAllReviews } from "../../store/reviews"
+import { thunkGetAllTags, thunkDeleteTag } from "../../store/tags";
+import CreateTagForm from "../CreateTags";
 import './SingleRecipePage.css'
 
 const SingleRecipePage = () => {
@@ -17,9 +19,9 @@ const SingleRecipePage = () => {
 
     const singleRecipe = useSelector(state => state.recipes);
     const allReviews = useSelector(state => state.reviews);
+    const allTags = useSelector(state => state.tags);
     const user = useSelector(state => state.session.user);
 
-    console.log(singleRecipe, 'singleRecipe in component')
 
     useEffect(() => {
         dispatch(thunkGetSingleRecipe(recipeId))
@@ -27,6 +29,10 @@ const SingleRecipePage = () => {
 
     useEffect(() => {
         dispatch(thunkGetAllReviews(recipeId))
+    }, [dispatch, recipeId]);
+
+    useEffect(() => {
+        dispatch(thunkGetAllTags(recipeId))
     }, [dispatch, recipeId]);
 
     if(!singleRecipe) {
@@ -37,12 +43,15 @@ const SingleRecipePage = () => {
         return <div>Loading...</div>
     }
 
+    if(!allTags) {
+        return <div>Loading...</div>
+    }
+
     const recipe = Object.values(singleRecipe).find(el => el.id === Number(recipeId))
     console.log(recipe, 'recipe here')
 
     const reviewArr = Object.values(allReviews)
-
-    console.log(reviewArr, 'reviewArr')
+    const tagArr = Object.values(allTags)
 
     const dateObj = new Date(recipe?.createdAt);
     const formattedDate = dateObj.toLocaleDateString("en-US", {
@@ -57,11 +66,17 @@ const SingleRecipePage = () => {
         .then(() => dispatch(thunkGetAllReviews(recipeId)))
     }
 
-   const handleClick = (reviewId) => {
+    const handleClick = (reviewId) => {
         const confirmed = window.confirm("Are you sure you want to delete your review?");
         if (confirmed) {
-          handleDelete(reviewId);
+            handleDelete(reviewId);
         }
+    }
+
+    const handleTagDelete = (tagId) => {
+        dispatch(thunkDeleteTag(tagId))
+        .then(() => dispatch(thunkGetSingleRecipe(recipeId)))
+        .then(() => dispatch(thunkGetAllTags(recipeId)))
     }
 
     return (
@@ -243,6 +258,34 @@ const SingleRecipePage = () => {
                                 </div>
 
                             </div>
+
+                            <div className='tags-section'>
+                            Tags
+                            <hr className="hr-break" />
+
+                            {tagArr.map((tag, index) => (
+                                <>
+                                    <div>
+                                        {tag.tag_name}
+                                    </div>
+
+                                    <div className='delete-tag-button-div'>
+                                        <button onClick={() => handleTagDelete(tag.id)} type="submit" className='delete-tag-button'>
+                                            <i className="fa-sharp fa-solid fa-circle-xmark" style={{fontSize: 20}}></i>
+                                        </button>
+                                    </div>
+                                </>
+
+
+                            ))}
+
+                            <CreateTagForm
+                            recipe = { recipe }
+                            />
+
+                            </div>
+
+
                         </div>
                     </div>
 

@@ -52,7 +52,7 @@ def update_review(reviewId):
 @review_routes.route('/<int:reviewId>', methods=["DELETE"])
 @login_required
 def delete_review(reviewId):
-    #find recipe
+    #find review
     delete_review = db.session.query(Review).get(int(reviewId))
 
     if not delete_review:

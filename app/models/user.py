@@ -18,6 +18,8 @@ class User(db.Model, UserMixin):
 
     recipes = db.relationship("Recipe", back_populates="user")
     reviews = db.relationship("Review", back_populates="user")
+    tags = db.relationship("Tag", back_populates="user")
+    cultures = db.relationship("Culture", back_populates="user")
 
     @property
     def password(self):

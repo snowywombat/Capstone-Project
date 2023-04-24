@@ -31,7 +31,7 @@ function Navigation({ isLoaded }){
 			<nav className='extra-header'>
 				<div className='all-recipes-nav'>
 					<NavLink className='recipes-navlink' exact to="/recipes">
-						<h3 className='recipes-nav'> All Recipes</h3>
+						<h3 className='recipes-nav'>All Recipes</h3>
 					</NavLink>
 				</div>
 				<div className='recipe-button'>
@@ -47,6 +47,11 @@ function Navigation({ isLoaded }){
 							/>
 						</div>
 					)}
+				</div>
+				<div className='all-culture-nav'>
+					<NavLink className='culture-navlink' exact to="/culture">
+						<h3 className='culture-nav'>Culture</h3>
+					</NavLink>
 				</div>
 			</nav>
 		</div>

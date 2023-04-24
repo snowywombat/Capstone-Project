@@ -2,6 +2,8 @@ from flask.cli import AppGroup
 from .users import seed_users, undo_users
 from .recipes import seed_recipes, undo_recipes
 from .reviews import seed_reviews, undo_reviews
+from .tags import seed_tags, undo_tags
+from .cultures import seed_cultures, undo_cultures
 from .kitchenwares import seed_kitchenwares, undo_kitchenwares
 from .ingredients import seed_ingredients, undo_ingredients
 from .preparations import seed_preparations, undo_preparations
@@ -24,12 +26,16 @@ def seed():
         undo_preparations()
         undo_ingredients()
         undo_kitchenwares()
+        undo_cultues()
+        undo_tags()
         undo_reviews()
         undo_recipes
         undo_users()
     seed_users()
     seed_recipes()
     seed_reviews()
+    seed_tags()
+    seed_cultures()
     seed_kitchenwares()
     seed_ingredients()
     seed_preparations()
@@ -44,6 +50,8 @@ def undo():
     undo_preparations()
     undo_ingredients()
     undo_kitchenwares()
+    undo_cultures()
+    undo_tags()
     undo_reviews()
     undo_recipes()
     undo_users()
