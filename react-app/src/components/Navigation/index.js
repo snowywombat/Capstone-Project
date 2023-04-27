@@ -1,14 +1,20 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import OpenModalButtonAddRecipe from '../OpenModalAddRecipe';
-import CreateRecipeModalForm from '../CreateRecipeModal/CreateRecipeModal'
+import CreateRecipeModalForm from '../CreateRecipeModal/CreateRecipeModal';
+import CreateCulturePage from '../CreateCulturePage';
 import './Navigation.css';
 import './ProfileButton.css'
 
 function Navigation({ isLoaded }){
 	const sessionUser = useSelector(state => state.session.user);
+	const history = useHistory()
+
+	const handleCultureButton = () => {
+		history.push('/culture/create')
+	}
 
 	return (
 
@@ -52,6 +58,14 @@ function Navigation({ isLoaded }){
 					<NavLink className='culture-navlink' exact to="/culture">
 						<h3 className='culture-nav'>Culture</h3>
 					</NavLink>
+				</div>
+
+				<div className='culture-button'>
+					{sessionUser && (
+						<div className = 'create-culture-button'>
+							<button onClick={handleCultureButton}>Add an Article</button>
+						</div>
+					)}
 				</div>
 			</nav>
 		</div>

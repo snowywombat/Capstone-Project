@@ -1,48 +1,49 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-import { thunkCreateCulture, thunkGetSingleCulture } from "../../store/culture";
+import { useHistory, useParams, useLocation } from "react-router-dom";
+import { thunkEditCulture, thunkGetSingleCulture } from "../../store/culture";
 
-function CreateCulturePage() {
+function EditCulturePage() {
 
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
+    const article = location.state.article;
 
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [banner_img, setBannerImg] = useState("");
-    const [article, setArticle] = useState("");
+    console.log(article, 'article here');
+
+    const [title, setTitle] = useState(article.title);
+    const [description, setDescription] = useState(article.description);
+    const [banner_img, setBannerImg] = useState(article.banner_img);
+    const [editArticle, setEditArticle] = useState(article.article);
     const [errors, setErrors] = useState([]);
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setErrors([]);
+      e.preventDefault();
+      setErrors([]);
 
-        const body = {
-          title,
-          description,
-          banner_img,
-          article,
-        };
+      const body = {
+        title: title,
+        description: description,
+        banner_img: banner_img,
+        article: editArticle,
+      };
 
-        try {
-          await dispatch(thunkCreateCulture(body))
-          .then((data) => {
-              // dispatch(thunkGetSingleCulture(data.id))
-              history.push(`/culture/${data.id}`)
-          })
-        } catch (e) {
-          const errorResponse = e.errors;
-          const errorMessages = errorResponse.map((error) => error.split(": ")[1]);
-          setErrors(errorMessages);
-        }
+      try {
+        const data = await dispatch(thunkEditCulture(body, article.id));
+        history.push(`/culture/${data.id}`);
+      } catch (e) {
+        const errorResponse = e.errors;
+        const errorMessages = errorResponse.map((error) => error.split(': ')[1]);
+        setErrors(errorMessages);
+      }
     };
 
     return (
         <div className="Global-Modal-Container3">
-      <div className="Global-Modal-Header">Add your own food pop culture article</div>
-      <div className="Global-Modal-Description">Fill out the form below to share your article!</div>
+      <div className="Global-Modal-Header">Edit your article</div>
+      <div className="Global-Modal-Description">Edit the form below to share your article!</div>
       <form onSubmit={handleSubmit} className="Global-ModalForm-Container">
         <ul>
 					{errors.map((error, idx) => (
@@ -84,8 +85,8 @@ function CreateCulturePage() {
 
         <label className='form-labels form-lables-exclude-first'>Your Article:</label>
         <textarea
-            value={article}
-            onChange={(e) => setArticle(e.target.value)}
+            value={editArticle}
+            onChange={(e) => setEditArticle(e.target.value)}
             required
             placeholder=""
             className="Global-Modal-input"
@@ -94,7 +95,7 @@ function CreateCulturePage() {
 
 
         <button type="submit" className="Global-SubmitButton">
-          Add Article
+          Edit Article
         </button>
 
         <ul className='errors-bottom'>
@@ -109,4 +110,4 @@ function CreateCulturePage() {
 
 
 }
-export default CreateCulturePage;
+export default EditCulturePage;

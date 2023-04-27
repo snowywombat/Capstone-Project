@@ -3,13 +3,15 @@ import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import recipeReducer from './recipes';
 import reviewReducer from './reviews';
-import tagReducer from './tags'
+import tagReducer from './tags';
+import cultureReducer from './culture';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   reviews: reviewReducer,
   recipes: recipeReducer,
   tags: tagReducer,
+  cultures: cultureReducer,
 });
 
 

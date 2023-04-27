@@ -7,7 +7,7 @@ from .auth_routes import validation_errors_to_error_messages
 culture_routes = Blueprint('culture', __name__)
 
 @culture_routes.route('/')
-def get_all_articles(cultureId):
+def get_all_articles():
     all_articles = Culture.query.all()
 
     res = {
