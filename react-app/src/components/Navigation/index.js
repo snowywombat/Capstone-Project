@@ -35,37 +35,44 @@ function Navigation({ isLoaded }){
 			</div>
 
 			<nav className='extra-header'>
-				<div className='all-recipes-nav'>
-					<NavLink className='recipes-navlink' exact to="/recipes">
-						<h3 className='recipes-nav'>All Recipes</h3>
-					</NavLink>
-				</div>
-				<div className='recipe-button'>
-					{sessionUser && (
-						<div className = 'create-recipe-button'>
-							<OpenModalButtonAddRecipe
 
-								user={sessionUser}
-								// recipe={recipe}
-								buttonText="Add a Recipe"
-								modalComponent={<CreateRecipeModalForm
-								/>}
-							/>
-						</div>
-					)}
-				</div>
-				<div className='all-culture-nav'>
-					<NavLink className='culture-navlink' exact to="/culture">
-						<h3 className='culture-nav'>Culture</h3>
-					</NavLink>
+				<div className='navigation-buttons'>
+					<div className='all-recipes-nav'>
+						<NavLink className='recipes-navlink' exact to="/recipes">
+							<h3 className='recipes-nav'>Recipes</h3>
+						</NavLink>
+					</div>
+
+					<div className='all-culture-nav'>
+						<NavLink className='culture-navlink' exact to="/culture">
+							<h3 className='culture-nav'>Culture</h3>
+						</NavLink>
+					</div>
 				</div>
 
-				<div className='culture-button'>
-					{sessionUser && (
-						<div className = 'create-culture-button'>
-							<button onClick={handleCultureButton}>Add an Article</button>
-						</div>
-					)}
+				<div className='create-buttons'>
+					<div className='recipe-button'>
+						{sessionUser && (
+							<div className = 'create-recipe-button'>
+								<OpenModalButtonAddRecipe
+
+									user={sessionUser}
+									// recipe={recipe}
+									buttonText="Add a Recipe"
+									modalComponent={<CreateRecipeModalForm
+									/>}
+								/>
+							</div>
+						)}
+					</div>
+
+					<div className='culture-button'>
+						{sessionUser && (
+							<div>
+								<button onClick={handleCultureButton} className='create-culture-button'>Add an Article</button>
+							</div>
+						)}
+					</div>
 				</div>
 			</nav>
 		</div>

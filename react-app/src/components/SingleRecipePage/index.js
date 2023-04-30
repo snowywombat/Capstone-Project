@@ -260,28 +260,34 @@ const SingleRecipePage = () => {
                             </div>
 
                             <div className='tags-section'>
-                            Tags
-                            <hr className="hr-break" />
+                                Tags
+                                <hr className="hr-break" />
 
-                            {tagArr.map((tag, index) => (
-                                <>
-                                    <div>
-                                        {tag.tag_name}
-                                    </div>
+                                <div className='tags'>
+                                    {tagArr.map((tag, index) => (
+                                        <>
 
-                                    <div className='delete-tag-button-div'>
-                                        <button onClick={() => handleTagDelete(tag.id)} type="submit" className='delete-tag-button'>
-                                            <i className="fa-sharp fa-solid fa-circle-xmark" style={{fontSize: 20}}></i>
-                                        </button>
-                                    </div>
-                                </>
+                                            <div className='tag-name'>
+                                                #{tag.tag_name}
+                                            </div>
 
 
-                            ))}
+                                            {tag && user && tag.user_id === user.id &&
+                                                <div className='delete-tag-button-div'>
+                                                    <button onClick={() => handleTagDelete(tag.id)} type="submit" className='delete-tag-button'>
+                                                        <i className="fa-sharp fa-solid fa-circle-xmark" style={{fontSize: 20}}></i>
+                                                    </button>
+                                                </div>
+                                            }
+                                        </>
+                                    ))}
+                                </div>
 
-                            <CreateTagForm
-                            recipe = { recipe }
-                            />
+                                {user && user.id === recipe.user_id &&
+                                    <CreateTagForm
+                                    recipe = { recipe }
+                                    />
+                                }
 
                             </div>
 

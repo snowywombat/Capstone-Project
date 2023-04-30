@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { thunkGetSingleRecipe } from "../../store/recipes";
 import { thunkCreateTag, thunkGetAllTags} from "../../store/tags";
+import './CreateTags.css'
 
 function CreateTagForm({ recipe }) {
 
@@ -25,6 +26,7 @@ function CreateTagForm({ recipe }) {
           await dispatch(thunkCreateTag(body, recipe.id))
             .then(() => dispatch(thunkGetSingleRecipe(recipe.id)))
             .then(() => dispatch(thunkGetAllTags(recipe.id)))
+            .then(() => setTagName(''))
         } catch (e) {
           const errorResponse = e.errors;
           console.log(errorResponse, 'error Response')
@@ -35,23 +37,34 @@ function CreateTagForm({ recipe }) {
 
     return (
         <div className="tag-container">
-          <div className="tag-header">Add a new tag</div>
+          {/* <div className="tag-header">Add tags to your recipe below!</div> */}
           <form onSubmit={handleSubmit} className="tag-form">
-            <ul>
-                        {errors.map((error, idx) => (
-                            <li className='errors-div' key={idx}>{error}</li>
-                        ))}
-                    </ul>
 
             <div className='tag-field'>
-              <label>Tag Name:</label>
-              <input
-                value={tag_name}
-                onChange={(e) => setTagName(e.target.value)}
-                required
-                placeholder="delicious"
-              />
+
+
+              <label>Add tags to your recipe below!</label>
+
+
+              <ul>
+                {errors.map((error, idx) => (
+                    <li className='errors-div' key={idx}>{error}</li>
+                ))}
+              </ul>
+
+
+              <div className='tag-input-div'>
+                <input
+                  value={tag_name}
+                  onChange={(e) => setTagName(e.target.value)}
+                  required
+                  placeholder="delicious"
+                  className='tag-input'
+                />
+              </div>
             </div>
+
+
 
 
             <button type="submit" className="tag-submit-button">

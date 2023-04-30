@@ -20,6 +20,7 @@ body {
 
 .extra-header {
   display: flex;
+  justify-content: space-between;
   position: sticky;
   top: 55.5px;
   width: auto;
@@ -64,7 +65,7 @@ body {
 
 .all-culture-nav {
   display: flex;
-  margin-left: 10px;
+  margin-left: 20px;
   font-size: 18px;
 }
 
@@ -102,6 +103,33 @@ body {
 }
 
 .open-modal-button-recipes:hover {
+  background-color: rgb(255, 220, 63);
+  cursor: pointer;
+}
+
+.create-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 30px;
+}
+
+.navigation-buttons {
+  display: flex;
+}
+
+
+.create-culture-button {
+  display: flex;
+  margin-left: 10px;
+  font-size: 20px;
+  font-family: "Venturis ADF No2", 'sans-serif';
+  color: black;
+  padding: 5px;
+  background-color: rgb(235, 195, 16);
+  border-radius: 4px;
+}
+
+.create-culture-button:hover {
   background-color: rgb(255, 220, 63);
   cursor: pointer;
 }
