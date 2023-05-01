@@ -26,7 +26,7 @@ def seed():
         undo_preparations()
         undo_ingredients()
         undo_kitchenwares()
-        undo_cultues()
+        undo_cultures()
         undo_tags()
         undo_reviews()
         undo_recipes
