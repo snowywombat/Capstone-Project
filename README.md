@@ -44,7 +44,7 @@ Live site: https://shanaskitchen.onrender.com
    FLASK_ENV=development
    FLASK_DEBUG=True
    DATABASE_URL=sqlite:///dev.db
-   SCHEMA=pixel_peek_schema
+   SCHEMA=capstone_schema
    FLASK_RUN_PORT=5001
    ```
 
