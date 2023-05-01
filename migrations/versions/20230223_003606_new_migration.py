@@ -87,7 +87,7 @@ def upgrade():
     )
     op.create_table('cultures',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('title', sa.String(length=50), nullable=False),
+    sa.Column('title', sa.String(length=70), nullable=False),
     sa.Column('description', sa.String(length=100), nullable=False),
     sa.Column('banner_img', sa.String(length=1000), nullable=False),
     sa.Column('article', sa.Text, nullable=False),
