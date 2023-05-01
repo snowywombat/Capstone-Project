@@ -90,7 +90,7 @@ def upgrade():
     sa.Column('title', sa.String(length=70), nullable=False),
     sa.Column('description', sa.String(length=100), nullable=False),
     sa.Column('banner_img', sa.String(length=1000), nullable=False),
-    sa.Column('article', sa.Text, nullable=False),
+    sa.Column('article', sa.String(length=1000000), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
