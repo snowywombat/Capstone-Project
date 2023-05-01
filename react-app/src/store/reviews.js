@@ -26,7 +26,6 @@ const deleteReview = (review) => ({
 })
 
 //Review thunks
-
 export const thunkGetAllReviews = (recipeId) => async (dispatch) => {
     const response = await fetch(`/api/recipes/${recipeId}/reviews`);
     if(response.ok) {

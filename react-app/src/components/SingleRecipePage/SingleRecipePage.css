@@ -118,11 +118,13 @@
 }
 
 .review-body-review {
-    margin-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 20px;
 }
 
 .review-sub-body-name {
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
     display: flex;
     font-weight: 500;
     font-size: 16px;
@@ -140,7 +142,6 @@
 .review-sub-body-date {
     margin-left: 20px;
     font-size: 15px;
-    margin-bottom: 40px;
 }
 
 .reviews-ele{
@@ -181,4 +182,32 @@
 
 .edit-review-button {
     margin-bottom: 7px;
+}
+
+.tags-section {
+    font-size: 30px;
+    margin-top: 60px;
+}
+
+.tag-name {
+    display: flex;
+    font-size: 20px;
+    padding: 5px;
+}
+
+.tag-name:hover {
+    background-color: rgb(235, 195, 16);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.delete-tag-button-div {
+    display: flex;
+    align-self: center;
+    margin-right: 50px;
 }

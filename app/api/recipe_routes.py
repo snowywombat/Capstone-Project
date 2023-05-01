@@ -2,9 +2,10 @@ from flask import Blueprint, jsonify, session, request
 from flask_login import login_required, current_user
 from flask_wtf.csrf import generate_csrf, validate_csrf
 from wtforms import ValidationError
-from app.models import Recipe, db, Review, Kitchenware, Ingredient, Preparation
+from app.models import Recipe, db, Review, Tag, Kitchenware, Ingredient, Preparation
 from ..forms.recipe_form import CreateRecipeForm, EditRecipeForm
-from ..forms.review_form import CreateReviewForm, EditReviewForm
+from ..forms.review_form import CreateReviewForm
+from ..forms.tag_form import CreateTagForm
 from .auth_routes import validation_errors_to_error_messages
 import uuid
 import json
@@ -46,6 +47,7 @@ def get_all_recipes():
 
         data.pop("user")
         data.pop("reviews")
+        data.pop("tags")
         data.pop("kitchenwares")
         data.pop("preparations")
         data.pop("ingredients")
@@ -57,7 +59,7 @@ def get_all_recipes():
 def get_recipe_detail(recipeId):
     single_recipe = db.session.query(Recipe).get(int(recipeId))
     all_reviews = Review.query.filter_by(recipe_id=single_recipe.id).all()
-    print(all_reviews, 'all reviews')
+    all_tags = Tag.query.filter_by(recipe_id=single_recipe.id).all()
 
     if not single_recipe:
         return {"message": "Recipe couldn't be found"}, 404
@@ -77,7 +79,14 @@ def get_recipe_detail(recipeId):
         reviewDict.pop("user")
         reviewsData.append(reviewDict)
 
-    print(reviewsData, 'reviews DAta')
+
+    #get tags out of recipe
+    tagsData = []
+    for tag in all_tags:
+        tagDict = tag.to_dict()
+        tagDict.pop("recipe")
+        tagDict.pop("user")
+        tagsData.append(tagDict)
 
     #get kitchenware out of recipe
     kitchenwareData = []
@@ -118,7 +127,8 @@ def get_recipe_detail(recipeId):
         "kitchenware": kitchenwareData,
         "ingredients": ingredientData,
         "preparation": preparationData,
-        "reviews": reviewsData
+        "reviews": reviewsData,
+        "tags": tagsData
 
     }
 
@@ -131,7 +141,6 @@ def get_recipe_detail(recipeId):
 def create_recipe():
     user_id = current_user.id
     data = request.get_json()
-    print(data, 'pink unicorns')
 
     name = data.get('name')
     description = data.get('description')
@@ -289,6 +298,7 @@ def create_recipe():
 
         recipe_dict = newRecipe.to_dict()
         del recipe_dict['reviews']
+        del recipe_dict['tags']
 
         recipe_dict["created_at"] = str(time)
 
@@ -547,6 +557,7 @@ def update_recipe(recipeId):
 
         recipe_dict = edit_recipe.to_dict()
         del recipe_dict['reviews']
+        del recipe_dict['tags']
         recipe_dict["created_at"] = str(time)
 
         recipe_dict["user"] = {
@@ -708,6 +719,71 @@ def create_review(recipeId):
                 "lastName": allReviews[len(allReviews)-1].user.last_name
             },
             "createdAt": allReviews[len(allReviews)-1].created_at
+        }
+
+    #Error handling
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 400
+
+@recipe_routes.route('/<int:recipeId>/tags')
+def get_all_tags(recipeId):
+    single_recipe = db.session.query(Recipe).get(int(recipeId))
+    all_tags = Tag.query.filter_by(recipe_id=single_recipe.id).all()
+
+    if not single_recipe:
+        return {"message": "Recipe couldn't be found"}, 404
+
+    res = {
+    "Tags":[]
+    }
+
+    for tag in all_tags:
+        data = tag.to_dict()
+        data["user"] = tag.user.to_dict()
+        data.pop("recipe")
+        res["Tags"].append(data)
+
+    return res
+
+
+@recipe_routes.route('/<int:recipeId>/tags',  methods=["POST"])
+@login_required
+def create_tag(recipeId):
+    user_id = current_user.id
+
+    recipe = Recipe.query.get(recipeId)
+
+    if recipe is None:
+        return {
+        "message": "Recipe couldn't be found",
+        "statusCode": 404
+      }, 404
+
+    form = CreateTagForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
+        newTag = Tag (
+            tag_name = data["tag_name"],
+            user_id = user_id,
+            recipe_id = int(recipeId)
+        )
+
+        db.session.add(newTag)
+        db.session.commit()
+
+        allTags = Tag.query.all()
+
+        return {
+            "id": allTags[len(allTags)-1].id,
+            "user_id": user_id,
+            "recipe_id": recipeId,
+            "tag_name": data["tag_name"],
+            "user": {
+                "id": allTags[len(allTags)-1].user.id,
+                "firstName": allTags[len(allTags)-1].user.first_name,
+                "lastName": allTags[len(allTags)-1].user.last_name
+            },
+            "createdAt": allTags[len(allTags)-1].created_at
         }
 
     #Error handling
