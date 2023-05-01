@@ -27,7 +27,9 @@ Live site: https://shanaskitchen.onrender.com
   * Alembic
   
 ## Getting started
-1. Clone this repository (only this branch)
+1. Clone this repository: `
+   https://github.com/snowywombat/Capstone-Project.git
+   `
 
 2. Install dependencies
 
@@ -75,4 +77,35 @@ Live site: https://shanaskitchen.onrender.com
 
 7. To run the React App in development, checkout the [README](./react-app/README.md) inside the `react-app` directory.
 
-  
+# Features 
+
+## Recipes
+* Users can view recipes
+* Logged-in users can create a recipe
+* Logged-in owners can update their recipe
+* Logged-in owners can delete their recipe
+
+## Reviews
+* Users can view reviews for a recipe
+* Logged-in users can create a review on a recipe
+* Logged-in owners can update their review
+* Logged-in owners can delete their review
+
+## Tags
+* Users can view tags for a recipe
+* Logged-in owners can create tags
+* Logged-in owners can delete their tags
+
+## Food Culture Articles
+* Users can view articles about food culture
+* Logged-in users can create an article
+* Logged-in owners can update their article
+* Logged-in owners can delete their article
+
+
+## Future Features
+### Users Page
+* Logged-in users can change their user settings
+### AWS
+* Logged-in owners can upload images of their spot to AWS S3
+
