@@ -3,8 +3,8 @@ from wtforms.fields import StringField
 from wtforms.validators import DataRequired, ValidationError
 
 def title_validator(form, field):
-    if len(field.data) < 2 or len(field.data) > 50 :
-        raise ValidationError('Title of article must be between 2 and 50 characters long')
+    if len(field.data) < 2 or len(field.data) > 70 :
+        raise ValidationError('Title of article must be between 2 and 70 characters long')
 
 def description_validator(form, field):
     if len(field.data) < 3 or len(field.data) > 100 :

@@ -10,7 +10,7 @@ class Culture(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(50), nullable=False)
+    title = db.Column(db.String(70), nullable=False)
     description = db.Column(db.String(100), nullable=False)
     banner_img = db.Column(db.String(1000), nullable=False)
     article = db.Column(db.Text, nullable=False)
