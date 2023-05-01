@@ -25,7 +25,13 @@ Live site: https://shanaskitchen.onrender.com
   ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
   * SQLAlchemy
   * Alembic
-  
+
+## Splash Page
+Welcome to the Splash Page! Here, you can log in as a demo user or create your own account. View recipes and food articles and engage by leaving reviews and creating tags on your own recipe!
+<br>
+<br>
+<img width="1724" alt="Screen Shot 2023-05-01 at 12 31 05 PM" src="https://user-images.githubusercontent.com/96889369/235516466-e1f114fb-28f3-4e1d-a9a2-c0369d2d5a17.png">
+
 ## Getting started
 1. Clone this repository: `
    https://github.com/snowywombat/Capstone-Project.git
