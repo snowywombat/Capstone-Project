@@ -7,8 +7,8 @@ def title_validator(form, field):
         raise ValidationError('Title of article must be between 2 and 70 characters long')
 
 def description_validator(form, field):
-    if len(field.data) < 3 or len(field.data) > 100 :
-        raise ValidationError('Description must be between 3 and 100 characters long.')
+    if len(field.data) < 3 or len(field.data) > 200 :
+        raise ValidationError('Description must be between 3 and 200 characters long.')
 
 
 class CreateCultureForm(FlaskForm):
