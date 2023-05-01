@@ -13,7 +13,7 @@ class Culture(db.Model):
     title = db.Column(db.String(70), nullable=False)
     description = db.Column(db.String(100), nullable=False)
     banner_img = db.Column(db.String(1000), nullable=False)
-    article = db.Column(db.Text, nullable=False)
+    article = db.Column(db.String(1000000), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=today)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
 
