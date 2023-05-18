@@ -63,7 +63,6 @@ function CreateRecipeModalForm() {
       })
     } catch (e) {
       const errorResponse = e.errors;
-      console.log(errorResponse, 'fish')
       const errorMessages = errorResponse.map((error) => error.split(": ")[1]);
       setErrors(errorMessages);
     }

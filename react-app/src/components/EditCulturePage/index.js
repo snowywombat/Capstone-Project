@@ -11,8 +11,6 @@ function EditCulturePage() {
     const location = useLocation();
     const article = location.state.article;
 
-    console.log(article, 'article here');
-
     const [title, setTitle] = useState(article.title);
     const [description, setDescription] = useState(article.description);
     const [banner_img, setBannerImg] = useState(article.banner_img);

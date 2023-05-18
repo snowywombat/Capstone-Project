@@ -14,7 +14,6 @@ import './SingleRecipePage.css'
 
 const SingleRecipePage = () => {
     const { recipeId } = useParams();
-    console.log(typeof(recipeId), 'recipeId')
     const dispatch = useDispatch();
 
     const singleRecipe = useSelector(state => state.recipes);
@@ -48,7 +47,6 @@ const SingleRecipePage = () => {
     }
 
     const recipe = Object.values(singleRecipe).find(el => el.id === Number(recipeId))
-    console.log(recipe, 'recipe here')
 
     const reviewArr = Object.values(allReviews)
     const tagArr = Object.values(allTags)

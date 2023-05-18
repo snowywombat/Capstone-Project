@@ -95,7 +95,6 @@ export const thunkCreateCulture = (culture) => async (dispatch) => {
 
 
 export const thunkEditCulture = (culture, cultureId) => async (dispatch) => {
-    console.log(cultureId, 'id j')
     const { title, description, banner_img, article } = culture;
     const response = await fetch(`/api/cultures/${cultureId}`, {
         method: "PUT",
