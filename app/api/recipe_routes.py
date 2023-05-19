@@ -65,7 +65,6 @@ def get_recipe_detail(recipeId):
         return {"message": "Recipe couldn't be found"}, 404
 
     data = single_recipe.to_dict()
-    print(data, 'this is data')
 
     res = {
     "Recipes":[]
@@ -228,14 +227,9 @@ def create_recipe():
     csrf_token = request.cookies['csrf_token']
 
     allRecipes = Recipe.query.all()
-    print(allRecipes, 'allRecipes boom')
     allIngredients = Ingredient.query.all()
     allKitchenwares = Kitchenware.query.all()
     allPreparations = Preparation.query.all()
-    print(allIngredients[len(allIngredients) - 1].id)
-    print(allKitchenwares[len(allKitchenwares) - 1].id + 1)
-
-    print(data["ingredients"], 'coconut')
 
     if current_user.is_authenticated:
         newRecipe = Recipe(
@@ -246,13 +240,8 @@ def create_recipe():
             user_id = user_id
         )
 
-        print(newRecipe, 'spotify')
-        print(newRecipe.to_dict(), 'julep')
-
         db.session.add(newRecipe)
         db.session.commit()
-
-        print(newRecipe.to_dict(), 'mint')
 
         ingredients = []
         for item in data["ingredients"]:
@@ -308,22 +297,16 @@ def create_recipe():
             "lastName": newRecipe.user.last_name
         }
 
-        print(recipe_dict["kitchenwares"], 'blank')
-
         newKitchenArray = []
 
         for item in newRecipe.kitchenwares:
-            print(item.to_dict(), 'slack')
             item = {
                 "id": item.id,
                 "name": item.name,
                 "recipe_id": item.recipe_id
             }
-            print(item, "cookie")
             newKitchenArray.append(item)
 
-
-        print(newKitchenArray, "tortilla")
         recipe_dict["kitchenwares"] = newKitchenArray
 
 
@@ -372,7 +355,6 @@ def update_recipe(recipeId):
     edit_preparation = db.session.query(Preparation).filter_by(recipe_id=recipeId).all()
 
     data = request.get_json()
-    print(data, 'data json')
 
     name = data.get('name')
     description = data.get('description')
@@ -382,9 +364,7 @@ def update_recipe(recipeId):
     preparations = data.get('preparations')
     img_url = data.get('img_url')
     newKitchenwares = data.get('newKitchenware')
-    print(newKitchenwares, 'newKitchenwares ******** ')
     newIngredients = data.get('newIngredient')
-    print(newIngredients, 'newIngredients *******')
     newPreparations = data.get('newPreparation')
 
     errors = {}
@@ -523,8 +503,6 @@ def update_recipe(recipeId):
         # Update ingredients and commit
         db.session.commit()
 
-        print(ingredients, 'oranges')
-
 
         kitchenwares = []
         for ele in data["kitchenwares"]:
@@ -535,7 +513,6 @@ def update_recipe(recipeId):
                     item.name = ele["name"]
 
         # Update kitchenwares and commit
-        print(kitchenwares, 'the kitchenwares list')
         db.session.commit()
 
 
@@ -631,8 +608,6 @@ def delete_recipe(recipeId):
     delete_kitchenware = db.session.query(Kitchenware).get(int(recipeId))
     delete_preparation = db.session.query(Preparation).get(int(recipeId))
 
-    print(delete_recipe, 'delete recipe')
-
     if not delete_recipe:
       return {"message": "Recipe couldn't be found"}, 404
 
@@ -684,8 +659,6 @@ def create_review(recipeId):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         data = form.data
-        print(data, 'this is data')
-        print(Review, 'this is the review')
         newReview = Review (
             review = data["review"],
             stars = data["stars"],
@@ -694,17 +667,10 @@ def create_review(recipeId):
             recipe_id = int(recipeId)
         )
 
-        print(newReview, 'this is newReview')
-
         db.session.add(newReview)
         db.session.commit()
 
-        print(newReview, 'peony')
-        print(newReview.to_dict, 'daisy')
-        print(newReview.created_at, 'lilly')
-
         allReviews = Review.query.all()
-        print(allReviews, 'fern')
 
         return {
             "id": allReviews[len(allReviews)-1].id,

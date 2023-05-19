@@ -24,7 +24,7 @@ const SplashPage = () => {
             <div className="pic" id="pic1" />
           </div>
           <div className="SplashPage-Body-Text">
-            <h1>
+            <h1 className="splash-page-header">
               Sign in or create an account
             </h1>
             <div className = 'splashpage-buttons'>

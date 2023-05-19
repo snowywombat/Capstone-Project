@@ -13,9 +13,6 @@ const SingleCulturePage = () => {
     const singleArticle = useSelector(state => state.cultures);
     const user = useSelector(state => state.session.user);
 
-    console.log(singleArticle, 'single')
-
-
     useEffect(() => {
         dispatch(thunkGetSingleCulture(cultureId))
     }, [dispatch, cultureId]);
@@ -26,7 +23,6 @@ const SingleCulturePage = () => {
     }
 
     const article = Object.values(singleArticle).find(el => el.id === Number(cultureId))
-    console.log(article, 'article')
 
     const dateObj = new Date(article?.createdAt);
     const formattedDate = dateObj.toLocaleDateString("en-US", {

@@ -26,8 +26,6 @@ class Recipe(db.Model):
     preparations = db.relationship("Preparation", back_populates="recipe", cascade="all,delete")
     ingredients = db.relationship("Ingredient", back_populates="recipe", cascade="all,delete")
 
-    # print(reviews, 'reviews')
-
     def to_dict(self):
         return {
             'id': self.id,

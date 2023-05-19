@@ -82,8 +82,6 @@ function EditRecipeModalForm({ recipes }) {
     ])
   }
 
-  console.log(newIngredient, 'newIngredient')
-
   const handleDelete = () => {
     dispatch(thunkDeleteRecipe(recipes.id))
     .then(() => {
@@ -234,7 +232,6 @@ function EditRecipeModalForm({ recipes }) {
 
           {newIngredient.map((item, idx) => (
             <div key={idx} className='individual-sub-fields'>
-              {console.log(item, 'newIngredient inside return')}
 
               <input
                 className='measurement-amount-field'
@@ -244,9 +241,7 @@ function EditRecipeModalForm({ recipes }) {
                 onChange={(e) => {
                   const newIngredients = [...newIngredient];
                   newIngredients[idx] = { ...newIngredients[idx], measurement_num: e.target.value }
-                  {console.log(newIngredient[idx], 'newIngredients [idx]')}
                   setNewIngredient(newIngredients);
-                  {console.log(newIngredients, 'the new ingredients')}
                 }}
                 required
                 placeholder="3"

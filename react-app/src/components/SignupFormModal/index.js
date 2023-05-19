@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { signUp } from "../../store/session";
+import TextField from '@material-ui/core/TextField';
 import "./SignupForm.css";
 
 function SignupFormModal() {
@@ -50,66 +51,78 @@ function SignupFormModal() {
 				<div className='fields'>
 
 					<div className='first-name-field'>
-					<label className='first-name-label'>First Name:</label>
-						<input
-						className='inputs'
-						value={first_name}
-						// placeholder='Jane'
-						onChange={(e) => setFirstName(e.target.value)}
-						required
+						<TextField
+							label='First Name'
+							className='inputs'
+							value={first_name}
+							variant='outlined'
+                			size="small"
+							// placeholder='Jane'
+							onChange={(e) => setFirstName(e.target.value)}
+							required
 						/>
 					</div>
 
 					<div className='last-name-field'>
-					<label className='last-name-label'>Last Name:</label>
-						<input
-						value={last_name}
-						// placeholder='Doe'
-						onChange={(e) => setLastName(e.target.value)}
-						required
+						<TextField
+							label='Last Name'
+							value={last_name}
+							variant='outlined'
+							size="small"
+							// placeholder='Doe'
+							onChange={(e) => setLastName(e.target.value)}
+							required
 						/>
 					</div>
 
 					<div className='email-signup-field'>
-					<label className='email-label'>Email:</label>
-						<input
-						type="email"
-						value={email}
-						// placeholder="janedoe@aa.io"
-						onChange={(e) => setEmail(e.target.value)}
-						required
+						<TextField
+							label='Email'
+							type="email"
+							value={email}
+							variant='outlined'
+							size="small"
+							// placeholder="janedoe@aa.io"
+							onChange={(e) => setEmail(e.target.value)}
+							required
 						/>
 					</div>
 
 					<div className='username-signup-field'>
-					<label className='username-label'>Username:</label>
-						<input
-						value={username}
-						// placeholder='janedoe'
-						onChange={(e) => setUsername(e.target.value)}
-						required
+						<TextField
+							label='Username'
+							value={username}
+							variant='outlined'
+							size="small"
+							// placeholder='janedoe'
+							onChange={(e) => setUsername(e.target.value)}
+							required
 						/>
 					</div>
 
 					<div className='password-signup-field'>
-					<label className='password-label'>Password:</label>
-						<input
-						type="password"
-						value={password}
-						// placeholder='********'
-						onChange={(e) => setPassword(e.target.value)}
-						required
+						<TextField
+							label='Password'
+							type="password"
+							value={password}
+							variant='outlined'
+							size="small"
+							// placeholder='********'
+							onChange={(e) => setPassword(e.target.value)}
+							required
 						/>
 					</div>
 
 					<div className='confirm-password-field'>
-					<label className='confirm-password-label'>Confirm Password:</label>
-						<input
-						type="password"
-						value={confirmPassword}
-						// placeholder='********'
-						onChange={(e) => setConfirmPassword(e.target.value)}
-						required
+						<TextField
+							label='Confirm Password'
+							type="password"
+							value={confirmPassword}
+							variant='outlined'
+							size="small"
+							// placeholder='********'
+							onChange={(e) => setConfirmPassword(e.target.value)}
+							required
 						/>
           			</div>
 				</div>
