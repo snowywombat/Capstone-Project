@@ -8,7 +8,12 @@
     box-sizing: border-box;
     width: 50%;
     float: right;
+}
 
+.splash-page-header {
+    font-family: Futura, sans-serif;
+    font-size: 30px;
+    font-weight: 400;
 }
 
 .SplashPage-Image-Slides {
@@ -189,13 +194,13 @@ button {
 
 .footer-name {
     margin-right: 15px;
-    font-size: 20px;
+    font-size: 13px;
 }
 
 .fa-square-github {
     margin-right: 5px;
     color: black;
-    font-size: 25px;
+    font-size: 18px;
 }
 
 .fa-square-github:hover {
@@ -204,7 +209,7 @@ button {
 
 .fa-linkedin {
     color: black;
-    font-size: 25px;
+    font-size: 18px;
 }
 
 .fa-linkedin:hover {
